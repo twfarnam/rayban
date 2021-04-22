@@ -10,6 +10,7 @@ module.exports = {
   },
   output: {
     publicPath: 'http://localhost:8080/',
+    path: __dirname + '/docs',
     filename: '[name].js',
   },
   plugins: [
