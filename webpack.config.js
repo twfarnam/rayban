@@ -1,7 +1,7 @@
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
   .default
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -9,14 +9,9 @@ module.exports = {
     bundle: './src/index.tsx',
   },
   output: {
-    publicPath: 'http://localhost:8080/',
-    path: __dirname + '/docs',
-    filename: '[name].js',
+    filename: '[name].[hash].js',
   },
-  plugins: [
-    new CleanTerminalPlugin(),
-    // new HtmlWebpackPlugin()
-  ],
+  plugins: [new CleanTerminalPlugin(), new HTMLWebpackPlugin()],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -35,7 +30,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader',
+          { loader: 'css-loader', options: { url: false } },
           {
             loader: 'postcss-loader',
             options: {
@@ -49,5 +44,5 @@ module.exports = {
     ],
   },
   devtool: 'inline-source-map',
-  devServer: {},
+  devServer: { host: '0.0.0.0', contentBase: 'static' },
 }

@@ -6,18 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve",
-    "build": "rm -rf docs && webpack --mode production && cp public/* docs"
+    "build": "rm -rf dist && webpack --mode production && cp -r static/* dist",
+    "deploy": "npm run build && firebase deploy"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/react-hammerjs": "^1.0.1",
     "autoprefixer": "^10.2.5",
+    "classnames": "^2.3.1",
     "clean-terminal-webpack-plugin": "^3.0.0",
     "css-loader": "^5.2.4",
     "lodash": "^4.17.21",
     "postcss-loader": "^5.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hammerjs": "^1.0.1",
     "style-loader": "^2.0.0",
     "styled-components": "^5.2.3",
     "ts-loader": "^9.0.2",
@@ -40,6 +44,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.1",
     "prettier": "^2.2.1",
+    "react-icons": "^4.2.0",
     "typescript": "^4.2.4",
     "typescript-eslint": "^0.0.1-alpha.0"
   }

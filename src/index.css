@@ -4,6 +4,29 @@
 
 html, body {
   box-sizing: border-box;
-  font-family: Helvetica,san-serif;
+  font-family: "RayBanSans",san-serif;
+  color: white;
+  background: hsl(0deg 65% 34%);
+  height: 100%;
+  margin: 0;
 }
 
+#app {
+  height: 100%;
+}
+
+@font-face {
+  font-family: "RayBanSans";
+  font-weight: 700;
+  src: url("/fonts/Ray-BanSans-Bold.woff2") format("woff2"),
+       url("/fonts/Ray-BanSans-Bold.woff") format("woff"),
+       url("/fonts/Ray-BanSans-Bold.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "RayBanSansInline";
+  font-weight: 700;
+  src: url("/fonts/Ray-BanSansInline-Bold100.woff2") format("woff2"),
+       url("/fonts/Ray-BanSansInline-Bold100.woff") format("woff"),
+       url("/fonts/Ray-BanSansInline-Bold100.ttf") format("ttf");
+}

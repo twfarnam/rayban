@@ -1,278 +1,196 @@
+import { useState, useEffect } from 'react'
+import { IoPhonePortraitOutline } from 'react-icons/io5'
+import styled from 'styled-components'
 import Game from './game'
+import outlines from './outlines'
+import translations from './translations'
 
-export default function App(): React.ReactElement {
-  return (
-    <div>
-      <h1>Its a snake game!</h1>
-      <Game />
-    </div>
-  )
+const CenterContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+`
+
+const Glasses = styled.img`
+  width: 100%;
+`
+
+const Button = styled.button`
+  font-size: 26px;
+  border: 2px solid black;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.8rem 2rem;
+  line-height: 1;
+  background: linear-gradient(180deg, #8b0f27 0%, #d14341 100%);
+`
+
+const ChangeLanguage = styled.button`
+  background: none;
+  border: none;
+  color: white;
+  text-decoration: underline;
+  margin: 1rem 0;
+  cursor: pointer;
+`
+
+const MessageContainer = styled.div`
+  width: 100%;
+  position: relative;
+`
+
+const Message = styled.div`
+  font-size: 7rem;
+  font-family: 'RayBanSansInline';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 1rem);
+  transform: translateY(-50%);
+  text-align: center;
+  z-index: 3;
+`
+
+const PhoneAnimation = styled(IoPhonePortraitOutline)`
+  font-size: 10em;
+  animation: rotate 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0);
+    }
+    90% {
+      transform: rotate(-90deg);
+    }
+    100% {
+      transform: rotate(-90deg);
+    }
+  }
+`
+
+type AppStep =
+  | 'intro'
+  | 'how'
+  | 'force_horizontal'
+  | 'wayfarer'
+  | 'playing'
+  | 'end'
+
+export default function App(): React.ReactElement | null {
+  const [language, setLanguage] = useState<'es' | 'en'>('en')
+  const [step, setStep] = useState<AppStep>('intro')
+  const [points, setPoints] = useState<number>(0)
+  const [lives, setLives] = useState<number>(3)
+  const [level, setLevel] = useState<number>(1)
+  const [message, setMessage] = useState<string>('')
+  const isMobile = /android|iphone|ipad|ipod/i.test(window.navigator.userAgent)
+
+  useEffect(() => {
+    if (step != 'force_horizontal') return
+    const advance = () => setStep('wayfarer')
+    window.addEventListener('orientationchange', advance)
+    return () => window.removeEventListener('orientationchange', advance)
+  }, [step])
+
+  useEffect(() => window.scrollTo(0, 0), [step])
+
+  switch (step) {
+    case 'intro':
+      return (
+        <CenterContainer>
+          <p>{translations[language].intro}</p>
+          <Button onClick={() => setStep('how')}>
+            {translations[language].introButton}
+          </Button>
+          {language == 'es' && (
+            <ChangeLanguage onClick={() => setLanguage('en')}>
+              {translations['en'].changeLanguage}
+            </ChangeLanguage>
+          )}
+          {language == 'en' && (
+            <ChangeLanguage onClick={() => setLanguage('es')}>
+              {translations['es'].changeLanguage}
+            </ChangeLanguage>
+          )}
+        </CenterContainer>
+      )
+    case 'how':
+      return (
+        <CenterContainer>
+          <h1>{translations[language].howToPlayHeader}</h1>
+          {translations[language].howToPlay.split('\n').map((text, key) => (
+            <p key={key}>{text}</p>
+          ))}
+          <Button
+            onClick={() =>
+              isMobile && window.innerWidth < window.innerHeight
+                ? setStep('force_horizontal')
+                : setStep('wayfarer')
+            }>
+            {translations[language].start}
+          </Button>
+        </CenterContainer>
+      )
+    case 'force_horizontal':
+      return (
+        <CenterContainer>
+          <h1>{translations[language].rotateToLandscape}</h1>
+          <img src="phone_rotate.gif" />
+        </CenterContainer>
+      )
+    case 'wayfarer':
+      return (
+        <CenterContainer onClick={() => setStep('playing')}>
+          <h1>Wayfarer</h1>
+          <p>{translations[language].wayfarerYear}</p>
+          <Glasses src="wayfarer.png" />
+          <Button>
+            {level == 1
+              ? translations[language].goToLevelOne
+              : translations[language].goToNextLevel}
+          </Button>
+        </CenterContainer>
+      )
+    case 'playing':
+      return (
+        <CenterContainer>
+          <MessageContainer>
+            <Message>{message}</Message>
+            <Game
+              level={level}
+              lives={lives}
+              language={language}
+              points={points}
+              outline={outlines['wayfarer']}
+              onLifeLost={() => setLives((lives) => lives - 1)}
+              onLevelCompleted={() => {
+                setPoints((points) => points + level * 300 + lives * 300)
+                if (level < 2) {
+                  setMessage(translations[language].levelCompleted)
+                  setTimeout(() => {
+                    setMessage('')
+                    setStep('wayfarer')
+                    setLevel(level + 1)
+                  }, 2000)
+                } else {
+                  setMessage('You won!')
+                }
+              }}
+              onPoints={(increase: number) =>
+                setPoints((points) => points + increase)
+              }
+            />
+          </MessageContainer>
+        </CenterContainer>
+      )
+    default:
+      return null
+  }
 }
-
-// export default class App extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       snake: [],
-//       food: [],
-//       // 0 = not started, 1 = in progress, 2= finished
-//       status: 0,
-//       // using keycodes to indicate direction
-//       direction: 39,
-//     }
-//
-//     this.moveFood = this.moveFood.bind(this)
-//     this.checkIfAteFood = this.checkIfAteFood.bind(this)
-//     this.startGame = this.startGame.bind(this)
-//     this.endGame = this.endGame.bind(this)
-//     this.moveSnake = this.moveSnake.bind(this)
-//     this.doesntOverlap = this.doesntOverlap.bind(this)
-//     this.setDirection = this.setDirection.bind(this)
-//     this.removeTimers = this.removeTimers.bind(this)
-//   }
-//   // randomly place snake food
-//   moveFood() {
-//     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout)
-//     const x = parseInt(Math.random() * this.numCells)
-//     const y = parseInt(Math.random() * this.numCells)
-//     this.setState({ food: [x, y] })
-//     this.moveFoodTimeout = setTimeout(this.moveFood, 5000)
-//   }
-//
-//   setDirection({ keyCode }) {
-//     // if it's the same direction or simply reversing, ignore
-//     let changeDirection = true
-//     ;[
-//       [38, 40],
-//       [37, 39],
-//     ].forEach((dir) => {
-//       if (dir.indexOf(this.state.direction) > -1 && dir.indexOf(keyCode) > -1) {
-//         changeDirection = false
-//       }
-//     })
-//
-//     if (changeDirection) this.setState({ direction: keyCode })
-//   }
-//
-//   moveSnake() {
-//     const newSnake = []
-//     // set in the new "head" of the snake
-//     switch (this.state.direction) {
-//       // down
-//       case 40:
-//         newSnake[0] = [this.state.snake[0][0], this.state.snake[0][1] + 1]
-//         break
-//       // up
-//       case 38:
-//         newSnake[0] = [this.state.snake[0][0], this.state.snake[0][1] - 1]
-//         break
-//       // right
-//       case 39:
-//         newSnake[0] = [this.state.snake[0][0] + 1, this.state.snake[0][1]]
-//         break
-//       // left
-//       case 37:
-//         newSnake[0] = [this.state.snake[0][0] - 1, this.state.snake[0][1]]
-//         break
-//     }
-//     // now shift each "body" segment to the previous segment's position
-//     ;[].push.apply(
-//       newSnake,
-//       this.state.snake.slice(1).map((s, i) => {
-//         // since we're starting from the second item in the list,
-//         // just use the index, which will refer to the previous item
-//         // in the original list
-//         return this.state.snake[i]
-//       }),
-//     )
-//
-//     this.setState({ snake: newSnake })
-//
-//     this.checkIfAteFood(newSnake)
-//     if (!this.isValid(newSnake[0]) || !this.doesntOverlap(newSnake)) {
-//       // end the game
-//       this.endGame()
-//     }
-//   }
-//
-//   checkIfAteFood(newSnake) {
-//     if (!shallowEquals(newSnake[0], this.state.food)) return
-//     // snake gets longer
-//     let newSnakeSegment
-//     const lastSegment = newSnake[newSnake.length - 1]
-//
-//     // where should we position the new snake segment?
-//     // here are some potential positions, we can choose the best looking one
-//     const lastPositionOptions = [
-//       [-1, 0],
-//       [0, -1],
-//       [1, 0],
-//       [0, 1],
-//     ]
-//
-//     // the snake is moving along the y-axis, so try that instead
-//     if (newSnake.length > 1) {
-//       lastPositionOptions[0] = arrayDiff(
-//         lastSegment,
-//         newSnake[newSnake.length - 2],
-//       )
-//     }
-//
-//     for (let i = 0; i < lastPositionOptions.length; i++) {
-//       newSnakeSegment = [
-//         lastSegment[0] + lastPositionOptions[i][0],
-//         lastSegment[1] + lastPositionOptions[i][1],
-//       ]
-//       if (this.isValid(newSnakeSegment)) {
-//         break
-//       }
-//     }
-//
-//     this.setState({
-//       snake: newSnake.concat([newSnakeSegment]),
-//       food: [],
-//     })
-//     this.moveFood()
-//   }
-//
-//   // is the cell's position inside the grid?
-//   isValid(cell) {
-//     return (
-//       cell[0] > -1 &&
-//       cell[1] > -1 &&
-//       cell[0] < this.numCells &&
-//       cell[1] < this.numCells
-//     )
-//   }
-//
-//   doesntOverlap(snake) {
-//     return (
-//       snake.slice(1).filter((c) => {
-//         return shallowEquals(snake[0], c)
-//       }).length === 0
-//     )
-//   }
-//
-//   startGame() {
-//     this.removeTimers()
-//     this.moveSnakeInterval = setInterval(this.moveSnake, 130)
-//     this.moveFood()
-//
-//     this.setState({
-//       status: 1,
-//       snake: [[5, 5]],
-//       food: [10, 10],
-//     })
-//     //need to focus so keydown listener will work!
-//     this.el.focus()
-//   }
-//
-//   endGame() {
-//     this.removeTimers()
-//     this.setState({
-//       status: 2,
-//     })
-//   }
-//
-//   removeTimers() {
-//     if (this.moveSnakeInterval) clearInterval(this.moveSnakeInterval)
-//     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout)
-//   }
-//
-//   componentWillUnmount() {
-//     this.removeTimers()
-//   }
-//
-//   render() {
-//     // each cell should be approximately 15px wide, so calculate how many we need
-//     this.numCells = Math.floor(this.props.size / 15)
-//     const cellSize = this.props.size / this.numCells
-//     const cellIndexes = Array.from(Array(this.numCells).keys())
-//     const cells = cellIndexes.map((y) => {
-//       return cellIndexes.map((x) => {
-//         const foodCell = this.state.food[0] === x && this.state.food[1] === y
-//         let snakeCell = this.state.snake.filter((c) => c[0] === x && c[1] === y)
-//         snakeCell = snakeCell.length && snakeCell[0]
-//
-//         return (
-//           <GridCell
-//             foodCell={foodCell}
-//             snakeCell={snakeCell}
-//             size={cellSize}
-//             key={x + ' ' + y}
-//           />
-//         )
-//       })
-//     })
-//
-//     let overlay
-//     if (this.state.status === 0) {
-//       overlay = (
-//         <div className="snake-app__overlay">
-//           <button onClick={this.startGame}>Start game!</button>
-//         </div>
-//       )
-//     } else if (this.state.status === 2) {
-//       overlay = (
-//         <div className="snake-app__overlay">
-//           <div className="mb-1">
-//             <b>GAME OVER!</b>
-//           </div>
-//           <div className="mb-1">Your score: {this.state.snake.length} </div>
-//           <button onClick={this.startGame}>Start a new game</button>
-//         </div>
-//       )
-//     }
-//     return (
-//       <div
-//         className="snake-app"
-//         onKeyDown={this.setDirection}
-//         style={{
-//           width: this.props.size + 'px',
-//           height: this.props.size + 'px',
-//         }}
-//         ref={(el) => (this.el = el)}
-//         tabIndex={-1}>
-//         {overlay}
-//         <div
-//           className="grid"
-//           style={{
-//             width: this.props.size + 'px',
-//             height: this.props.size + 'px',
-//           }}>
-//           {cells}
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-//
-// // utility functions
-// function shallowEquals(arr1, arr2) {
-//   if (!arr1 || !arr2 || arr1.length !== arr2.length) return false
-//   let equals = true
-//   for (let i = 0; i < arr1.length; i++) {
-//     if (arr1[i] !== arr2[i]) equals = false
-//   }
-//   return equals
-// }
-//
-// function arrayDiff(arr1, arr2) {
-//   return arr1.map((a, i) => {
-//     return a - arr2[i]
-//   })
-// }
-//
-// // display a single cell
-// function GridCell(props) {
-//   const classes = `grid-cell
-// ${props.foodCell ? 'grid-cell--food' : ''}
-// ${props.snakeCell ? 'grid-cell--snake' : ''}
-// `
-//   return (
-//     <div
-//       className={classes}
-//       style={{ height: props.size + 'px', width: props.size + 'px' }}
-//     />
-//   )
-// }
