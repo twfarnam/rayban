@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import isEqual from 'lodash/isEqual'
 import times from 'lodash/times'
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Location } from './game'
 
@@ -9,7 +9,6 @@ interface BoardProps {
   width: number
   height: number
   snake: Location[]
-  outline: Location[]
   food: Location | null
   foodHistory: Location[]
 }
@@ -104,20 +103,9 @@ const SnakeSquare = styled.div`
   border-radius: 40%;
 `
 
-// const coordinates: Location[] = []
-// onClick={() => {
-//   coordinates.push({ x, y })
-//   console.log(coordinates)
-// }}
-// style={{
-//   background: coordinates.some((p: Location) =>
-//     isEqual(p, { x, y }),
-//   )
-//     ? 'red'
-//     : undefined,
-// }}
 export default function Board(props: BoardProps): React.ReactElement {
-  const { width, height, snake, outline, food, foodHistory } = props
+  const { width, height, snake, food, foodHistory } = props
+  const [outline, setOutline] = useState<Location[]>([])
 
   return (
     <BoardBase>
@@ -138,6 +126,22 @@ export default function Board(props: BoardProps): React.ReactElement {
               return (
                 <Square
                   key={x}
+                  // onClick={() => {
+                  //   if (isOutline) {
+                  //     const newOutline = outline.filter(
+                  //       (p: Location) => !isEqual(p, { x, y }),
+                  //     )
+                  //     console.log(newOutline)
+                  //     setOutline(newOutline)
+                  //   } else {
+                  //     const newOutline = [...outline, { x, y }]
+                  //     newOutline.sort((a, b) =>
+                  //       a.y == b.y ? (a.x > b.x ? 1 : -1) : a.y > b.y ? 1 : -1,
+                  //     )
+                  //     console.log(newOutline)
+                  //     setOutline(newOutline)
+                  //   }
+                  // }}
                   className={cn({
                     outline: isOutline,
                     'food-history': isFoodHistory,

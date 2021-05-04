@@ -2,27 +2,68 @@ import cn from 'classnames'
 import Hammer from 'hammerjs'
 import isEqual from 'lodash/isEqual'
 import times from 'lodash/times'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import HammerReact from 'react-hammerjs'
 import { IoHeart, IoHeartOutline } from 'react-icons/io5'
 import styled from 'styled-components'
+import copy from '../copy'
+import outlines from '../outlines'
+import { delay } from '../utility'
 import Board from './board'
-import translations from './translations'
-import { delay } from './utility'
+import CenterContainer from './center_container'
+import { useLanguage } from './language_provider'
 
 export interface GameProps {
   level: number
   lives: number
-  language: 'en' | 'es'
   points: number
-  outline: Location[]
   onLifeLost: () => void
   onLevelCompleted: () => void
   onPoints: (points: number) => void
 }
 
-const GameBase = styled.div`
+const GameBase = styled(CenterContainer)`
+  min-height: initial;
+  align-items: stretch;
+`
+
+const Logo = styled.img`
+  width: 200px;
+  margin: 2rem;
+`
+
+const BackgroundImage = styled.img`
   width: 100%;
+`
+
+const Header = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  line-height: 1;
+  border-radius: 1rem;
+`
+
+const LevelName = styled.div`
+  font-size: 5rem;
+  font-family: 'RayBanSansInline';
+`
+
+const RedStripes = styled.div`
+  flex-grow: 1;
+  color: ${(props) => props.theme.red};
+  border-bottom: 3px solid currentColor;
+  height: 9px;
+  border-top: 3px solid currentColor;
+  margin: 0 1rem;
+`
+
+const Level = styled.div`
+  font-size: 2rem;
+  color: ${(props) => props.theme.red};
 `
 
 const OverlayContainer = styled.div`
@@ -45,17 +86,27 @@ const Overlay = styled.div`
   }
 `
 
-const Level = styled.div`
-  font-size: 1.4em;
+const Glasses = styled.img`
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  opacity: 0.5;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 `
 
-const Stats = styled.div`
+const Footer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
   margin-top: 2rem;
-  color: ${(props) => props.theme.red};
+  font-size: 2rem;
+`
+
+const Spacer = styled.div`
+  flex-grow: 1;
 `
 
 const Lives = styled.div`
@@ -65,14 +116,13 @@ const Lives = styled.div`
 `
 
 const Points = styled.div`
-  font-size: 1.4rem;
   padding: 0.4rem 1.2rem;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 0.1em;
 `
 
 const Heart = styled(IoHeart)`
-  font-size: 2rem;
+  //
 `
 const EmptyHeart = Heart.withComponent(IoHeartOutline)
 
@@ -87,10 +137,7 @@ const directionKeys = {
   l: 'right',
 } as Record<string, Direction>
 
-const speeds = { 1: 350, 2: 300, 3: 250, 4: 200, 5: 150 } as Record<
-  number,
-  number
->
+const speeds = { 1: 350, 2: 300, 3: 250, 4: 200 } as Record<number, number>
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 
@@ -124,18 +171,10 @@ export interface Location {
 }
 
 export default function Game(props: GameProps): React.ReactElement {
-  const {
-    level,
-    points,
-    language,
-    lives,
-    outline,
-    onPoints,
-    onLifeLost,
-    onLevelCompleted,
-  } = props
+  const { level, points, lives, onPoints, onLifeLost, onLevelCompleted } = props
+  const { language } = useLanguage()
   const boardHeight = 20
-  const boardWidth = 50
+  const boardWidth = 45
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
     lastTime: 0,
     requestID: 0,
@@ -144,20 +183,17 @@ export default function Game(props: GameProps): React.ReactElement {
     ...initialState(),
     food: randomFood(),
   }))
-  const [overlay, setOverlay] = useState<string>('3')
+  const [overlay, setOverlay] = useState<string>('')
 
   useEffect(() => {
-    if (lives > 0) {
-      startGame()
-      setGame({
-        ...game,
-        snake: initialState().snake,
-        direction: 'left',
-        food: randomFood(),
-      })
-    } else {
-      setOverlay(translations[language].gameOver)
-    }
+    if (lives == 0) return
+    startGame()
+    setGame({
+      ...game,
+      snake: initialState().snake,
+      direction: 'left',
+      food: randomFood(),
+    })
   }, [lives])
 
   useEffect(() => {
@@ -176,7 +212,7 @@ export default function Game(props: GameProps): React.ReactElement {
     await delay(1000)
     setOverlay('1')
     await delay(1000)
-    setOverlay(translations[language].youreOn)
+    setOverlay(copy[language].youreOn)
     await delay(1000)
     setOverlay('')
     setGame((game) => ({ ...game, running: true }))
@@ -198,7 +234,7 @@ export default function Game(props: GameProps): React.ReactElement {
       let { food, direction } = game
       const { snake, nextDirection } = game
 
-      // next position of the snake
+      // find next position of the snake
       let { x, y } = snake[0]
       direction = nextDirection ?? direction
       switch (direction) {
@@ -248,8 +284,9 @@ export default function Game(props: GameProps): React.ReactElement {
   }
 
   function randomFood(foodHistory: Location[] = []): Location | null {
-    const available = outline.filter(
-      (o) => !foodHistory.some((h) => isEqual(o, h)),
+    // @ts-ignore
+    const available = outlines[level].filter(
+      (o: Location) => !foodHistory.some((h) => isEqual(o, h)),
     )
     if (available.length < 1) return null
     const index = Math.floor(Math.random() * available.length)
@@ -302,34 +339,59 @@ export default function Game(props: GameProps): React.ReactElement {
     }
   }
 
+  const levelName = {
+    1: 'Round',
+    2: 'Aviator',
+    3: 'Wayfarer',
+    4: 'Clubmaster',
+  }[level]
+
   const { snake, food, foodHistory } = game
   return (
-    <GameBase>
-      <Level>Level {level}</Level>
-      <HammerReact direction="DIRECTION_ALL" onTap={onTap} onSwipe={onSwipe}>
-        <OverlayContainer>
-          <Overlay className={cn({ long: overlay.length > 1 })}>
-            {overlay}
-          </Overlay>
-          <Board
-            width={boardWidth}
-            height={boardHeight}
-            outline={outline}
-            snake={snake}
-            food={food}
-            foodHistory={foodHistory}
-          />
-        </OverlayContainer>
-      </HammerReact>
-      <Stats>
-        <Lives>
-          {times(3, (i) =>
-            i >= lives ? <EmptyHeart key={i} /> : <Heart key={i} />,
-          )}
-        </Lives>
-        <Points>{points.toString().padStart(5, '0')}</Points>
-      </Stats>
-    </GameBase>
+    <>
+      <Logo src="logo.png" />
+      <GameBase>
+        <BackgroundImage src={`level_${level}_bg.gif`} />
+        <p>
+          <button onClick={onLevelCompleted}>DEBUG advance level!</button>
+        </p>
+        <Header>
+          <LevelName>{levelName}</LevelName>
+          <RedStripes />
+          <Level>Level {level}</Level>
+        </Header>
+        <HammerReact direction="DIRECTION_ALL" onTap={onTap} onSwipe={onSwipe}>
+          <OverlayContainer>
+            <Overlay className={cn({ long: overlay.length > 1 })}>
+              {overlay}
+            </Overlay>
+            <Glasses src={`level_${level}_glasses.png`} />
+            <Board
+              width={boardWidth}
+              height={boardHeight}
+              // @ts-ignore
+              outline={outlines[level]}
+              snake={snake}
+              food={food}
+              foodHistory={foodHistory}
+            />
+          </OverlayContainer>
+        </HammerReact>
+        <Footer>
+          <Points>{points.toString().padStart(5, '0')}</Points>
+          <Lives>
+            {times(3, (i) =>
+              i >= lives ? <EmptyHeart key={i} /> : <Heart key={i} />,
+            )}
+          </Lives>
+        </Footer>
+        <Footer>
+          Points
+          <Spacer />
+          Lives
+        </Footer>
+      </GameBase>
+    </>
   )
 }
 
