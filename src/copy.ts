@@ -1,6 +1,9 @@
 export default {
   en: {
     changeLanguage: 'Play in English',
+    level: 'Level',
+    points: 'Points',
+    lives: 'Lives',
     intro: 'Complete all four Ray-Ban Icons and win a price.\n#YOUAREON',
     introButton: 'Play!',
     howToPlayHeader: 'How to Play',
@@ -25,17 +28,21 @@ export default {
     level4Copy:
       'Born in the ‘80s and donned by inspirational thinkers and visionaries ever since. The Clubmaster became an icon of the club scene (hence the name) before returning to set new standards with the rise of retro and hipster subculture in 2010.',
     gameOver:
-      'You were very close to becoming an "RB MASTER". Don\'t give up, try again!',
+      'You were very close to becoming an “RB MASTER”. Don’t give up, try again!',
     won:
-      'Congratulations! You are a true "RB MASTER".  Your ability to recreate our models will put you in the running for a special prize.\nYOU ARE ON. ',
+      'Congratulations! You are a true “RB MASTER”.  Your ability to recreate our models will put you in the running for a special prize.\nYOU ARE ON. ',
+    playAgain: 'Play again',
   },
   es: {
     changeLanguage: 'Jugar en Español',
+    level: 'Nivel',
+    points: 'Puntos',
+    lives: 'Vidas',
     intro: 'Completa los 4 Ray-Ban Icons para ganar un premio.\n#YOUAREON',
     introButton: 'Jugar!',
     howToPlayHeader: 'Como Jugar',
     howToPlay:
-      'Sigue el punto rojo intermitente para construir una línea en movimiento para dibujar unos de nuestros más queridos modelos Icons de Ray-Ban. Deberás tocar la pantalla arriba, abajo, a la derecha o izquierda para hacer que la línea se mueva en esa dirección. Completa cada modelo para avanzar al siguiente nivel. Evita chocar con tu propia línea o con las paredes, si chocas, pierdes el juego. Tienes 3 vidas par completar el juego y ganar un premio especial.',
+      'Sigue el punto rojo intermitente para construir una línea en movimiento para dibujar unos de nuestros más queridos modelos Icons de Ray-Ban.\nDeberás tocar la pantalla arriba, abajo, a la derecha o izquierda para hacer que la línea se mueva en esa dirección.\nCompleta cada modelo para avanzar al siguiente nivel.\nEvita chocar con tu propia línea o con las paredes, si chocas, pierdes el juego.\nTienes 3 vidas par completar el juego y ganar un premio especial.',
     start: 'Comenzar',
     goToLevelOne: 'Ir al nivel 1',
     goToNextLevel: 'Próximo nivel',
@@ -55,8 +62,9 @@ export default {
     level4Copy:
       'Nacido en los años 80 y usado por intelectuales y visionarios inspiradores desde entonces. El Clubmaster se convirtió en un ícono en la escena de los clubes (de ahí el nombre), antes de regresar para establecer nuevos estándares con el surgimiento de la subcultura retro y hipster en 2010.',
     gameOver:
-      'Estuviste muy cerca de convertirte en un "RB MASTER". ¡No te rindas, inténtalo de nuevo!',
+      'Estuviste muy cerca de convertirte en un “RB MASTER”. ¡No te rindas, inténtalo de nuevo!',
     won:
-      '¡Felicidades! Eres un verdadero "RB MASTER".  Tu habilidad para recrear nuestos modelos te hará participar por un premio especial.\n"YOU ARE ON".',
+      '¡Felicidades! Eres un verdadero “RB MASTER”.  Tu habilidad para recrear nuestos modelos te hará participar por un premio especial.\n“YOU ARE ON”.',
+    playAgain: 'Jugar de nuevo',
   },
 }

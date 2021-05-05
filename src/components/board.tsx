@@ -5,19 +5,13 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { Location } from './game'
 
-interface BoardProps {
-  width: number
-  height: number
-  snake: Location[]
-  food: Location | null
-  foodHistory: Location[]
-}
-
 const BoardBase = styled.div`
-  background: black;
+  border-radius: 9%;
+  overflow: hidden;
 `
 
 const Row = styled.div`
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   border-top: 1px solid ${(props) => props.theme.gridColor};
@@ -30,7 +24,6 @@ const Row = styled.div`
 const Square = styled.div`
   position: relative;
   flex: 1 1 auto;
-  background: black;
   border-left: 1px solid ${(props) => props.theme.gridColor};
 
   &:last-child {
@@ -63,7 +56,7 @@ const Food = styled.div`
   margin: auto;
   background: ${(props) => props.theme.red};
   border-radius: 5px;
-  z-index: 1;
+  z-index: 10;
 
   &:before,
   &:after {
@@ -101,7 +94,16 @@ const SnakeSquare = styled.div`
   bottom: 0;
   left: 0;
   border-radius: 40%;
+  z-index: 5;
 `
+
+interface BoardProps {
+  width: number
+  height: number
+  snake: Location[]
+  food: Location | null
+  foodHistory: Location[]
+}
 
 export default function Board(props: BoardProps): React.ReactElement {
   const { width, height, snake, food, foodHistory } = props

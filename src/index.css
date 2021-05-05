@@ -3,6 +3,7 @@
 }
 
 html {
+  background-color: #2f0c0a;
   background-image: url('background.jpg');
   background-size: cover;
   background-position: center;

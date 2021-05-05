@@ -1,25 +1,55 @@
 import { useEffect } from 'react'
+import styled from 'styled-components'
+// @ts-ignore
+import phone from '../../static/phone.svg'
 import copy from '../copy'
-// import styled from 'styled-components'
 import CenterContainer from './center_container'
+import Header from './header'
 import { useLanguage } from './language_provider'
 
-// const PhoneAnimation = styled(IoPhonePortraitOutline)`
-//   font-size: 10em;
-//   animation: rotate 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-//
-//   @keyframes rotate {
-//     0% {
-//       transform: rotate(0);
-//     }
-//     90% {
-//       transform: rotate(-90deg);
-//     }
-//     100% {
-//       transform: rotate(-90deg);
-//     }
-//   }
-//
+const PhoneAnimation = styled.div`
+  width: 50%;
+  margin: 1rem auto;
+
+  & svg {
+    width: 100%;
+    animation: rotate 1s ease-in-out infinite;
+  }
+
+  & .arrow {
+    fill: white;
+    animation: fade 1s ease-in-out infinite;
+  }
+
+  & .square {
+    fill: none;
+    stroke: white;
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(45deg);
+    }
+    70% {
+      transform: rotate(-45deg);
+    }
+    100% {
+      transform: rotate(-45deg);
+    }
+  }
+
+  @keyframes fade {
+    0% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`
 
 interface ForceLandscapeProps {
   onNextStep: () => void
@@ -38,8 +68,8 @@ export default function ForceLandscape({
 
   return (
     <CenterContainer>
-      <h1>{copy[language].rotateToLandscape}</h1>
-      <img src="phone_rotate.gif" />
+      <Header>{copy[language].rotateToLandscape}</Header>
+      <PhoneAnimation dangerouslySetInnerHTML={{ __html: phone as string }} />
     </CenterContainer>
   )
 }

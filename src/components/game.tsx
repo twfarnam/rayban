@@ -1,73 +1,34 @@
 import cn from 'classnames'
 import Hammer from 'hammerjs'
 import isEqual from 'lodash/isEqual'
-import times from 'lodash/times'
 import { useState, useEffect, useRef } from 'react'
 import HammerReact from 'react-hammerjs'
-import { IoHeart, IoHeartOutline } from 'react-icons/io5'
 import styled from 'styled-components'
 import copy from '../copy'
 import outlines from '../outlines'
 import { delay } from '../utility'
 import Board from './board'
+import Button from './button'
 import CenterContainer from './center_container'
+import GameFooter from './game_footer'
+import GameHeader from './game_header'
 import { useLanguage } from './language_provider'
-
-export interface GameProps {
-  level: number
-  lives: number
-  points: number
-  onLifeLost: () => void
-  onLevelCompleted: () => void
-  onPoints: (points: number) => void
-}
 
 const GameBase = styled(CenterContainer)`
   min-height: initial;
   align-items: stretch;
+  padding-bottom: 100px;
 `
 
-const Logo = styled.img`
-  width: 200px;
-  margin: 2rem;
-`
-
-const BackgroundImage = styled.img`
-  width: 100%;
-`
-
-const Header = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  margin-bottom: 2rem;
-  padding: 1rem 2rem;
-  line-height: 1;
-  border-radius: 1rem;
-`
-
-const LevelName = styled.div`
-  font-size: 5rem;
-  font-family: 'RayBanSansInline';
-`
-
-const RedStripes = styled.div`
-  flex-grow: 1;
-  color: ${(props) => props.theme.red};
-  border-bottom: 3px solid currentColor;
-  height: 9px;
-  border-top: 3px solid currentColor;
-  margin: 0 1rem;
-`
-
-const Level = styled.div`
-  font-size: 2rem;
-  color: ${(props) => props.theme.red};
-`
-
-const OverlayContainer = styled.div`
+const BoardContainer = styled.div`
   position: relative;
+`
+
+const BoardBackground = styled.img`
+  width: 103%;
+  position: absolute;
+  top: -2.8%;
+  left: -1.5%;
 `
 
 const Overlay = styled.div`
@@ -79,7 +40,7 @@ const Overlay = styled.div`
   top: calc(50% - 1rem);
   transform: translateY(-50%);
   text-align: center;
-  z-index: 3;
+  z-index: 15;
 
   &.long {
     font-size: 7rem;
@@ -91,40 +52,9 @@ const Glasses = styled.img`
   width: 100%;
   z-index: 1;
   opacity: 0.5;
-  top: 50%;
-  transform: translateY(-50%);
+  top: -10%;
   pointer-events: none;
 `
-
-const Footer = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 2rem;
-  font-size: 2rem;
-`
-
-const Spacer = styled.div`
-  flex-grow: 1;
-`
-
-const Lives = styled.div`
-  padding: 0.4rem 1rem;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 0.2em;
-`
-
-const Points = styled.div`
-  padding: 0.4rem 1.2rem;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 0.1em;
-`
-
-const Heart = styled(IoHeart)`
-  //
-`
-const EmptyHeart = Heart.withComponent(IoHeartOutline)
 
 const directionKeys = {
   ArrowDown: 'down',
@@ -137,11 +67,11 @@ const directionKeys = {
   l: 'right',
 } as Record<string, Direction>
 
-const speeds = { 1: 350, 2: 300, 3: 250, 4: 200 } as Record<number, number>
+const speeds = { 1: 180, 2: 160, 3: 140, 4: 120 } as Record<number, number>
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 
-export interface GameState {
+interface GameState {
   running: boolean
   points: number
   direction: Direction
@@ -170,11 +100,21 @@ export interface Location {
   y: number
 }
 
+interface GameProps {
+  level: number
+  lives: number
+  points: number
+  onLifeLost: () => void
+  onLevelCompleted: () => void
+  onPoints: (points: number) => void
+}
+
+const boardHeight = 22
+const boardWidth = 45
+
 export default function Game(props: GameProps): React.ReactElement {
   const { level, points, lives, onPoints, onLifeLost, onLevelCompleted } = props
   const { language } = useLanguage()
-  const boardHeight = 20
-  const boardWidth = 45
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
     lastTime: 0,
     requestID: 0,
@@ -268,7 +208,12 @@ export default function Game(props: GameProps): React.ReactElement {
 
       // if eating, place more food. if not, tail shrinks
       if (isEqual(food, { x, y })) {
-        game.foodHistory.push(food!)
+        const foodForHistory = [
+          food,
+          randomFood(game.foodHistory),
+          randomFood(game.foodHistory),
+        ].filter((f) => !!f) as Location[]
+        game.foodHistory = [...game.foodHistory, ...foodForHistory]
         setTimeout(() => onPoints(100))
         food = randomFood(game.foodHistory)
         if (!food) {
@@ -294,7 +239,10 @@ export default function Game(props: GameProps): React.ReactElement {
   }
 
   function onKeyDown(event: KeyboardEvent) {
-    setDirection(directionKeys[event.key])
+    if (directionKeys[event.key]) {
+      event.preventDefault()
+      setDirection(directionKeys[event.key])
+    }
   }
 
   function setDirection(nextDirection: Direction) {
@@ -339,32 +287,17 @@ export default function Game(props: GameProps): React.ReactElement {
     }
   }
 
-  const levelName = {
-    1: 'Round',
-    2: 'Aviator',
-    3: 'Wayfarer',
-    4: 'Clubmaster',
-  }[level]
-
   const { snake, food, foodHistory } = game
   return (
     <>
-      <Logo src="logo.png" />
+      <GameHeader level={level} />
       <GameBase>
-        <BackgroundImage src={`level_${level}_bg.gif`} />
-        <p>
-          <button onClick={onLevelCompleted}>DEBUG advance level!</button>
-        </p>
-        <Header>
-          <LevelName>{levelName}</LevelName>
-          <RedStripes />
-          <Level>Level {level}</Level>
-        </Header>
-        <HammerReact direction="DIRECTION_ALL" onTap={onTap} onSwipe={onSwipe}>
-          <OverlayContainer>
+        <HammerReact onTap={onTap}>
+          <BoardContainer>
             <Overlay className={cn({ long: overlay.length > 1 })}>
               {overlay}
             </Overlay>
+            <BoardBackground src="board_background.png" />
             <Glasses src={`level_${level}_glasses.png`} />
             <Board
               width={boardWidth}
@@ -375,21 +308,12 @@ export default function Game(props: GameProps): React.ReactElement {
               food={food}
               foodHistory={foodHistory}
             />
-          </OverlayContainer>
+          </BoardContainer>
         </HammerReact>
-        <Footer>
-          <Points>{points.toString().padStart(5, '0')}</Points>
-          <Lives>
-            {times(3, (i) =>
-              i >= lives ? <EmptyHeart key={i} /> : <Heart key={i} />,
-            )}
-          </Lives>
-        </Footer>
-        <Footer>
-          Points
-          <Spacer />
-          Lives
-        </Footer>
+        <GameFooter points={points} lives={lives} level={level} />
+        <p style={{ textAlign: 'center' }}>
+          <Button onClick={onLevelCompleted}>DEBUG advance level!</Button>
+        </p>
       </GameBase>
     </>
   )

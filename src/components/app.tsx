@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { preloadImage } from '../utility'
 import ForceLandscape from './force_landscape'
 import Game from './game'
 import GameOver from './game_over'
@@ -26,6 +27,11 @@ export default function App(): React.ReactElement | null {
 
   useEffect(() => window.scrollTo(0, 0), [step])
 
+  useEffect(() => {
+    if (level == 1) preloadImage(`level_1_glasses.png`)
+    preloadImage(`level_${level + 1}_glasses.png`)
+  }, [level])
+
   function onLevelCompleted() {
     setPoints((points) => points + level * 300 + lives * 300)
     if (level >= 4) {
@@ -46,6 +52,13 @@ export default function App(): React.ReactElement | null {
       setStep('game_over')
       return 0
     })
+  }
+
+  function onPlayAgain() {
+    setPoints(0)
+    setLives(3)
+    setLevel(1)
+    setStep('level_intro')
   }
 
   switch (step) {
@@ -77,8 +90,8 @@ export default function App(): React.ReactElement | null {
         />
       )
     case 'game_over':
-      return <GameOver />
+      return <GameOver onPlayAgain={onPlayAgain} />
     case 'won':
-      return <Won />
+      return <Won onPlayAgain={onPlayAgain} />
   }
 }
