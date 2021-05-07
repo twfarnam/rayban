@@ -8,6 +8,7 @@ import { useLanguage } from './language_provider'
 const GameHeaderBase = styled(CenterContainer)`
   align-items: stretch;
   min-height: initial;
+  padding-bottom: 0;
 `
 
 const Logo = styled.img`
@@ -48,7 +49,8 @@ const RowContent = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   z-index: 1;
-  padding: 1rem 3rem;
+  line-height: 1;
+  padding: 1rem 3rem 1.2rem;
 `
 
 const LevelName = styled.div`
@@ -56,13 +58,35 @@ const LevelName = styled.div`
   font-family: 'RayBanSansInline';
 `
 
-const RedStripes = styled.div`
+const RedStripes = styled.div<{ percentComplete: number }>`
   flex-grow: 1;
   color: ${(props) => props.theme.red};
-  border-bottom: 3px solid currentColor;
-  height: 9px;
-  border-top: 3px solid currentColor;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.2em;
   margin: 0 1rem;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    border-bottom: 3px solid rgb(118, 22, 23);
+    height: 6px;
+    border-top: 3px solid rgb(118, 22, 23);
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    width: ${(props) => props.percentComplete}%;
+    border-bottom: 3px solid currentColor;
+    height: 6px;
+    border-top: 3px solid currentColor;
+  }
 `
 
 const Level = styled.div`
@@ -72,6 +96,7 @@ const Level = styled.div`
 
 interface GameHeaderProps {
   level: number
+  percentComplete: number
 }
 
 const levelNames = {
@@ -83,6 +108,7 @@ const levelNames = {
 
 export default function GameHeader({
   level,
+  percentComplete,
 }: GameHeaderProps): React.ReactElement {
   const { language } = useLanguage()
   const [animationData, setAnimationData] = useState<Record<string, unknown>>()
@@ -106,7 +132,9 @@ export default function GameHeader({
           <RowBackground src="large_border.png" />
           <RowContent>
             <LevelName>{levelNames[level]}</LevelName>
-            <RedStripes />
+            <RedStripes percentComplete={percentComplete}>
+              {percentComplete}%
+            </RedStripes>
             <Level>
               {copy[language].level} {level}
             </Level>

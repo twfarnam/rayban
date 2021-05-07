@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import styled from 'styled-components'
 import { preloadImage } from '../utility'
 import ForceLandscape from './force_landscape'
 import Game from './game'
@@ -18,6 +20,14 @@ export type AppStep =
   | 'level_intro'
   | 'game_over'
   | 'won'
+
+const Background = styled.video`
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+`
 
 export default function App(): React.ReactElement | null {
   const [step, setStep] = useState<AppStep>('intro')
@@ -61,37 +71,55 @@ export default function App(): React.ReactElement | null {
     setStep('level_intro')
   }
 
-  switch (step) {
-    case 'intro':
-      return <Intro onNextStep={() => setStep('how_to_play')} />
-    case 'how_to_play':
-      return (
-        <HowToPlay
-          onNextStep={() =>
-            isMobile && window.innerWidth < window.innerHeight
-              ? setStep('force_landscape')
-              : setStep('level_intro')
-          }
-        />
-      )
-    case 'force_landscape':
-      return <ForceLandscape onNextStep={() => setStep('level_intro')} />
-    case 'level_intro':
-      return <LevelIntro level={level} onNextStep={() => setStep('game')} />
-    case 'game':
-      return (
-        <Game
-          level={level}
-          points={points}
-          lives={lives}
-          onLifeLost={onLifeLost}
-          onLevelCompleted={onLevelCompleted}
-          onPoints={onPoints}
-        />
-      )
-    case 'game_over':
-      return <GameOver onPlayAgain={onPlayAgain} />
-    case 'won':
-      return <Won onPlayAgain={onPlayAgain} />
-  }
+  return (
+    <>
+      <Background autoPlay loop src="background.mp4" />
+      <TransitionGroup component={null}>
+        <CSSTransition key={step} timeout={500}>
+          {(() => {
+            switch (step) {
+              case 'intro':
+                return <Intro onNextStep={() => setStep('how_to_play')} />
+              case 'how_to_play':
+                return (
+                  <HowToPlay
+                    onNextStep={() =>
+                      isMobile && window.innerWidth < window.innerHeight
+                        ? setStep('force_landscape')
+                        : setStep('level_intro')
+                    }
+                  />
+                )
+              case 'force_landscape':
+                return (
+                  <ForceLandscape onNextStep={() => setStep('level_intro')} />
+                )
+              case 'level_intro':
+                return (
+                  <LevelIntro
+                    level={level}
+                    onNextStep={() => setStep('game')}
+                  />
+                )
+              case 'game':
+                return (
+                  <Game
+                    level={level}
+                    points={points}
+                    lives={lives}
+                    onLifeLost={onLifeLost}
+                    onLevelCompleted={onLevelCompleted}
+                    onPoints={onPoints}
+                  />
+                )
+              case 'game_over':
+                return <GameOver onPlayAgain={onPlayAgain} />
+              case 'won':
+                return <Won onPlayAgain={onPlayAgain} />
+            }
+          })()}
+        </CSSTransition>
+      </TransitionGroup>
+    </>
+  )
 }

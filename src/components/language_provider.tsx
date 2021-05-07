@@ -22,8 +22,6 @@ export default function LanguageProvider({
   children: React.ReactNode
 }): React.ReactElement {
   const [language, setLanguage] = useState<LanguageOption>('en')
-
-  console.log('wtf', setLanguage)
   return (
     <Context.Provider value={{ language, setLanguage }}>
       {children}

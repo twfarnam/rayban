@@ -107,7 +107,7 @@ interface BoardProps {
 
 export default function Board(props: BoardProps): React.ReactElement {
   const { width, height, snake, food, foodHistory } = props
-  const [outline, setOutline] = useState<Location[]>([])
+  // const [outline, setOutline] = useState<Location[]>([])
 
   return (
     <BoardBase>
@@ -122,9 +122,9 @@ export default function Board(props: BoardProps): React.ReactElement {
               const isFoodHistory = foodHistory.some((p: Location) =>
                 isEqual(p, { x, y }),
               )
-              const isOutline = outline.some((p: Location) =>
-                isEqual(p, { x, y }),
-              )
+              // const isOutline = outline.some((p: Location) =>
+              //   isEqual(p, { x, y }),
+              // )
               return (
                 <Square
                   key={x}
@@ -145,7 +145,7 @@ export default function Board(props: BoardProps): React.ReactElement {
                   //   }
                   // }}
                   className={cn({
-                    outline: isOutline,
+                    // outline: isOutline,
                     'food-history': isFoodHistory,
                   })}>
                   {isFood && <Food />}

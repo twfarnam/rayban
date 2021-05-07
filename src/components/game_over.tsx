@@ -1,7 +1,7 @@
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
-import Header from './header'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 interface GameOverProps {
@@ -14,7 +14,7 @@ export default function GameOver({
   const { language } = useLanguage()
   return (
     <CenterContainer>
-      <Header>{copy[language].gameOver}</Header>
+      <Heading>{copy[language].gameOver}</Heading>
       <Button onClick={onPlayAgain}>{copy[language].playAgain}</Button>
     </CenterContainer>
   )

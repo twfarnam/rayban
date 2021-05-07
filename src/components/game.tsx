@@ -132,7 +132,7 @@ export default function Game(props: GameProps): React.ReactElement {
       ...game,
       snake: initialState().snake,
       direction: 'left',
-      food: randomFood(),
+      food: randomFood(game.foodHistory),
     })
   }, [lives])
 
@@ -208,12 +208,13 @@ export default function Game(props: GameProps): React.ReactElement {
 
       // if eating, place more food. if not, tail shrinks
       if (isEqual(food, { x, y })) {
-        const foodForHistory = [
-          food,
-          randomFood(game.foodHistory),
-          randomFood(game.foodHistory),
-        ].filter((f) => !!f) as Location[]
-        game.foodHistory = [...game.foodHistory, ...foodForHistory]
+        game.foodHistory.push(food!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory = game.foodHistory.filter((f) => !!f)
         setTimeout(() => onPoints(100))
         food = randomFood(game.foodHistory)
         if (!food) {
@@ -288,9 +289,16 @@ export default function Game(props: GameProps): React.ReactElement {
   }
 
   const { snake, food, foodHistory } = game
+  // @ts-ignore
+  const outline = outlines[level] as Location[]
   return (
     <>
-      <GameHeader level={level} />
+      <GameHeader
+        level={level}
+        percentComplete={Math.round(
+          (foodHistory.length / outline.length) * 100,
+        )}
+      />
       <GameBase>
         <HammerReact onTap={onTap}>
           <BoardContainer>
@@ -302,8 +310,6 @@ export default function Game(props: GameProps): React.ReactElement {
             <Board
               width={boardWidth}
               height={boardHeight}
-              // @ts-ignore
-              outline={outlines[level]}
               snake={snake}
               food={food}
               foodHistory={foodHistory}

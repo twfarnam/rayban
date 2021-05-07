@@ -1,7 +1,7 @@
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
-import Header from './header'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 interface WonProps {
@@ -12,7 +12,7 @@ export default function Won({ onPlayAgain }: WonProps): React.ReactElement {
   const { language } = useLanguage()
   return (
     <CenterContainer>
-      <Header>{copy[language].won}</Header>
+      <Heading>{copy[language].won}</Heading>
       <Button onClick={onPlayAgain}>{copy[language].playAgain}</Button>
     </CenterContainer>
   )

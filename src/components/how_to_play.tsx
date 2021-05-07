@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
-import Header from './header'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 const Logo = styled.img`
@@ -31,7 +31,7 @@ export default function HowToPlay({
   return (
     <CenterContainer>
       <Logo src="logo.png" />
-      <Header>{copy[language].howToPlayHeader}</Header>
+      <Heading>{copy[language].howToPlayHeader}</Heading>
       {copy[language].howToPlay.split('\n').map((text, key) => (
         <Copy key={key}>{text}</Copy>
       ))}

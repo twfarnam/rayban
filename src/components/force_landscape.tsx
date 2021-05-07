@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import phone from '../../static/phone.svg'
 import copy from '../copy'
 import CenterContainer from './center_container'
-import Header from './header'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 const PhoneAnimation = styled.div`
@@ -68,7 +68,7 @@ export default function ForceLandscape({
 
   return (
     <CenterContainer>
-      <Header>{copy[language].rotateToLandscape}</Header>
+      <Heading>{copy[language].rotateToLandscape}</Heading>
       <PhoneAnimation dangerouslySetInnerHTML={{ __html: phone as string }} />
     </CenterContainer>
   )

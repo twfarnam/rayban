@@ -1,6 +1,7 @@
 import times from 'lodash/times'
-import { IoHeart, IoHeartOutline } from 'react-icons/io5'
 import styled from 'styled-components'
+// @ts-ignore
+import raybanIcon from '../../static/rb_icon.svg'
 import copy from '../copy'
 import { useLanguage } from './language_provider'
 
@@ -10,14 +11,12 @@ const GameFooterBase = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 2rem;
-  font-size: 2rem;
 `
 
 const Copy = styled.div`
-  font-size: 1.2em;
+  font-size: 1.2rem;
   text-align: center;
   margin: 0 1rem;
-  align-self: flex-start;
 `
 
 const Border = styled.div`
@@ -39,10 +38,21 @@ const Column = styled.div`
 const Lives = styled.div`
   display: flex;
   flex-flow: row nowrap;
+  font-size: 2rem;
 `
 
-const Heart = styled(IoHeart)``
-const EmptyHeart = Heart.withComponent(IoHeartOutline)
+const RayBanIcon = styled.div`
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  & > svg {
+    width: 30px;
+    fill: white;
+  }
+`
 
 interface GameFooterProps {
   points: number
@@ -71,9 +81,12 @@ export default function GameFooter({
       <Column>
         <Border>
           <Lives>
-            {times(3, (i) =>
-              i >= lives ? <EmptyHeart key={i} /> : <Heart key={i} />,
-            )}
+            {times(lives, (i) => (
+              <RayBanIcon
+                key={i}
+                dangerouslySetInnerHTML={{ __html: raybanIcon as string }}
+              />
+            ))}
           </Lives>
         </Border>
         {copy[language].lives}

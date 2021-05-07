@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
-import Header from './header'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 const Logo = styled.img`
@@ -33,12 +33,12 @@ export default function LevelIntro({
   return (
     <CenterContainer>
       <Logo src="logo.png" />
-      <Header>
+      <Heading>
         {
           // @ts-ignore
           copy[language][`level${level}Header`]
         }
-      </Header>
+      </Heading>
       <Glasses src={`level_${level}_glasses.png`} />
       <Copy>
         {

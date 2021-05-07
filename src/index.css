@@ -3,14 +3,17 @@
 }
 
 html {
+  font-size: 20px;
   background-color: #2f0c0a;
-  background-image: url('background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   box-sizing: border-box;
   font-family: 'RayBanSans', san-serif;
   color: white;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 html, body {
@@ -36,4 +39,24 @@ html, body {
   src: url("/fonts/Ray-BanSansInline-Bold100.woff2") format("woff2"),
        url("/fonts/Ray-BanSansInline-Bold100.woff") format("woff"),
        url("/fonts/Ray-BanSansInline-Bold100.ttf") format("ttf");
+}
+
+.enter {
+  opacity: 0;
+}
+.enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-out;
+}
+.exit {
+  position: absolute;
+  opacity: 1;
+}
+.exit-active {
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
 }

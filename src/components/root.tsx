@@ -4,7 +4,7 @@ import LanguageProvider from './language_provider'
 
 const theme = {
   red: 'hsl(1deg 78% 51%)',
-  gridColor: '#444',
+  gridColor: '#222',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
 }
 
