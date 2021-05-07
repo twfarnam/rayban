@@ -73,7 +73,7 @@ export default function App(): React.ReactElement | null {
 
   return (
     <>
-      <Background autoPlay loop src="background.mp4" />
+      <Background autoPlay loop muted src="background.mp4" />
       <TransitionGroup component={null}>
         <CSSTransition key={step} timeout={500}>
           {(() => {

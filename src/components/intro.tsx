@@ -30,8 +30,6 @@ interface IntroProps {
 
 export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
   const { language, setLanguage } = useLanguage()
-
-  console.log(setLanguage)
   return (
     <CenterContainer>
       <Logo src="logo.png" />
