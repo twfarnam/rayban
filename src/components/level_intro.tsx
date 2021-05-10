@@ -32,21 +32,20 @@ export default function LevelIntro({
   return (
     <CenterContainer>
       <Logo src="logo.png" />
-      <Heading>
-        {
-          // @ts-ignore
-          copy[language][`level${level}Header`]
-        }
-      </Heading>
-      {lottieData[`level_${level}_glasses.json`] && (
-        <Lottie animationData={lottieData[`level_${level}_glasses.json`]} />
-      )}
       {
         // @ts-ignore
         copy[language][`level${level}Intro`].split('\n').map((h, i) => (
           <LevelHeading key={i}>{h}</LevelHeading>
         ))
       }
+      {lottieData[`level_${level}_glasses.json`] && (
+        <Lottie
+          renderer="canvas"
+          loop={true}
+          autoplay={true}
+          animationData={lottieData[`level_${level}_glasses.json`]}
+        />
+      )}
       <Button onClick={onNextStep}>
         {copy[language].playLevel} {level}
       </Button>

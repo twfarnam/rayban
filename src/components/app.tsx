@@ -45,13 +45,12 @@ export default function App(): React.ReactElement | null {
     preloadLottieFile('level_1_glasses.json')
     preloadImage('large_border.png')
     preloadImage('board_background.png')
-    preloadImage('board_background.png')
     preloadAudio('sound/direction_change.mp3')
     preloadAudio('sound/game_lost.mp3')
     preloadAudio('sound/life_lost.mp3')
     preloadAudio('sound/eaten_dot.mp3')
     preloadAudio('sound/level_begins.mp3')
-    preloadAudio('sound/music.mp3', true)
+    preloadAudio('sound/music.mp3', true, true)
   }, [])
 
   useEffect(() => {
@@ -113,8 +112,12 @@ export default function App(): React.ReactElement | null {
                 return (
                   <Intro
                     onNextStep={() => {
-                      playAudio('sound/music.mp3')
                       setStep('how_to_play')
+                      document
+                        .querySelector<HTMLAudioElement>(
+                          `audio[src="music.mp3"]`,
+                        )
+                        ?.play()
                     }}
                   />
                 )

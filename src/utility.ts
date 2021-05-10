@@ -10,10 +10,15 @@ export function preloadImage(href: string): void {
   window.document.head.appendChild(link)
 }
 
-export function preloadAudio(src: string, loop = false): void {
+export function preloadAudio(
+  src: string,
+  loop = false,
+  autoPlay = false,
+): void {
   const audio = document.createElement('audio')
   audio.src = src
   audio.loop = loop
+  audio.autoplay = autoPlay
   window.document.body.appendChild(audio)
 }
 
