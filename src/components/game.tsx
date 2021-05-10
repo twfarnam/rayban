@@ -6,7 +6,7 @@ import HammerReact from 'react-hammerjs'
 import styled from 'styled-components'
 import copy from '../copy'
 import outlines from '../outlines'
-import { delay } from '../utility'
+import { delay, playAudio } from '../utility'
 import Board from './board'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -47,14 +47,15 @@ const Overlay = styled.div`
   }
 `
 
-const Glasses = styled.img`
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  opacity: 0.5;
-  top: -10%;
-  pointer-events: none;
-`
+//  <Glasses src={`level_${level}_glasses.png`} />
+// const Glasses = styled.img`
+//   position: absolute;
+//   width: 100%;
+//   z-index: 1;
+//   opacity: 0.5;
+//   top: -10%;
+//   pointer-events: none;
+// `
 
 const directionKeys = {
   ArrowDown: 'down',
@@ -107,6 +108,7 @@ interface GameProps {
   onLifeLost: () => void
   onLevelCompleted: () => void
   onPoints: (points: number) => void
+  lottieData: Record<string, any>
 }
 
 const boardHeight = 22
@@ -154,6 +156,7 @@ export default function Game(props: GameProps): React.ReactElement {
     await delay(1000)
     setOverlay(copy[language].youreOn)
     await delay(1000)
+    playAudio('sound/level_begins.mp3')
     setOverlay('')
     setGame((game) => ({ ...game, running: true }))
   }
@@ -208,6 +211,7 @@ export default function Game(props: GameProps): React.ReactElement {
 
       // if eating, place more food. if not, tail shrinks
       if (isEqual(food, { x, y })) {
+        playAudio('sound/eaten_dot.mp3')
         game.foodHistory.push(food!)
         game.foodHistory.push(randomFood(game.foodHistory)!)
         game.foodHistory.push(randomFood(game.foodHistory)!)
@@ -218,7 +222,11 @@ export default function Game(props: GameProps): React.ReactElement {
         setTimeout(() => onPoints(100))
         food = randomFood(game.foodHistory)
         if (!food) {
-          setTimeout(() => onLevelCompleted())
+          setTimeout(async () => {
+            setOverlay(copy[language].levelCompleted)
+            await delay(3000)
+            onLevelCompleted()
+          })
           return { ...game, food: null, running: false }
         }
       } else {
@@ -250,6 +258,7 @@ export default function Game(props: GameProps): React.ReactElement {
     setGame((game) => {
       if (game.nextDirection) return game
       if (nextDirection && nextDirection != oppositeDirection(game.direction)) {
+        playAudio('sound/direction_change.mp3')
         game.nextDirection = nextDirection
       }
       return game
@@ -306,7 +315,6 @@ export default function Game(props: GameProps): React.ReactElement {
               {overlay}
             </Overlay>
             <BoardBackground src="board_background.png" />
-            <Glasses src={`level_${level}_glasses.png`} />
             <Board
               width={boardWidth}
               height={boardHeight}
@@ -318,7 +326,14 @@ export default function Game(props: GameProps): React.ReactElement {
         </HammerReact>
         <GameFooter points={points} lives={lives} level={level} />
         <p style={{ textAlign: 'center' }}>
-          <Button onClick={onLevelCompleted}>DEBUG advance level!</Button>
+          <Button
+            onClick={async () => {
+              setOverlay(copy[language].levelCompleted)
+              await delay(3000)
+              onLevelCompleted()
+            }}>
+            DEBUG advance level!
+          </Button>
         </p>
       </GameBase>
     </>

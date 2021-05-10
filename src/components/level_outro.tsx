@@ -11,22 +11,22 @@ const Logo = styled.img`
   margin-bottom: 40px;
 `
 
-const LevelHeading = styled(Heading)`
-  margin: 0;
-  margin-bottom: 0.5em;
+const Copy = styled.p`
+  font-size: 1.3em;
+  text-align: center;
 `
 
-interface LevelIntroProps {
+interface LevelOutroProps {
   level: number
   onNextStep: () => void
   lottieData: Record<string, any>
 }
 
-export default function LevelIntro({
+export default function LevelOutro({
   level,
   onNextStep,
   lottieData,
-}: LevelIntroProps): React.ReactElement {
+}: LevelOutroProps): React.ReactElement {
   const { language } = useLanguage()
 
   return (
@@ -41,14 +41,14 @@ export default function LevelIntro({
       {lottieData[`level_${level}_glasses.json`] && (
         <Lottie animationData={lottieData[`level_${level}_glasses.json`]} />
       )}
-      {
-        // @ts-ignore
-        copy[language][`level${level}Intro`].split('\n').map((h, i) => (
-          <LevelHeading key={i}>{h}</LevelHeading>
-        ))
-      }
+      <Copy>
+        {
+          // @ts-ignore
+          copy[language][`level${level}Copy`]
+        }
+      </Copy>
       <Button onClick={onNextStep}>
-        {copy[language].playLevel} {level}
+        {copy[language].goToLevel} {level + 1}
       </Button>
     </CenterContainer>
   )

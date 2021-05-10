@@ -20,6 +20,7 @@ const Copy = styled.div`
 `
 
 const Border = styled.div`
+  font-size: 1.8rem;
   background-image: url('small_border.png');
   background-size: contain;
   padding: 2rem 3rem;
@@ -49,7 +50,7 @@ const RayBanIcon = styled.div`
   }
 
   & > svg {
-    width: 30px;
+    width: 40px;
     fill: white;
   }
 `

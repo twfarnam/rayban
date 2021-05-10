@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
-import { preloadImage } from '../utility'
+import { preloadImage, preloadAudio, playAudio } from '../utility'
 import ForceLandscape from './force_landscape'
 import Game from './game'
 import GameOver from './game_over'
+import GameWon from './game_won'
 import HowToPlay from './how_to_play'
 import Intro from './intro'
 import LevelIntro from './level_intro'
-import Won from './won'
+import LevelOutro from './level_outro'
 
 const isMobile = /android|iphone|ipad|ipod/i.test(window.navigator.userAgent)
 
@@ -16,10 +17,11 @@ export type AppStep =
   | 'intro'
   | 'how_to_play'
   | 'force_landscape'
-  | 'game'
   | 'level_intro'
+  | 'game'
+  | 'level_outro'
   | 'game_over'
-  | 'won'
+  | 'game_won'
 
 const Background = styled.video`
   position: fixed;
@@ -34,21 +36,45 @@ export default function App(): React.ReactElement | null {
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
   const [level, setLevel] = useState<number>(1)
+  const [lottieData, setLottieData] = useState<Record<string, any>>({})
 
   useEffect(() => window.scrollTo(0, 0), [step])
 
   useEffect(() => {
-    if (level == 1) preloadImage(`level_1_glasses.png`)
-    preloadImage(`level_${level + 1}_glasses.png`)
-  }, [level])
+    preloadLottieFile('level_1_bg.json')
+    preloadLottieFile('level_1_glasses.json')
+    preloadImage('large_border.png')
+    preloadImage('board_background.png')
+    preloadImage('board_background.png')
+    preloadAudio('sound/direction_change.mp3')
+    preloadAudio('sound/game_lost.mp3')
+    preloadAudio('sound/life_lost.mp3')
+    preloadAudio('sound/eaten_dot.mp3')
+    preloadAudio('sound/level_begins.mp3')
+    preloadAudio('sound/music.mp3', true)
+  }, [])
+
+  useEffect(() => {
+    if (step != 'level_intro') return
+    preloadLottieFile(`level_${level + 1}_bg.json`)
+    preloadLottieFile(`level_${level + 1}_glasses.json`)
+    if (level == 4) {
+      preloadLottieFile('confetti.json')
+    }
+  }, [level, step])
+
+  async function preloadLottieFile(path: string) {
+    const request = await fetch(path)
+    const data = await request.json()
+    setLottieData((lottieData) => ({ ...lottieData, [path]: data }))
+  }
 
   function onLevelCompleted() {
     setPoints((points) => points + level * 300 + lives * 300)
     if (level >= 4) {
-      setStep('won')
+      setStep('game_won')
     } else {
-      setStep('level_intro')
-      setLevel(level + 1)
+      setStep('level_outro')
     }
   }
 
@@ -58,9 +84,14 @@ export default function App(): React.ReactElement | null {
 
   function onLifeLost() {
     setLives((lives) => {
-      if (lives > 1) return lives - 1
-      setStep('game_over')
-      return 0
+      if (lives > 1) {
+        playAudio('sound/life_lost.mp3')
+        return lives - 1
+      } else {
+        playAudio('sound/game_lost.mp3')
+        setStep('game_over')
+        return 0
+      }
     })
   }
 
@@ -73,13 +104,20 @@ export default function App(): React.ReactElement | null {
 
   return (
     <>
-      <Background autoPlay loop muted src="background.mp4" />
+      <Background playsInline autoPlay loop muted src="background.mp4" />
       <TransitionGroup component={null}>
         <CSSTransition key={step} timeout={500}>
           {(() => {
             switch (step) {
               case 'intro':
-                return <Intro onNextStep={() => setStep('how_to_play')} />
+                return (
+                  <Intro
+                    onNextStep={() => {
+                      playAudio('sound/music.mp3')
+                      setStep('how_to_play')
+                    }}
+                  />
+                )
               case 'how_to_play':
                 return (
                   <HowToPlay
@@ -97,6 +135,7 @@ export default function App(): React.ReactElement | null {
               case 'level_intro':
                 return (
                   <LevelIntro
+                    lottieData={lottieData}
                     level={level}
                     onNextStep={() => setStep('game')}
                   />
@@ -104,6 +143,7 @@ export default function App(): React.ReactElement | null {
               case 'game':
                 return (
                   <Game
+                    lottieData={lottieData}
                     level={level}
                     points={points}
                     lives={lives}
@@ -112,10 +152,23 @@ export default function App(): React.ReactElement | null {
                     onPoints={onPoints}
                   />
                 )
+              case 'level_outro':
+                return (
+                  <LevelOutro
+                    lottieData={lottieData}
+                    level={level}
+                    onNextStep={() => {
+                      setLevel(level + 1)
+                      setStep('level_intro')
+                    }}
+                  />
+                )
               case 'game_over':
                 return <GameOver onPlayAgain={onPlayAgain} />
-              case 'won':
-                return <Won onPlayAgain={onPlayAgain} />
+              case 'game_won':
+                return (
+                  <GameWon onPlayAgain={onPlayAgain} lottieData={lottieData} />
+                )
             }
           })()}
         </CSSTransition>

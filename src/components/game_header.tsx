@@ -30,6 +30,7 @@ const AnimationContainer = styled.div`
 const Animation = styled(Lottie)`
   position: absolute;
   top: 0;
+  width: 100%;
 `
 
 const Row = styled.div`

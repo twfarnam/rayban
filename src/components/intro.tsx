@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
+import Heading from './heading'
 import { useLanguage } from './language_provider'
 
 const Logo = styled.img`
@@ -32,6 +33,7 @@ export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
   const { language, setLanguage } = useLanguage()
   return (
     <CenterContainer>
+      <Heading>The Icon Series</Heading>
       <Logo src="logo.png" />
       <Copy>{copy[language].intro}</Copy>
       <Button onClick={onNextStep}>{copy[language].introButton}</Button>

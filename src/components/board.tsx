@@ -54,12 +54,12 @@ const Food = styled.div`
   width: 10px;
   height: 10px;
   margin: auto;
-  background: ${(props) => props.theme.red};
+  background: white;
   border-radius: 5px;
   z-index: 10;
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: '';
     display: block;
     position: absolute;
@@ -67,15 +67,17 @@ const Food = styled.div`
     left: 50%;
     width: 30px;
     height: 30px;
-    border: 4px solid ${(props) => props.theme.red};
+    border: 4px solid white;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
     animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
   }
-  &:after {
+
+  &::after {
     animation-delay: -0.5s;
   }
+
   @keyframes ripple {
     0% {
       transform: translate(-50%, -50%) scale(0);
