@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
-import { preloadImage, preloadAudio, playAudio } from '../utility'
+import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
 import ForceLandscape from './force_landscape'
 import Game from './game'
 import GameOver from './game_over'
@@ -38,9 +38,13 @@ export default function App(): React.ReactElement | null {
   const [level, setLevel] = useState<number>(1)
   const [lottieData, setLottieData] = useState<Record<string, any>>({})
 
-  useEffect(() => window.scrollTo(0, 0), [step])
+  useEffect(() => {
+    if (step == 'game') return
+    window.scrollTo(0, 0)
+  }, [step])
 
   useEffect(() => {
+    preloadImage('logo.png')
     preloadLottieFile('level_1_bg.json')
     preloadLottieFile('level_1_glasses.json')
     preloadImage('large_border.png')
@@ -50,7 +54,7 @@ export default function App(): React.ReactElement | null {
     preloadAudio('sound/life_lost.mp3')
     preloadAudio('sound/eaten_dot.mp3')
     preloadAudio('sound/level_begins.mp3')
-    preloadAudio('sound/music.mp3', true, true)
+    preloadAudio('sound/music.mp3', true)
   }, [])
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function App(): React.ReactElement | null {
   }
 
   function onLevelCompleted() {
+    stopAudio('sound/music.mp3')
     setPoints((points) => points + level * 300 + lives * 300)
     if (level >= 4) {
       setStep('game_won')
@@ -109,18 +114,7 @@ export default function App(): React.ReactElement | null {
           {(() => {
             switch (step) {
               case 'intro':
-                return (
-                  <Intro
-                    onNextStep={() => {
-                      setStep('how_to_play')
-                      document
-                        .querySelector<HTMLAudioElement>(
-                          `audio[src="music.mp3"]`,
-                        )
-                        ?.play()
-                    }}
-                  />
-                )
+                return <Intro onNextStep={() => setStep('how_to_play')} />
               case 'how_to_play':
                 return (
                   <HowToPlay
@@ -140,7 +134,10 @@ export default function App(): React.ReactElement | null {
                   <LevelIntro
                     lottieData={lottieData}
                     level={level}
-                    onNextStep={() => setStep('game')}
+                    onNextStep={() => {
+                      setStep('game')
+                      playAudio('sound/music.mp3')
+                    }}
                   />
                 )
               case 'game':

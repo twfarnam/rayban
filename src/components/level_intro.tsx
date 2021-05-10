@@ -1,15 +1,11 @@
-import Lottie from 'lottie-react'
 import styled from 'styled-components'
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
+import GlassesAnimation from './glasses_animation'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
-
-const Logo = styled.img`
-  width: 150px;
-  margin-bottom: 40px;
-`
+import Logo from './logo'
 
 const LevelHeading = styled(Heading)`
   margin: 0;
@@ -31,21 +27,14 @@ export default function LevelIntro({
 
   return (
     <CenterContainer>
-      <Logo src="logo.png" />
-      {
-        // @ts-ignore
-        copy[language][`level${level}Intro`].split('\n').map((h, i) => (
-          <LevelHeading key={i}>{h}</LevelHeading>
-        ))
-      }
-      {lottieData[`level_${level}_glasses.json`] && (
-        <Lottie
-          renderer="canvas"
-          loop={true}
-          autoplay={true}
-          animationData={lottieData[`level_${level}_glasses.json`]}
-        />
-      )}
+      <Logo />
+      <GlassesAnimation level={level} lottieData={lottieData} />
+      <LevelHeading>
+        {
+          // @ts-ignore
+          copy[language][`level${level}Glasses`]
+        }
+      </LevelHeading>
       <Button onClick={onNextStep}>
         {copy[language].playLevel} {level}
       </Button>

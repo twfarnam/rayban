@@ -10,15 +10,10 @@ export function preloadImage(href: string): void {
   window.document.head.appendChild(link)
 }
 
-export function preloadAudio(
-  src: string,
-  loop = false,
-  autoPlay = false,
-): void {
+export function preloadAudio(src: string, loop = false): void {
   const audio = document.createElement('audio')
   audio.src = src
   audio.loop = loop
-  audio.autoplay = autoPlay
   window.document.body.appendChild(audio)
 }
 
@@ -27,4 +22,10 @@ export function playAudio(src: string): void {
   if (audio == null) return
   audio.currentTime = 0
   audio.play()
+}
+
+export function stopAudio(src: string): void {
+  const audio = document.querySelector<HTMLAudioElement>(`audio[src="${src}"]`)
+  if (audio == null) return
+  audio.pause()
 }

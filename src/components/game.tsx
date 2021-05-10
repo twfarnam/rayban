@@ -1,7 +1,6 @@
 import cn from 'classnames'
-import Hammer from 'hammerjs'
 import isEqual from 'lodash/isEqual'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import HammerReact from 'react-hammerjs'
 import styled from 'styled-components'
 import copy from '../copy'
@@ -9,19 +8,30 @@ import outlines from '../outlines'
 import { delay, playAudio } from '../utility'
 import Board from './board'
 import Button from './button'
-import CenterContainer from './center_container'
 import GameFooter from './game_footer'
 import GameHeader from './game_header'
 import { useLanguage } from './language_provider'
 
-const GameBase = styled(CenterContainer)`
-  min-height: initial;
-  align-items: stretch;
-  padding-bottom: 100px;
+const HammerElement = styled.div`
+  width: 100%;
 `
 
 const BoardContainer = styled.div`
   position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @media (max-width: 800px) {
+    max-width: 400px;
+    padding: 0;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 300px;
+    padding: 0;
+  }
 `
 
 const BoardBackground = styled.img`
@@ -45,17 +55,17 @@ const Overlay = styled.div`
   &.long {
     font-size: 7rem;
   }
-`
 
-//  <Glasses src={`level_${level}_glasses.png`} />
-// const Glasses = styled.img`
-//   position: absolute;
-//   width: 100%;
-//   z-index: 1;
-//   opacity: 0.5;
-//   top: -10%;
-//   pointer-events: none;
-// `
+  @media (max-width: 800px) {
+    & {
+      font-size: 7rem;
+    }
+
+    &.long {
+      font-size: 3rem;
+    }
+  }
+`
 
 const directionKeys = {
   ArrowDown: 'down',
@@ -117,6 +127,16 @@ const boardWidth = 45
 export default function Game(props: GameProps): React.ReactElement {
   const { level, points, lives, onPoints, onLifeLost, onLevelCompleted } = props
   const { language } = useLanguage()
+  const [boardVisible, setBoardVisible] = useState<boolean>(true)
+  const baseElem = useRef<HTMLDivElement | null>(null)
+  const baseRef = (node: HTMLDivElement) => {
+    if (!node || baseElem.current == node) return
+    baseElem.current = node
+    setTimeout(() => {
+      const rect = node.getBoundingClientRect()
+      window.scrollTo(0, rect.top - rect.height / 2)
+    })
+  }
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
     lastTime: 0,
     requestID: 0,
@@ -148,6 +168,7 @@ export default function Game(props: GameProps): React.ReactElement {
   }, [])
 
   async function startGame() {
+    return
     setOverlay('3')
     await delay(1000)
     setOverlay('2')
@@ -218,11 +239,14 @@ export default function Game(props: GameProps): React.ReactElement {
         game.foodHistory.push(randomFood(game.foodHistory)!)
         game.foodHistory.push(randomFood(game.foodHistory)!)
         game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
+        game.foodHistory.push(randomFood(game.foodHistory)!)
         game.foodHistory = game.foodHistory.filter((f) => !!f)
         setTimeout(() => onPoints(100))
         food = randomFood(game.foodHistory)
         if (!food) {
           setTimeout(async () => {
+            setBoardVisible(false)
             setOverlay(copy[language].levelCompleted)
             await delay(3000)
             onLevelCompleted()
@@ -283,60 +307,46 @@ export default function Game(props: GameProps): React.ReactElement {
     })
   }
 
-  function onSwipe(event: any) {
-    const directions = {
-      [Hammer.DIRECTION_RIGHT]: 'right',
-      [Hammer.DIRECTION_LEFT]: 'left',
-      [Hammer.DIRECTION_UP]: 'up',
-      [Hammer.DIRECTION_DOWN]: 'down',
-    } as Record<number, Direction>
-    const direction = directions[event.direction]
-    if (direction) {
-      console.log(`swipe ${direction}`)
-      setDirection(direction)
-    }
-  }
-
   const { snake, food, foodHistory } = game
   // @ts-ignore
   const outline = outlines[level] as Location[]
   return (
-    <>
-      <GameHeader
-        level={level}
-        percentComplete={Math.round(
-          (foodHistory.length / outline.length) * 100,
-        )}
-      />
-      <GameBase>
-        <HammerReact onTap={onTap}>
-          <BoardContainer>
-            <Overlay className={cn({ long: overlay.length > 1 })}>
-              {overlay}
-            </Overlay>
-            <BoardBackground src="board_background.png" />
-            <Board
-              width={boardWidth}
-              height={boardHeight}
-              snake={snake}
-              food={food}
-              foodHistory={foodHistory}
-            />
-          </BoardContainer>
-        </HammerReact>
+    <HammerReact onTap={onTap}>
+      <HammerElement>
+        <GameHeader
+          level={level}
+          percentComplete={Math.round(
+            (foodHistory.length / outline.length) * 100,
+          )}
+        />
+        <BoardContainer ref={baseRef}>
+          <Overlay className={cn({ long: overlay.length > 1 })}>
+            {overlay}
+          </Overlay>
+          <BoardBackground src="board_background.png" />
+          <Board
+            visible={boardVisible}
+            width={boardWidth}
+            height={boardHeight}
+            snake={snake}
+            food={food}
+            foodHistory={foodHistory}
+          />
+        </BoardContainer>
         <GameFooter points={points} lives={lives} level={level} />
         <p style={{ textAlign: 'center' }}>
           <Button
             onClick={async () => {
+              setBoardVisible(false)
               setOverlay(copy[language].levelCompleted)
               await delay(3000)
               onLevelCompleted()
             }}>
             DEBUG advance level!
           </Button>
-        </p>
-      </GameBase>
-    </>
+        </p>{' '}
+      </HammerElement>
+    </HammerReact>
   )
 }
 

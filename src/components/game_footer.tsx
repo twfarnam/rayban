@@ -10,20 +10,27 @@ const GameFooterBase = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  margin-top: 2rem;
+  padding: 2rem 0;
+
+  @media (max-width: 800px) {
+    padding-top: 0;
+  }
 `
 
 const Copy = styled.div`
   font-size: 1.2rem;
   text-align: center;
   margin: 0 1rem;
+
+  @media (max-width: 800px) {
+    font-size: 1rem;
+  }
 `
 
 const Border = styled.div`
   font-size: 1.8rem;
   background-image: url('small_border.png');
   background-size: contain;
-  padding: 2rem 3rem;
   background-repeat: no-repeat;
   background-position: center;
   color: white;
@@ -36,10 +43,28 @@ const Column = styled.div`
   color: ${(props) => props.theme.red};
 `
 
+const Points = styled.div`
+  line-height: 1;
+  padding: 1.8rem 3rem 2rem;
+
+  @media (max-width: 800px) {
+    & {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+    }
+  }
+`
+
 const Lives = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  font-size: 2rem;
+  padding: 1.5rem 2rem;
+
+  @media (max-width: 800px) {
+    & {
+      padding: 1rem 2rem;
+    }
+  }
 `
 
 const RayBanIcon = styled.div`
@@ -52,6 +77,12 @@ const RayBanIcon = styled.div`
   & > svg {
     width: 40px;
     fill: white;
+  }
+
+  @media (max-width: 800px) {
+    & > svg {
+      width: 20px;
+    }
   }
 `
 
@@ -70,7 +101,9 @@ export default function GameFooter({
   return (
     <GameFooterBase>
       <Column>
-        <Border>{points.toString().padStart(5, '0')}</Border>
+        <Border>
+          <Points>{points.toString().padStart(5, '0')}</Points>
+        </Border>
         {copy[language].points}
       </Column>
       <Copy>

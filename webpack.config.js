@@ -9,7 +9,7 @@ module.exports = {
     bundle: './src/index.tsx',
   },
   output: {
-    filename: '[name].[hash].js',
+    filename: '[name].[contenthash].js',
   },
   plugins: [new CleanTerminalPlugin(), new HTMLWebpackPlugin()],
   resolve: {

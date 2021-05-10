@@ -1,7 +1,6 @@
 import cn from 'classnames'
 import isEqual from 'lodash/isEqual'
 import times from 'lodash/times'
-import { useState } from 'react'
 import styled from 'styled-components'
 import { Location } from './game'
 
@@ -51,8 +50,8 @@ const Food = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 100%;
+  height: 100%;
   margin: auto;
   background: white;
   border-radius: 5px;
@@ -100,6 +99,7 @@ const SnakeSquare = styled.div`
 `
 
 interface BoardProps {
+  visible: boolean
   width: number
   height: number
   snake: Location[]
@@ -108,11 +108,11 @@ interface BoardProps {
 }
 
 export default function Board(props: BoardProps): React.ReactElement {
-  const { width, height, snake, food, foodHistory } = props
+  const { visible, width, height, snake, food, foodHistory } = props
   // const [outline, setOutline] = useState<Location[]>([])
 
   return (
-    <BoardBase>
+    <BoardBase style={{ visibility: visible ? 'visible' : 'hidden' }}>
       {times(height, (y: number) => {
         return (
           <Row key={y}>

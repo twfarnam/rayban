@@ -34,6 +34,23 @@ html, body {
 }
 
 @font-face {
+  font-family: "RayBanSans";
+  font-weight: 400;
+  src: url("/fonts/Ray-BanSans-Regular.woff2") format("woff2"),
+       url("/fonts/Ray-BanSans-Regular.woff") format("woff"),
+       url("/fonts/Ray-BanSans-Regular.ttf") format("ttf");
+}
+
+
+@font-face {
+  font-family: "RayBanSans";
+  font-weight: 200;
+  src: url("/fonts/Ray-BanSans-Light.woff2") format("woff2"),
+       url("/fonts/Ray-BanSans-Light.woff") format("woff"),
+       url("/fonts/Ray-BanSans-Light.ttf") format("ttf");
+}
+
+@font-face {
   font-family: "RayBanSansInline";
   font-weight: 700;
   src: url("/fonts/Ray-BanSansInline-Bold100.woff2") format("woff2"),

@@ -1,15 +1,11 @@
-import Lottie from 'lottie-react'
 import styled from 'styled-components'
 import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
+import GlassesAnimation from './glasses_animation'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
-
-const Logo = styled.img`
-  width: 150px;
-  margin-bottom: 40px;
-`
+import Logo from './logo'
 
 const Copy = styled.p`
   font-size: 1.3em;
@@ -31,16 +27,14 @@ export default function LevelOutro({
 
   return (
     <CenterContainer>
-      <Logo src="logo.png" />
+      <Logo />
       <Heading>
         {
           // @ts-ignore
           copy[language][`level${level}Header`]
         }
       </Heading>
-      {lottieData[`level_${level}_glasses.json`] && (
-        <Lottie animationData={lottieData[`level_${level}_glasses.json`]} />
-      )}
+      <GlassesAnimation level={level} lottieData={lottieData} />
       <Copy>
         {
           // @ts-ignore

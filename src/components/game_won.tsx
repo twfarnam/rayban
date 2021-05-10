@@ -45,9 +45,7 @@ export default function GameWon({
   const { language } = useLanguage()
   return (
     <CenterContainer>
-      {copy[language].won.split('\n').map((h, i) => (
-        <Heading key={i}>{h}</Heading>
-      ))}
+      <Heading>{copy[language].won}</Heading>
       {lottieData[`confetti.json`] && (
         <>
           <Confetti animationData={lottieData[`confetti.json`]} />

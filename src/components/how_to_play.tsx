@@ -7,16 +7,16 @@ import { useLanguage } from './language_provider'
 
 const Logo = styled.img`
   width: 150px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `
 
-const Copy = styled.p`
+const Copy = styled.div`
   font-size: 1.2em;
-  text-align: center;
-`
+  margin-bottom: 30px;
 
-const Spacer = styled.div`
-  height: 100px;
+  & li {
+    margin: 0.3em 0;
+  }
 `
 
 interface HowToPlayProps {
@@ -32,11 +32,8 @@ export default function HowToPlay({
     <CenterContainer>
       <Logo src="logo.png" />
       <Heading>{copy[language].howToPlayHeader}</Heading>
-      {copy[language].howToPlay.split('\n').map((text, key) => (
-        <Copy key={key}>{text}</Copy>
-      ))}
-      <Spacer />
-      <Button onClick={onNextStep}>{copy[language].start}</Button>
+      <Copy>{copy[language].howToPlay}</Copy>
+      <Button onClick={onNextStep}>{copy[language].goToLevel} 1</Button>
     </CenterContainer>
   )
 }

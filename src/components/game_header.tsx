@@ -57,42 +57,45 @@ const RowContent = styled.div`
 const LevelName = styled.div`
   font-size: 5rem;
   font-family: 'RayBanSansInline';
+
+  @media (max-width: 800px) {
+    font-size: 3rem;
+  }
 `
 
 const RedStripes = styled.div<{ percentComplete: number }>`
   flex-grow: 1;
   color: ${(props) => props.theme.red};
   position: relative;
-  top: -0.7em;
   font-size: 1.2em;
   margin: 0 1rem;
 
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    border-bottom: 3px solid rgb(118, 22, 23);
-    height: 6px;
-    border-top: 3px solid rgb(118, 22, 23);
-  }
-
+  &::before,
   &::after {
     content: '';
     display: block;
     position: absolute;
     top: 100%;
+    width: 100%;
+    border-bottom: 9px double rgb(118, 22, 23);
+  }
+
+  &::after {
     width: ${(props) => props.percentComplete}%;
-    border-bottom: 3px solid currentColor;
-    height: 6px;
-    border-top: 3px solid currentColor;
+  }
+
+  @media (max-width: 800px) {
+    border-bottom: 6px double rgb(118, 22, 23);
   }
 `
 
 const Level = styled.div`
   font-size: 2rem;
   color: ${(props) => props.theme.red};
+
+  @media (max-width: 800px) {
+    font-size: 1rem;
+  }
 `
 
 interface GameHeaderProps {
