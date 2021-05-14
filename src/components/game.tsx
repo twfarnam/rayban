@@ -247,7 +247,6 @@ export default function Game(props: GameProps): React.ReactElement {
             levelStartTime: window.performance.now(),
             time: 60,
             food: null,
-            foodHistory: {},
           })),
         )
         return { ...game, running: false }

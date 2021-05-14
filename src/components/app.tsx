@@ -74,6 +74,7 @@ export default function App(): React.ReactElement | null {
 
   function onLevelCompleted(time: number) {
     stopAudio('sound/music.mp3')
+    setLives(3)
     setPoints((points) => points + level * 300 + lives * 300 + time * 50)
     if (level >= 4) {
       setStep('game_won')
