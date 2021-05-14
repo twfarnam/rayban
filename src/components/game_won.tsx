@@ -1,6 +1,7 @@
 import Lottie from 'lottie-react'
 import styled from 'styled-components'
 import copy from '../copy'
+import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
 import Heading from './heading'
@@ -19,7 +20,7 @@ const Confetti = styled(Lottie)`
     transform: scale(0.5) translate(30%, 30%);
   }
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     transform: translate(-90%, 10%);
     & + & {
       transform: translate(90%, 10%);

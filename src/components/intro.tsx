@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 import copy from '../copy'
+import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
 import { useLanguage } from './language_provider'
+import Logo from './logo'
 
-const Logo = styled.div`
-  @media (max-width: 800px) {
+const IconLogo = styled.div`
+  @media ${mobileBreakpoint} {
     & {
       max-width: 450px;
     }
@@ -20,13 +22,13 @@ const TheIcon = styled.div`
   line-height: 1;
   border-top: 12px double ${(props) => props.theme.red};
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     & {
       font-size: 120px;
     }
   }
 
-  @media (max-width: 400px) {
+  @media ${mobileBreakpoint} {
     & {
       font-size: 70px;
     }
@@ -41,13 +43,13 @@ const Series = styled.div`
   font-size: 90px;
   font-weight: normal;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     & {
       font-size: 50px;
     }
   }
 
-  @media (max-width: 400px) {
+  @media ${mobileBreakpoint} {
     & {
       font-size: 30px;
     }
@@ -68,21 +70,33 @@ const Series = styled.div`
   }
 `
 
-const Copy = styled.p`
+const Copy = styled.div`
   font-size: 1.5em;
-  margin: 2em 0;
-  white-space: pre-wrap;
   text-align: center;
 `
 
-const ChangeLanguage = styled.button`
-  background: none;
-  border: none;
-  color: white;
-  text-decoration: underline;
-  margin: 1rem 0;
-  cursor: pointer;
+const Spacer = styled.div`
+  flex-grow: 1;
 `
+
+const CookieNotice = styled.div`
+  font-size: 0.8rem;
+  line-height: 1;
+  background: ${(props) => props.theme.red};
+  color: white;
+  padding: 0.6rem 1.2rem 0.85rem;
+  border-radius: 0.7rem;
+  margin: 1rem 0;
+`
+
+// const ChangeLanguage = styled.button`
+//   background: none;
+//   border: none;
+//   color: white;
+//   text-decoration: underline;
+//   margin: 1rem 0;
+//   cursor: pointer;
+// `
 
 interface IntroProps {
   onNextStep: () => void
@@ -92,22 +106,25 @@ export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
   const { language, setLanguage } = useLanguage()
   return (
     <CenterContainer>
-      <Logo>
+      <Logo />
+      <IconLogo>
         <TheIcon>The Icon</TheIcon>
         <Series>Series</Series>
-      </Logo>
+      </IconLogo>
       <Copy>{copy[language].intro}</Copy>
       <Button onClick={onNextStep}>{copy[language].introButton}</Button>
-      {language == 'es' && (
-        <ChangeLanguage onClick={() => setLanguage('en')}>
-          {copy['en'].changeLanguage}
-        </ChangeLanguage>
-      )}
-      {language == 'en' && (
-        <ChangeLanguage onClick={() => setLanguage('es')}>
-          {copy['es'].changeLanguage}
-        </ChangeLanguage>
-      )}
+      <Spacer />
+      <CookieNotice>{copy[language].cookieNotice}</CookieNotice>
     </CenterContainer>
   )
+  // {language == 'es' && (
+  //   <ChangeLanguage onClick={() => setLanguage('en')}>
+  //     {copy['en'].changeLanguage}
+  //   </ChangeLanguage>
+  // )}
+  // {language == 'en' && (
+  //   <ChangeLanguage onClick={() => setLanguage('es')}>
+  //     {copy['es'].changeLanguage}
+  //   </ChangeLanguage>
+  // )}
 }

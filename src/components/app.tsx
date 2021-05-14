@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
@@ -16,7 +16,6 @@ const isMobile = /android|iphone|ipad|ipod/i.test(window.navigator.userAgent)
 export type AppStep =
   | 'intro'
   | 'how_to_play'
-  | 'force_landscape'
   | 'level_intro'
   | 'game'
   | 'level_outro'
@@ -36,6 +35,7 @@ export default function App(): React.ReactElement | null {
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
   const [level, setLevel] = useState<number>(1)
+  const mute = useRef<boolean>(window.localStorage.rayBanSnakeMute == 'true')
   const [lottieData, setLottieData] = useState<Record<string, any>>({})
 
   useEffect(() => {
@@ -72,9 +72,9 @@ export default function App(): React.ReactElement | null {
     setLottieData((lottieData) => ({ ...lottieData, [path]: data }))
   }
 
-  function onLevelCompleted() {
+  function onLevelCompleted(time: number) {
     stopAudio('sound/music.mp3')
-    setPoints((points) => points + level * 300 + lives * 300)
+    setPoints((points) => points + level * 300 + lives * 300 + time * 50)
     if (level >= 4) {
       setStep('game_won')
     } else {
@@ -89,10 +89,9 @@ export default function App(): React.ReactElement | null {
   function onLifeLost() {
     setLives((lives) => {
       if (lives > 1) {
-        playAudio('sound/life_lost.mp3')
         return lives - 1
       } else {
-        playAudio('sound/game_lost.mp3')
+        if (!mute.current) playAudio('sound/game_lost.mp3')
         setStep('game_over')
         return 0
       }
@@ -109,6 +108,9 @@ export default function App(): React.ReactElement | null {
   return (
     <>
       <Background playsInline autoPlay loop muted src="background.mp4" />
+      {!['intro', 'how_to_play'].includes(step) && isMobile && (
+        <ForceLandscape onNextStep={() => setStep('level_intro')} />
+      )}
       <TransitionGroup component={null}>
         <CSSTransition key={step} timeout={500}>
           {(() => {
@@ -116,19 +118,7 @@ export default function App(): React.ReactElement | null {
               case 'intro':
                 return <Intro onNextStep={() => setStep('how_to_play')} />
               case 'how_to_play':
-                return (
-                  <HowToPlay
-                    onNextStep={() =>
-                      isMobile && window.innerWidth < window.innerHeight
-                        ? setStep('force_landscape')
-                        : setStep('level_intro')
-                    }
-                  />
-                )
-              case 'force_landscape':
-                return (
-                  <ForceLandscape onNextStep={() => setStep('level_intro')} />
-                )
+                return <HowToPlay onNextStep={() => setStep('level_intro')} />
               case 'level_intro':
                 return (
                   <LevelIntro
@@ -136,7 +126,7 @@ export default function App(): React.ReactElement | null {
                     level={level}
                     onNextStep={() => {
                       setStep('game')
-                      playAudio('sound/music.mp3')
+                      if (!mute.current) playAudio('sound/music.mp3')
                     }}
                   />
                 )
@@ -147,6 +137,7 @@ export default function App(): React.ReactElement | null {
                     level={level}
                     points={points}
                     lives={lives}
+                    mute={mute}
                     onLifeLost={onLifeLost}
                     onLevelCompleted={onLevelCompleted}
                     onPoints={onPoints}

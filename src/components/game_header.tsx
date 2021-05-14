@@ -1,7 +1,8 @@
+import { useMediaQuery } from '@react-hook/media-query'
 import Lottie from 'lottie-react'
-import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import copy from '../copy'
+import { mobileBreakpoint } from '../utility'
 import CenterContainer from './center_container'
 import { useLanguage } from './language_provider'
 
@@ -58,33 +59,36 @@ const LevelName = styled.div`
   font-size: 5rem;
   font-family: 'RayBanSansInline';
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     font-size: 3rem;
   }
 `
 
-const RedStripes = styled.div<{ percentComplete: number }>`
+const RedStripes = styled.div`
   flex-grow: 1;
   color: ${(props) => props.theme.red};
   position: relative;
+  top: -0.5em;
   font-size: 1.2em;
   margin: 0 1rem;
 
-  &::before,
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    border-bottom: 9px double rgb(118, 22, 23);
+  & small {
+    font-size: 0.8em;
+  }
+`
+
+const RedStripesIndicator = styled.div`
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  border-bottom: 9px double rgb(118, 22, 23);
+
+  &.top {
+    border-color: ${(props) => props.theme.red};
+    z-index: 5;
   }
 
-  &::after {
-    width: ${(props) => props.percentComplete}%;
-  }
-
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     border-bottom: 6px double rgb(118, 22, 23);
   }
 `
@@ -93,14 +97,15 @@ const Level = styled.div`
   font-size: 2rem;
   color: ${(props) => props.theme.red};
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     font-size: 1rem;
   }
 `
 
 interface GameHeaderProps {
   level: number
-  percentComplete: number
+  time: number
+  lottieData: Record<string, any>
 }
 
 const levelNames = {
@@ -112,32 +117,33 @@ const levelNames = {
 
 export default function GameHeader({
   level,
-  percentComplete,
+  time,
+  lottieData,
 }: GameHeaderProps): React.ReactElement {
   const { language } = useLanguage()
-  const [animationData, setAnimationData] = useState<Record<string, unknown>>()
-
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch(`level_${level}_bg.json`, { signal: controller.signal })
-      .then((request) => request.json())
-      .then((data) => setAnimationData(data))
-    return () => controller.abort()
-  }, [])
-
+  const isDesktopViewport = useMediaQuery('(min-width: 800px)')
   return (
     <>
-      <Logo src="logo.png" />
+      {isDesktopViewport && <Logo src="logo.png" />}
       <GameHeaderBase>
-        <AnimationContainer>
-          {animationData && <Animation animationData={animationData} />}
-        </AnimationContainer>
+        {isDesktopViewport && (
+          <AnimationContainer>
+            {lottieData[`level_${level}_bg.json`] && (
+              <Animation animationData={lottieData[`level_${level}_bg.json`]} />
+            )}
+          </AnimationContainer>
+        )}
         <Row>
           <RowBackground src="large_border.png" />
           <RowContent>
             <LevelName>{levelNames[level]}</LevelName>
-            <RedStripes percentComplete={percentComplete}>
-              {percentComplete}%
+            <RedStripes>
+              {Math.round(time)} <small>{copy[language].seconds}</small>
+              <RedStripesIndicator />
+              <RedStripesIndicator
+                className="top"
+                style={{ width: Math.round((time / 60) * 100) + '%' }}
+              />
             </RedStripes>
             <Level>
               {copy[language].level} {level}

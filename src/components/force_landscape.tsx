@@ -7,6 +7,18 @@ import CenterContainer from './center_container'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
 
+const ForceLandscapeBase = styled(CenterContainer)`
+  @media (orientation: portrait) {
+    & + * {
+      display: none;
+    }
+  }
+
+  @media (orientation: landscape) {
+    display: none;
+  }
+`
+
 const PhoneAnimation = styled.div`
   width: 50%;
   margin: 1rem auto;
@@ -67,9 +79,9 @@ export default function ForceLandscape({
   })
 
   return (
-    <CenterContainer>
+    <ForceLandscapeBase>
       <Heading>{copy[language].rotateToLandscape}</Heading>
       <PhoneAnimation dangerouslySetInnerHTML={{ __html: phone as string }} />
-    </CenterContainer>
+    </ForceLandscapeBase>
   )
 }

@@ -1,19 +1,32 @@
 import cn from 'classnames'
 import isEqual from 'lodash/isEqual'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import times from 'lodash/times'
+import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import HammerReact from 'react-hammerjs'
 import styled from 'styled-components'
+// @ts-ignore
+import muteButton from '../../static/mute.svg'
 import copy from '../copy'
 import outlines from '../outlines'
-import { delay, playAudio } from '../utility'
+import { delay, playAudio, stopAudio, mobileBreakpoint } from '../utility'
 import Board from './board'
-import Button from './button'
 import GameFooter from './game_footer'
 import GameHeader from './game_header'
 import { useLanguage } from './language_provider'
 
 const HammerElement = styled.div`
   width: 100%;
+`
+
+const MuteButton = styled.div`
+  width: 40px;
+  position: absolute;
+  left: 100%;
+  cursor: pointer;
+
+  @media ${mobileBreakpoint} {
+    width: 20px;
+  }
 `
 
 const BoardContainer = styled.div`
@@ -23,7 +36,7 @@ const BoardContainer = styled.div`
   margin: 0 auto;
   padding: 1rem;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     max-width: 400px;
     padding: 0;
   }
@@ -35,34 +48,44 @@ const BoardContainer = styled.div`
 `
 
 const BoardBackground = styled.img`
-  width: 103%;
+  width: 100%;
   position: absolute;
-  top: -2.8%;
-  left: -1.5%;
+  top: 2%;
+  left: -0.5%;
 `
 
 const Overlay = styled.div`
   font-size: 15rem;
   font-family: 'RayBanSansInline';
   position: absolute;
+  white-space: pre-wrap;
   left: 0;
   right: 0;
   top: calc(50% - 1rem);
   transform: translateY(-50%);
   text-align: center;
   z-index: 15;
+  line-height: 1;
 
   &.long {
     font-size: 7rem;
   }
 
-  @media (max-width: 800px) {
+  &.very-long {
+    font-size: 4rem;
+  }
+
+  @media ${mobileBreakpoint} {
     & {
       font-size: 7rem;
     }
 
     &.long {
       font-size: 3rem;
+    }
+
+    &.very-long {
+      font-size: 2rem;
     }
   }
 `
@@ -85,9 +108,11 @@ type Direction = 'up' | 'down' | 'left' | 'right'
 interface GameState {
   running: boolean
   points: number
+  levelStartTime: number
+  time: number
   direction: Direction
   nextDirection: Direction | null
-  foodHistory: Location[]
+  foodHistory: Record<string, boolean>
   food: Location | null
   snake: Location[]
 }
@@ -97,8 +122,10 @@ const initialState = (): GameState => ({
   direction: 'left',
   nextDirection: null,
   points: 0,
-  foodHistory: [],
+  foodHistory: {},
   food: { x: 5, y: 8 },
+  levelStartTime: 0,
+  time: 60,
   snake: [
     { x: 41, y: 7 },
     { x: 42, y: 7 },
@@ -116,27 +143,27 @@ interface GameProps {
   lives: number
   points: number
   onLifeLost: () => void
-  onLevelCompleted: () => void
+  onLevelCompleted: (time: number) => void
   onPoints: (points: number) => void
   lottieData: Record<string, any>
+  mute: MutableRefObject<boolean>
 }
 
 const boardHeight = 22
 const boardWidth = 45
 
 export default function Game(props: GameProps): React.ReactElement {
-  const { level, points, lives, onPoints, onLifeLost, onLevelCompleted } = props
+  const {
+    level,
+    points,
+    lives,
+    onPoints,
+    onLevelCompleted,
+    lottieData,
+    mute,
+  } = props
   const { language } = useLanguage()
   const [boardVisible, setBoardVisible] = useState<boolean>(true)
-  const baseElem = useRef<HTMLDivElement | null>(null)
-  const baseRef = (node: HTMLDivElement) => {
-    if (!node || baseElem.current == node) return
-    baseElem.current = node
-    setTimeout(() => {
-      const rect = node.getBoundingClientRect()
-      window.scrollTo(0, rect.top - rect.height / 2)
-    })
-  }
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
     lastTime: 0,
     requestID: 0,
@@ -159,6 +186,11 @@ export default function Game(props: GameProps): React.ReactElement {
   }, [lives])
 
   useEffect(() => {
+    if (!mute.current) playAudio('sound/music.mp3')
+    return () => stopAudio('sound/music.mp3')
+  }, [])
+
+  useEffect(() => {
     animationFrame.current.requestID = window.requestAnimationFrame(tick)
     window.addEventListener('keydown', onKeyDown)
     return () => {
@@ -168,7 +200,6 @@ export default function Game(props: GameProps): React.ReactElement {
   }, [])
 
   async function startGame() {
-    return
     setOverlay('3')
     await delay(1000)
     setOverlay('2')
@@ -177,26 +208,50 @@ export default function Game(props: GameProps): React.ReactElement {
     await delay(1000)
     setOverlay(copy[language].youreOn)
     await delay(1000)
-    playAudio('sound/level_begins.mp3')
+    if (!mute.current) playAudio('sound/level_begins.mp3')
     setOverlay('')
-    setGame((game) => ({ ...game, running: true }))
+    setGame((game) => ({
+      ...game,
+      levelStartTime: window.performance.now() - (60 - game.time) * 1000,
+      running: true,
+    }))
   }
 
-  function tick(time: number) {
+  function tick(timestamp: number) {
     setGame((game) => {
+      const { running, levelStartTime } = game
       animationFrame.current.requestID = window.requestAnimationFrame(tick)
-      if (time - animationFrame.current.lastTime > speeds[level]) {
-        animationFrame.current.lastTime = time
-        if (game.running) gameLoop()
+      if (timestamp - animationFrame.current.lastTime > speeds[level]) {
+        animationFrame.current.lastTime = timestamp
+        if (running) gameLoop()
       }
-      return game
+      const time = Math.max(
+        0,
+        Math.round(60 - (timestamp - levelStartTime) / 1000),
+      )
+      if (!running || time == game.time) return game
+      return { ...game, time }
     })
   }
 
   function gameLoop() {
     setGame((game) => {
       let { food, direction } = game
-      const { snake, nextDirection } = game
+      const { snake, nextDirection, time } = game
+
+      // time runs out so restart the level
+      if (time <= 0) {
+        onLifeLost().then(() =>
+          setGame((game) => ({
+            ...game,
+            levelStartTime: window.performance.now(),
+            time: 60,
+            food: null,
+            foodHistory: {},
+          })),
+        )
+        return { ...game, running: false }
+      }
 
       // find next position of the snake
       let { x, y } = snake[0]
@@ -224,7 +279,7 @@ export default function Game(props: GameProps): React.ReactElement {
         x >= boardWidth ||
         y >= boardHeight
       ) {
-        setTimeout(() => onLifeLost())
+        onLifeLost()
         return { ...game, running: false }
       }
       // advances
@@ -232,16 +287,13 @@ export default function Game(props: GameProps): React.ReactElement {
 
       // if eating, place more food. if not, tail shrinks
       if (isEqual(food, { x, y })) {
-        playAudio('sound/eaten_dot.mp3')
-        game.foodHistory.push(food!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory.push(randomFood(game.foodHistory)!)
-        game.foodHistory = game.foodHistory.filter((f) => !!f)
+        if (!mute.current) playAudio('sound/eaten_dot.mp3')
+        game.foodHistory[`${food!.x},${food!.y}`] = true
+        const addRandomFood = (foodHistory: Record<string, boolean>) => {
+          const food = randomFood(foodHistory)
+          if (food) foodHistory[`${food.x},${food.y}`] = true
+        }
+        times(7, () => addRandomFood(game.foodHistory))
         setTimeout(() => onPoints(100))
         food = randomFood(game.foodHistory)
         if (!food) {
@@ -249,7 +301,7 @@ export default function Game(props: GameProps): React.ReactElement {
             setBoardVisible(false)
             setOverlay(copy[language].levelCompleted)
             await delay(3000)
-            onLevelCompleted()
+            onLevelCompleted(time)
           })
           return { ...game, food: null, running: false }
         }
@@ -261,14 +313,34 @@ export default function Game(props: GameProps): React.ReactElement {
     })
   }
 
-  function randomFood(foodHistory: Location[] = []): Location | null {
+  function randomFood(
+    foodHistory: Record<string, boolean> = {},
+  ): Location | null {
     // @ts-ignore
     const available = outlines[level].filter(
-      (o: Location) => !foodHistory.some((h) => isEqual(o, h)),
+      (o: Location) => !foodHistory.hasOwnProperty(`${o.x},${o.y}`),
     )
     if (available.length < 1) return null
     const index = Math.floor(Math.random() * available.length)
     return available[index]
+  }
+
+  function onClickMute() {
+    mute.current = !mute.current
+    window.localStorage.rayBanSnakeMute = mute.current
+    if (mute.current) {
+      stopAudio('sound/music.mp3')
+    } else {
+      playAudio('sound/direction_change.mp3')
+      playAudio('sound/music.mp3')
+    }
+  }
+
+  async function onLifeLost() {
+    if (!mute.current) playAudio('sound/life_lost.mp3')
+    setTimeout(() => setOverlay(copy[language].lifeLost))
+    await delay(3000)
+    setTimeout(() => props.onLifeLost())
   }
 
   function onKeyDown(event: KeyboardEvent) {
@@ -280,9 +352,13 @@ export default function Game(props: GameProps): React.ReactElement {
 
   function setDirection(nextDirection: Direction) {
     setGame((game) => {
-      if (game.nextDirection) return game
-      if (nextDirection && nextDirection != oppositeDirection(game.direction)) {
-        playAudio('sound/direction_change.mp3')
+      if (!game.running || game.nextDirection) return game
+      if (
+        nextDirection &&
+        nextDirection != game.direction &&
+        nextDirection != oppositeDirection(game.direction)
+      ) {
+        if (!mute.current) playAudio('sound/direction_change.mp3')
         game.nextDirection = nextDirection
       }
       return game
@@ -290,7 +366,9 @@ export default function Game(props: GameProps): React.ReactElement {
   }
 
   function onTap(event: any) {
+    if (event.target.closest('[data-no-tap]')) return
     setGame((game) => {
+      if (!game.running || game.nextDirection) return game
       const head = document.querySelector('.head')
       if (!head) return game
       const headRect = head.getBoundingClientRect()
@@ -307,20 +385,24 @@ export default function Game(props: GameProps): React.ReactElement {
     })
   }
 
-  const { snake, food, foodHistory } = game
+  const { snake, food, foodHistory, time } = game
   // @ts-ignore
   const outline = outlines[level] as Location[]
   return (
     <HammerReact onTap={onTap}>
       <HammerElement>
-        <GameHeader
-          level={level}
-          percentComplete={Math.round(
-            (foodHistory.length / outline.length) * 100,
-          )}
-        />
-        <BoardContainer ref={baseRef}>
-          <Overlay className={cn({ long: overlay.length > 1 })}>
+        <GameHeader level={level} time={time} lottieData={lottieData} />
+        <BoardContainer>
+          <MuteButton
+            data-no-tap
+            onClick={onClickMute}
+            dangerouslySetInnerHTML={{ __html: muteButton as string }}
+          />
+          <Overlay
+            className={cn({
+              long: overlay.length > 1,
+              'very-long': overlay.length > 16,
+            })}>
             {overlay}
           </Overlay>
           <BoardBackground src="board_background.png" />
@@ -334,20 +416,20 @@ export default function Game(props: GameProps): React.ReactElement {
           />
         </BoardContainer>
         <GameFooter points={points} lives={lives} level={level} />
-        <p style={{ textAlign: 'center' }}>
-          <Button
-            onClick={async () => {
-              setBoardVisible(false)
-              setOverlay(copy[language].levelCompleted)
-              await delay(3000)
-              onLevelCompleted()
-            }}>
-            DEBUG advance level!
-          </Button>
-        </p>{' '}
       </HammerElement>
     </HammerReact>
   )
+  // <p style={{ textAlign: 'center' }}>
+  //   <Button
+  //     onClick={async () => {
+  //       setBoardVisible(false)
+  //       setOverlay(copy[language].levelCompleted)
+  //       await delay(3000)
+  //       onLevelCompleted(time)
+  //     }}>
+  //     DEBUG advance level!
+  //   </Button>
+  // </p>
 }
 
 function oppositeDirection(direction: Direction): Direction {

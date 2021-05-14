@@ -3,16 +3,20 @@ import styled from 'styled-components'
 // @ts-ignore
 import raybanIcon from '../../static/rb_icon.svg'
 import copy from '../copy'
+import { mobileBreakpoint } from '../utility'
 import { useLanguage } from './language_provider'
 
 const GameFooterBase = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin 0 auto;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 0;
+  padding-bottom: 1rem;
 
-  @media (max-width: 800px) {
+  @media  ${mobileBreakpoint}{
     padding-top: 0;
   }
 `
@@ -22,7 +26,7 @@ const Copy = styled.div`
   text-align: center;
   margin: 0 1rem;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     font-size: 1rem;
   }
 `
@@ -47,7 +51,7 @@ const Points = styled.div`
   line-height: 1;
   padding: 1.8rem 3rem 2rem;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     & {
       padding: 1rem 2rem;
       font-size: 1.2rem;
@@ -60,10 +64,24 @@ const Lives = styled.div`
   flex-flow: row nowrap;
   padding: 1.5rem 2rem;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     & {
       padding: 1rem 2rem;
     }
+  }
+`
+
+const LivesIcon = styled.div`
+  width: 40px;
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @media ${mobileBreakpoint} {
+    width: 15px;
+    margin-right: 3px;
   }
 `
 
@@ -79,9 +97,11 @@ const RayBanIcon = styled.div`
     fill: white;
   }
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
+    margin-right: 3px;
+
     & > svg {
-      width: 20px;
+      width: 15px;
     }
   }
 `
@@ -115,12 +135,16 @@ export default function GameFooter({
       <Column>
         <Border>
           <Lives>
-            {times(lives, (i) => (
-              <RayBanIcon
-                key={i}
-                dangerouslySetInnerHTML={{ __html: raybanIcon as string }}
-              />
-            ))}
+            {times(3, (i) =>
+              i >= lives ? (
+                <LivesIcon key={i} />
+              ) : (
+                <RayBanIcon
+                  key={i}
+                  dangerouslySetInnerHTML={{ __html: raybanIcon as string }}
+                />
+              ),
+            )}
           </Lives>
         </Border>
         {copy[language].lives}

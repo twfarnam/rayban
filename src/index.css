@@ -10,7 +10,7 @@ html {
   color: white;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
   html {
     font-size: 14px;
   }
@@ -19,6 +19,11 @@ html {
 html, body {
   height: 100%;
   margin: 0;
+  line-height: 1.6;
+}
+
+b {
+  font-size: 1.2em;
 }
 
 #app {

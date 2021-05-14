@@ -1,5 +1,6 @@
 import Lottie from 'lottie-react'
 import styled from 'styled-components'
+import { mobileBreakpoint } from '../utility'
 
 const GlassesAnimationBase = styled.div`
   width: 100%;
@@ -11,7 +12,7 @@ const GlassesAnimationBase = styled.div`
     padding-top: 40%;
   }
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     width: 50%;
   }
 `

@@ -54,7 +54,7 @@ const Food = styled.div`
   height: 100%;
   margin: auto;
   background: white;
-  border-radius: 5px;
+  border-radius: 50%;
   z-index: 10;
 
   &::before,
@@ -104,7 +104,7 @@ interface BoardProps {
   height: number
   snake: Location[]
   food: Location | null
-  foodHistory: Location[]
+  foodHistory: Record<string, boolean>
 }
 
 export default function Board(props: BoardProps): React.ReactElement {
@@ -121,9 +121,7 @@ export default function Board(props: BoardProps): React.ReactElement {
                 isEqual(p, { x, y }),
               )
               const isFood = food && isEqual(food, { x, y })
-              const isFoodHistory = foodHistory.some((p: Location) =>
-                isEqual(p, { x, y }),
-              )
+              const isFoodHistory = foodHistory.hasOwnProperty(`${x},${y}`)
               // const isOutline = outline.some((p: Location) =>
               //   isEqual(p, { x, y }),
               // )

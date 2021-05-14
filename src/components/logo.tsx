@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { mobileBreakpoint } from '../utility'
 
 const LogoBase = styled.img`
   width: 150px;
   margin-bottom: 40px;
 
-  @media (max-width: 800px) {
+  @media ${mobileBreakpoint} {
     width: 100px;
     margin-bottom: 20px;
   }

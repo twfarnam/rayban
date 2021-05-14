@@ -1,11 +1,21 @@
 export default {
   en: {
+    cookieNotice:
+      'We use cookies to offer you this experience. By continuing to use this site you conset to our use  of cookies.',
     changeLanguage: 'Play in English',
     level: 'Level',
     points: 'Points',
     lives: 'Lives',
-    intro:
-      'Complete all 4 iconic Ray-Ban shapes and claim your reward.\n#YOUAREON.',
+    lifeLost: 'Oops… you lost one life.\nTry again!',
+    seconds: 'sec',
+    intro: (
+      <>
+        <p>Complete all 4 shapes and become a Ray-Ban Icon Master.</p>
+        <p>
+          <b>#YOUAREON</b>
+        </p>
+      </>
+    ),
     introButton: 'Play!',
     howToPlayHeader: 'How to Play',
     howToPlay: (
@@ -113,10 +123,14 @@ export default {
     playAgain: 'Play again',
   },
   es: {
+    cookieNotice:
+      'We use cookies to offer you this experience. By continuing to use this site you conset to our use  of cookies.',
     changeLanguage: 'Jugar en Español',
     level: 'Nivel',
     points: 'Puntos',
     lives: 'Vidas',
+    lifeLost: 'Oops… perdiste una vida.\nInténtalo de nuevo!',
+    seconds: 'seg',
     intro: 'Completa los 4 Ray-Ban Icons para ganar un premio.\n#YOUAREON',
     introButton: 'Jugar!',
     howToPlayHeader: 'Como Jugar',
