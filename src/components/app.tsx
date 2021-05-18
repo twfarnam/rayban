@@ -33,7 +33,7 @@ const Background = styled.video`
 `
 
 export default function App(): React.ReactElement | null {
-  const [step, setStep] = useState<AppStep>('game')
+  const [step, setStep] = useState<AppStep>('intro')
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
   const [level, setLevel] = useState<number>(1)

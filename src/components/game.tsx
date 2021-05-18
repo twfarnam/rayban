@@ -68,6 +68,11 @@ const BoardBackground = styled.img`
   position: absolute;
   top: 2%;
   left: -0.5%;
+  z-index: 1;
+
+  @media ${mobileBreakpoint} {
+    top: 0;
+  }
 `
 
 const Overlay = styled.div`
