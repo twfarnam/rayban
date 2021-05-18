@@ -1,15 +1,22 @@
 import cn from 'classnames'
-import isEqual from 'lodash/isEqual'
+import shuffle from 'lodash/shuffle'
 import times from 'lodash/times'
 import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import HammerReact from 'react-hammerjs'
+import { VscMute, VscUnmute } from 'react-icons/vsc'
 import styled from 'styled-components'
-// @ts-ignore
-import muteButton from '../../static/mute.svg'
 import copy from '../copy'
 import outlines from '../outlines'
-import { delay, playAudio, stopAudio, mobileBreakpoint } from '../utility'
+import {
+  delay,
+  playAudio,
+  stopAudio,
+  mobileBreakpoint,
+  Location,
+  isEqualLocation,
+} from '../utility'
 import Board from './board'
+import Button from './button'
 import GameFooter from './game_footer'
 import GameHeader from './game_header'
 import { useLanguage } from './language_provider'
@@ -18,16 +25,17 @@ const HammerElement = styled.div`
   width: 100%;
 `
 
-const MuteButton = styled.div`
-  width: 40px;
+const MuteButton = styled(VscUnmute)`
+  font-size: 40px;
   position: absolute;
   left: 100%;
   cursor: pointer;
 
   @media ${mobileBreakpoint} {
-    width: 20px;
+    font-size: 20px;
   }
 `
+const UnmuteButton = MuteButton.withComponent(VscMute)
 
 const BoardContainer = styled.div`
   position: relative;
@@ -45,6 +53,14 @@ const BoardContainer = styled.div`
     max-width: 300px;
     padding: 0;
   }
+`
+
+const Glasses = styled.img`
+  position: absolute;
+  width: 95%;
+  opacity: 0.7;
+  top: -4%;
+  pointer-events: none;
 `
 
 const BoardBackground = styled.img`
@@ -101,7 +117,7 @@ const directionKeys = {
   l: 'right',
 } as Record<string, Direction>
 
-const speeds = { 1: 180, 2: 160, 3: 140, 4: 120 } as Record<number, number>
+const speeds = { 1: 150, 2: 130, 3: 110, 4: 90 } as Record<number, number>
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 
@@ -114,7 +130,7 @@ interface GameState {
   nextDirection: Direction | null
   foodHistory: Record<string, boolean>
   food: Location | null
-  snake: Location[]
+  snake: (Location | null)[]
 }
 
 const initialState = (): GameState => ({
@@ -133,11 +149,6 @@ const initialState = (): GameState => ({
   ],
 })
 
-export interface Location {
-  x: number
-  y: number
-}
-
 interface GameProps {
   level: number
   lives: number
@@ -153,15 +164,7 @@ const boardHeight = 22
 const boardWidth = 45
 
 export default function Game(props: GameProps): React.ReactElement {
-  const {
-    level,
-    points,
-    lives,
-    onPoints,
-    onLevelCompleted,
-    lottieData,
-    mute,
-  } = props
+  const { level, points, lives, onPoints, lottieData, mute } = props
   const { language } = useLanguage()
   const [boardVisible, setBoardVisible] = useState<boolean>(true)
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
@@ -177,9 +180,11 @@ export default function Game(props: GameProps): React.ReactElement {
   useEffect(() => {
     if (lives == 0) return
     startGame()
+    const snake = [...initialState().snake, { x: 44, y: 7 }, { x: 45, y: 7 }]
+    snake.length = game.snake.length
     setGame({
       ...game,
-      snake: initialState().snake,
+      snake,
       direction: 'left',
       food: randomFood(game.foodHistory),
     })
@@ -218,12 +223,15 @@ export default function Game(props: GameProps): React.ReactElement {
   }
 
   function tick(timestamp: number) {
+    animationFrame.current.requestID = window.requestAnimationFrame(tick)
     setGame((game) => {
       const { running, levelStartTime } = game
-      animationFrame.current.requestID = window.requestAnimationFrame(tick)
       if (timestamp - animationFrame.current.lastTime > speeds[level]) {
+        if (running) {
+          console.log('game loop', timestamp - animationFrame.current.lastTime)
+        }
         animationFrame.current.lastTime = timestamp
-        if (running) gameLoop()
+        if (running) game = gameLoop(game)
       }
       const time = Math.max(
         0,
@@ -234,82 +242,78 @@ export default function Game(props: GameProps): React.ReactElement {
     })
   }
 
-  function gameLoop() {
-    setGame((game) => {
-      let { food, direction } = game
-      const { snake, nextDirection, time } = game
+  function gameLoop(game: GameState): GameState {
+    let { food, direction } = game
+    const { snake, nextDirection, time } = game
 
-      // time runs out so restart the level
-      if (time <= 0) {
-        onLifeLost().then(() =>
-          setGame((game) => ({
-            ...game,
-            levelStartTime: window.performance.now(),
-            time: 60,
-            food: null,
-          })),
-        )
-        return { ...game, running: false }
-      }
+    // time runs out so restart the level
+    if (time <= 0) {
+      onLifeLost().then(() =>
+        setGame((game) => ({
+          ...game,
+          levelStartTime: window.performance.now(),
+          time: 60,
+          food: null,
+        })),
+      )
+      return { ...game, running: false }
+    }
 
-      // find next position of the snake
-      let { x, y } = snake[0]
-      direction = nextDirection ?? direction
-      switch (direction) {
-        case 'up':
-          y--
-          break
-        case 'down':
-          y++
-          break
-        case 'right':
-          x++
-          break
-        case 'left':
-          x--
-          break
-      }
-      if (
-        // hit self
-        snake.some((p) => p.x == x && p.y == y) ||
-        // hit a wall
-        x < 0 ||
-        y < 0 ||
-        x >= boardWidth ||
-        y >= boardHeight
-      ) {
-        onLifeLost()
-        return { ...game, running: false }
-      }
-      // advances
-      snake.unshift({ x, y })
+    // find next position of the snake
+    let { x, y } = snake[0] ?? { x: 0, y: 0 }
+    direction = nextDirection ?? direction
+    switch (direction) {
+      case 'up':
+        y--
+        break
+      case 'down':
+        y++
+        break
+      case 'right':
+        x++
+        break
+      case 'left':
+        x--
+        break
+    }
+    if (
+      // hit self
+      snake.some((p) => p?.x == x && p?.y == y) ||
+      // hit a wall
+      x < 0 ||
+      y < 0 ||
+      x >= boardWidth ||
+      y >= boardHeight
+    ) {
+      onLifeLost()
+      return { ...game, running: false }
+    }
+    // advances
+    snake.unshift({ x, y })
 
-      // if eating, place more food. if not, tail shrinks
-      if (isEqual(food, { x, y })) {
-        if (!mute.current) playAudio('sound/eaten_dot.mp3')
-        game.foodHistory[`${food!.x},${food!.y}`] = true
-        const addRandomFood = (foodHistory: Record<string, boolean>) => {
-          const food = randomFood(foodHistory)
-          if (food) foodHistory[`${food.x},${food.y}`] = true
-        }
-        times(7, () => addRandomFood(game.foodHistory))
-        setTimeout(() => onPoints(100))
-        food = randomFood(game.foodHistory)
-        if (!food) {
-          setTimeout(async () => {
-            setBoardVisible(false)
-            setOverlay(copy[language].levelCompleted)
-            await delay(3000)
-            onLevelCompleted(time)
-          })
-          return { ...game, food: null, running: false }
-        }
-      } else {
-        snake.pop()
+    // if eating, place more food
+    if (isEqualLocation(food, { x, y })) {
+      if (!mute.current) playAudio('sound/eaten_dot.mp3')
+      game.foodHistory[`${food!.x},${food!.y}`] = true
+      const addRandomFood = (foodHistory: Record<string, boolean>) => {
+        const food = randomFood(foodHistory)
+        if (food) foodHistory[`${food.x},${food.y}`] = true
       }
+      times(9, () => addRandomFood(game.foodHistory))
+      setTimeout(() => onPoints(100))
+      food = randomFood(game.foodHistory)
+      if (!food) {
+        onLevelCompleted()
+        return { ...game, food: null, running: false }
+      }
+      snake.push(null)
+      snake.push(null)
+    } else {
+      // not eating so tail advances
+      snake.pop()
+    }
 
-      return { ...game, food, direction, nextDirection: null }
-    })
+    return { ...game, food, direction, nextDirection: null }
   }
 
   function randomFood(
@@ -324,22 +328,33 @@ export default function Game(props: GameProps): React.ReactElement {
     return available[index]
   }
 
+  function onClickUnmute() {
+    mute.current = false
+    window.localStorage.rayBanSnakeMute = false
+    playAudio('sound/direction_change.mp3')
+    playAudio('sound/music.mp3')
+  }
+
   function onClickMute() {
-    mute.current = !mute.current
-    window.localStorage.rayBanSnakeMute = mute.current
-    if (mute.current) {
-      stopAudio('sound/music.mp3')
-    } else {
-      playAudio('sound/direction_change.mp3')
-      playAudio('sound/music.mp3')
-    }
+    mute.current = true
+    window.localStorage.rayBanSnakeMute = true
+    stopAudio('sound/music.mp3')
   }
 
   async function onLifeLost() {
     if (!mute.current) playAudio('sound/life_lost.mp3')
     setTimeout(() => setOverlay(copy[language].lifeLost))
     await delay(3000)
+    // setTimeout because logic must happen here before parent state change
     setTimeout(() => props.onLifeLost())
+  }
+
+  async function onLevelCompleted() {
+    await delay(0)
+    setBoardVisible(false)
+    setOverlay(copy[language].levelCompleted)
+    await delay(3000)
+    props.onLevelCompleted(game.time)
   }
 
   function onKeyDown(event: KeyboardEvent) {
@@ -392,11 +407,11 @@ export default function Game(props: GameProps): React.ReactElement {
       <HammerElement>
         <GameHeader level={level} time={time} lottieData={lottieData} />
         <BoardContainer>
-          <MuteButton
-            data-no-tap
-            onClick={onClickMute}
-            dangerouslySetInnerHTML={{ __html: muteButton as string }}
-          />
+          {mute.current ? (
+            <UnmuteButton data-no-tap onClick={onClickUnmute} />
+          ) : (
+            <MuteButton data-no-tap onClick={onClickMute} />
+          )}
           <Overlay
             className={cn({
               long: overlay.length > 1,
@@ -405,6 +420,7 @@ export default function Game(props: GameProps): React.ReactElement {
             {overlay}
           </Overlay>
           <BoardBackground src="board_background.png" />
+          <Glasses src={`level_${level}_glasses.png`} />
           <Board
             visible={boardVisible}
             width={boardWidth}
@@ -415,20 +431,20 @@ export default function Game(props: GameProps): React.ReactElement {
           />
         </BoardContainer>
         <GameFooter points={points} lives={lives} level={level} />
+        {window.location.search == '?secret_debug_mode' && (
+          <p style={{ textAlign: 'center' }}>
+            <Button
+              onClick={() => {
+                setGame((game) => ({ ...game, running: false }))
+                onLevelCompleted()
+              }}>
+              Secret Debug Advance Level!
+            </Button>
+          </p>
+        )}
       </HammerElement>
     </HammerReact>
   )
-  // <p style={{ textAlign: 'center' }}>
-  //   <Button
-  //     onClick={async () => {
-  //       setBoardVisible(false)
-  //       setOverlay(copy[language].levelCompleted)
-  //       await delay(3000)
-  //       onLevelCompleted(time)
-  //     }}>
-  //     DEBUG advance level!
-  //   </Button>
-  // </p>
 }
 
 function oppositeDirection(direction: Direction): Direction {

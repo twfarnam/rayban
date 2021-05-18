@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { mobileBreakpoint } from '../utility'
 
 const GlassesAnimationBase = styled.div`
-  width: 100%;
+  width: 80%;
   position: relative;
 
   &::before {

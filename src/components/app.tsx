@@ -11,6 +11,8 @@ import Intro from './intro'
 import LevelIntro from './level_intro'
 import LevelOutro from './level_outro'
 
+// User-Agent parsing is not the best way to control features but this is only
+// used to control whether they are forced to use landscape on their device
 const isMobile = /android|iphone|ipad|ipod/i.test(window.navigator.userAgent)
 
 export type AppStep =
@@ -31,7 +33,7 @@ const Background = styled.video`
 `
 
 export default function App(): React.ReactElement | null {
-  const [step, setStep] = useState<AppStep>('intro')
+  const [step, setStep] = useState<AppStep>('game')
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
   const [level, setLevel] = useState<number>(1)
@@ -58,15 +60,20 @@ export default function App(): React.ReactElement | null {
   }, [])
 
   useEffect(() => {
-    if (step != 'level_intro') return
-    preloadLottieFile(`level_${level + 1}_bg.json`)
-    preloadLottieFile(`level_${level + 1}_glasses.json`)
-    if (level == 4) {
+    // by waiting until level_intro we give the level_1 assets a chance to load
+    // first
+    if (step != 'level_intro') {
+      return
+    } else if (level == 4) {
       preloadLottieFile('confetti.json')
+    } else {
+      preloadLottieFile(`level_${level + 1}_bg.json`)
+      preloadLottieFile(`level_${level + 1}_glasses.json`)
     }
   }, [level, step])
 
   async function preloadLottieFile(path: string) {
+    if (lottieData[path]) return
     const request = await fetch(path)
     const data = await request.json()
     setLottieData((lottieData) => ({ ...lottieData, [path]: data }))
@@ -99,10 +106,11 @@ export default function App(): React.ReactElement | null {
     })
   }
 
-  function onPlayAgain() {
+  function onPlayAgain(won: boolean) {
     setPoints(0)
     setLives(3)
-    setLevel(1)
+    // you still advance in the levels even though you lost
+    if (won) setLevel(1)
     setStep('level_intro')
   }
 
@@ -110,7 +118,7 @@ export default function App(): React.ReactElement | null {
     <>
       <Background playsInline autoPlay loop muted src="background.mp4" />
       {!['intro', 'how_to_play'].includes(step) && isMobile && (
-        <ForceLandscape onNextStep={() => setStep('level_intro')} />
+        <ForceLandscape />
       )}
       <TransitionGroup component={null}>
         <CSSTransition key={step} timeout={500}>
@@ -156,10 +164,13 @@ export default function App(): React.ReactElement | null {
                   />
                 )
               case 'game_over':
-                return <GameOver onPlayAgain={onPlayAgain} />
+                return <GameOver onPlayAgain={() => onPlayAgain(false)} />
               case 'game_won':
                 return (
-                  <GameWon onPlayAgain={onPlayAgain} lottieData={lottieData} />
+                  <GameWon
+                    onPlayAgain={() => onPlayAgain(true)}
+                    lottieData={lottieData}
+                  />
                 )
             }
           })()}

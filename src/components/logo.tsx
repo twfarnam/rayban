@@ -3,11 +3,11 @@ import { mobileBreakpoint } from '../utility'
 
 const LogoBase = styled.img`
   width: 150px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   @media ${mobileBreakpoint} {
-    width: 100px;
-    margin-bottom: 20px;
+    width: 80px;
+    margin-bottom: 10px;
   }
 `
 

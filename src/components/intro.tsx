@@ -82,7 +82,7 @@ const Spacer = styled.div`
 const CookieNotice = styled.div`
   font-size: 0.8rem;
   line-height: 1;
-  background: ${(props) => props.theme.red};
+  background: black;
   color: white;
   padding: 0.6rem 1.2rem 0.85rem;
   border-radius: 0.7rem;

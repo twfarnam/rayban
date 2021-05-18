@@ -1,8 +1,7 @@
 import cn from 'classnames'
-import isEqual from 'lodash/isEqual'
 import times from 'lodash/times'
 import styled from 'styled-components'
-import { Location } from './game'
+import { Location, isEqualLocation } from '../utility'
 
 const BoardBase = styled.div`
   border-radius: 9%;
@@ -23,6 +22,7 @@ const Row = styled.div`
 const Square = styled.div`
   position: relative;
   flex: 1 1 auto;
+  background: rgba(0, 0, 0, 0.9);
   border-left: 1px solid ${(props) => props.theme.gridColor};
 
   &:last-child {
@@ -40,7 +40,7 @@ const Square = styled.div`
   }
 
   &.food-history {
-    background: #bb2039;
+    background: none;
   }
 `
 
@@ -102,7 +102,7 @@ interface BoardProps {
   visible: boolean
   width: number
   height: number
-  snake: Location[]
+  snake: (Location | null)[]
   food: Location | null
   foodHistory: Record<string, boolean>
 }
@@ -111,16 +111,22 @@ export default function Board(props: BoardProps): React.ReactElement {
   const { visible, width, height, snake, food, foodHistory } = props
   // const [outline, setOutline] = useState<Location[]>([])
 
+  const snakeObject = snake.reduce<Record<string, number>>((obj, loc, i) => {
+    if (loc) obj[`${loc.x},${loc.y}`] = i
+    return obj
+  }, {})
+
   return (
     <BoardBase style={{ visibility: visible ? 'visible' : 'hidden' }}>
       {times(height, (y: number) => {
         return (
           <Row key={y}>
             {times(width, (x: number) => {
-              const snakeIndex = snake.findIndex((p: Location) =>
-                isEqual(p, { x, y }),
-              )
-              const isFood = food && isEqual(food, { x, y })
+              // const snakeIndex = snake.findIndex((p: Location) =>
+              //   isEqual(p, { x, y }),
+              // )
+              const snakeIndex = snakeObject[`${x},${y}`]
+              const isFood = food && isEqualLocation(food, { x, y })
               const isFoodHistory = foodHistory.hasOwnProperty(`${x},${y}`)
               // const isOutline = outline.some((p: Location) =>
               //   isEqual(p, { x, y }),
@@ -149,7 +155,7 @@ export default function Board(props: BoardProps): React.ReactElement {
                     'food-history': isFoodHistory,
                   })}>
                   {isFood && <Food />}
-                  {snakeIndex >= 0 && (
+                  {typeof snakeIndex != 'undefined' && snakeIndex >= 0 && (
                     <SnakeSquare
                       key={x}
                       className={cn({ head: snakeIndex == 0 })}
@@ -166,7 +172,7 @@ export default function Board(props: BoardProps): React.ReactElement {
   )
 }
 
-function snakeColor(snake: Location[], index: number) {
+function snakeColor(snake: (Location | null)[], index: number) {
   const color = 155 * ((snake.length - index) / snake.length) + 100
   return `rgb(${color}, ${color}, ${color})`
 }

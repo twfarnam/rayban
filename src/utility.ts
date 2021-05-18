@@ -1,3 +1,8 @@
+export interface Location {
+  x: number
+  y: number
+}
+
 export const mobileBreakpoint = '(max-width: 850px)'
 
 export function delay(milliseconds: number): Promise<void> {
@@ -30,4 +35,8 @@ export function stopAudio(src: string): void {
   const audio = document.querySelector<HTMLAudioElement>(`audio[src="${src}"]`)
   if (audio == null) return
   audio.pause()
+}
+
+export function isEqualLocation(a: Location | null, b: Location | null) {
+  return a && b && a.x == b.x && a.y == b.y
 }

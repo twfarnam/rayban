@@ -2,6 +2,8 @@ const createStyledComponentsTransformer = require('typescript-plugin-styled-comp
   .default
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 
 module.exports = {
   mode: 'development',
@@ -11,7 +13,11 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
   },
-  plugins: [new CleanTerminalPlugin(), new HTMLWebpackPlugin()],
+  plugins: [
+    new CleanTerminalPlugin(),
+    new HTMLWebpackPlugin(),
+    // new BundleAnalyzerPlugin(),
+  ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },

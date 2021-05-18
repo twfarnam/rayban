@@ -63,20 +63,10 @@ const PhoneAnimation = styled.div`
   }
 `
 
-interface ForceLandscapeProps {
-  onNextStep: () => void
-}
+interface ForceLandscapeProps {}
 
-export default function ForceLandscape({
-  onNextStep,
-}: ForceLandscapeProps): React.ReactElement {
+export default function ForceLandscape({}: ForceLandscapeProps): React.ReactElement {
   const { language } = useLanguage()
-
-  useEffect(() => {
-    const advance = () => onNextStep()
-    window.addEventListener('orientationchange', advance)
-    return () => window.removeEventListener('orientationchange', advance)
-  })
 
   return (
     <ForceLandscapeBase>
