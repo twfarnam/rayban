@@ -13,8 +13,15 @@ const GameHeaderBase = styled(CenterContainer)`
 `
 
 const Logo = styled.img`
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
   width: 200px;
-  margin: 2rem 2rem 0;
+`
+
+const IconSeriesLogo = styled.img`
+  width: 200px;
+  margin-top: 1rem;
 `
 
 const AnimationContainer = styled.div`
@@ -24,7 +31,7 @@ const AnimationContainer = styled.div`
   &::before {
     content: '';
     display: block;
-    padding-top: 29.2%;
+    padding-top: 17%;
   }
 `
 
@@ -125,6 +132,7 @@ export default function GameHeader({
   return (
     <>
       {isDesktopViewport && <Logo src="logo.png" />}
+      {isDesktopViewport && <IconSeriesLogo src="icon_series.svg" />}
       <GameHeaderBase>
         {isDesktopViewport && (
           <AnimationContainer>

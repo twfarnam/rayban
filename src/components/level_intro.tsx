@@ -1,15 +1,23 @@
 import styled from 'styled-components'
 import copy from '../copy'
+import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
 import GlassesAnimation from './glasses_animation'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
-import Logo from './logo'
 
 const LevelHeading = styled(Heading)`
   margin: 0;
   margin-bottom: 0.5em;
+`
+
+const Logo = styled.img`
+  margin-bottom: 2rem;
+
+  @media ${mobileBreakpoint} {
+    width: 100px;
+  }
 `
 
 interface LevelIntroProps {
@@ -27,7 +35,7 @@ export default function LevelIntro({
 
   return (
     <CenterContainer>
-      <Logo />
+      <Logo src="logo_and_icon_series.svg" />
       <GlassesAnimation level={level} lottieData={lottieData} />
       <LevelHeading>
         {

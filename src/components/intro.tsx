@@ -4,69 +4,12 @@ import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
 import { useLanguage } from './language_provider'
-import Logo from './logo'
 
-const IconLogo = styled.div`
-  @media ${mobileBreakpoint} {
-    & {
-      max-width: 450px;
-    }
-  }
-`
-
-const TheIcon = styled.div`
-  font-size: 240px;
-  width: 100%;
-  text-align: center;
-  font-family: 'RayBanSansInline';
-  line-height: 1;
-  border-top: 12px double ${(props) => props.theme.red};
+const Logo = styled.img`
+  width: 500px;
 
   @media ${mobileBreakpoint} {
-    & {
-      font-size: 120px;
-    }
-  }
-
-  @media ${mobileBreakpoint} {
-    & {
-      font-size: 70px;
-    }
-  }
-`
-const Series = styled.div`
-  display: flex;
-  width: 100%;
-  flex-flow: row nowrap;
-  align-items: center;
-  line-height: 1;
-  font-size: 90px;
-  font-weight: normal;
-
-  @media ${mobileBreakpoint} {
-    & {
-      font-size: 50px;
-    }
-  }
-
-  @media ${mobileBreakpoint} {
-    & {
-      font-size: 30px;
-    }
-  }
-
-  &::before,
-  &::after {
-    flex-grow: 1;
-    content: '';
-    display: block;
-    border-top: 12px double ${(props) => props.theme.red};
-  }
-  &::before {
-    margin-right: 2rem;
-  }
-  &::after {
-    margin-left: 2rem;
+    width: 200px;
   }
 `
 
@@ -106,11 +49,7 @@ export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
   const { language, setLanguage } = useLanguage()
   return (
     <CenterContainer>
-      <Logo />
-      <IconLogo>
-        <TheIcon>The Icon</TheIcon>
-        <Series>Series</Series>
-      </IconLogo>
+      <Logo src="logo_and_icon_series.svg" />
       <Copy>{copy[language].intro}</Copy>
       <Button onClick={onNextStep}>{copy[language].introButton}</Button>
       <Spacer />

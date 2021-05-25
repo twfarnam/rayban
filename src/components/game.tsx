@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import shuffle from 'lodash/shuffle'
 import times from 'lodash/times'
 import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import HammerReact from 'react-hammerjs'
@@ -21,8 +20,11 @@ import GameFooter from './game_footer'
 import GameHeader from './game_header'
 import { useLanguage } from './language_provider'
 
-const HammerElement = styled.div`
+const GameBase = styled.div`
   width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 `
 
 const MuteButton = styled(VscUnmute)`
@@ -409,7 +411,7 @@ export default function Game(props: GameProps): React.ReactElement {
   const outline = outlines[level] as Location[]
   return (
     <HammerReact onTap={onTap}>
-      <HammerElement>
+      <GameBase>
         <GameHeader level={level} time={time} lottieData={lottieData} />
         <BoardContainer>
           {mute.current ? (
@@ -447,7 +449,7 @@ export default function Game(props: GameProps): React.ReactElement {
             </Button>
           </p>
         )}
-      </HammerElement>
+      </GameBase>
     </HammerReact>
   )
 }

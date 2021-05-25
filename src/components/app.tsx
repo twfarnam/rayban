@@ -46,9 +46,10 @@ export default function App(): React.ReactElement | null {
   }, [step])
 
   useEffect(() => {
-    preloadImage('logo.png')
     preloadLottieFile('level_1_bg.json')
     preloadLottieFile('level_1_glasses.json')
+    preloadImage('logo.png')
+    preloadImage('icon_series.svg')
     preloadImage('large_border.png')
     preloadImage('board_background.png')
     preloadAudio('sound/direction_change.mp3')

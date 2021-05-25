@@ -6,7 +6,14 @@ import CenterContainer from './center_container'
 import GlassesAnimation from './glasses_animation'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
-import Logo from './logo'
+
+const Logo = styled.img`
+  margin-bottom: 2rem;
+
+  @media ${mobileBreakpoint} {
+    width: 100px;
+  }
+`
 
 const LevelHeading = styled(Heading)`
   margin: 0;
@@ -42,7 +49,7 @@ export default function LevelOutro({
 
   return (
     <CenterContainer>
-      <Logo />
+      <Logo src="logo_and_icon_series.svg" />
       <LevelHeading>
         {
           // @ts-ignore
