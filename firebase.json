@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "mexico-target",
     "public": "dist",
     "ignore": [
       "firebase.json",
