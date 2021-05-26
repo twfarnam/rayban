@@ -151,14 +151,14 @@ export default function Registration({
 
   function validate(values: Values) {
     const errors = {} as any
-    if (!values.name) errors.name = 'Favor de entrar tu nombre'
+    if (!values.name) errors.name = 'Por favor escribe tu nombre'
     if (!values.email) {
-      errors.email = 'Favor de entrar tu correo'
+      errors.email = 'Por favor escribe tu correo'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = 'Correo es inválido'
     }
-    if (!values.phone) errors.phone = 'Favor de entrar tu teléfono'
-    if (!values.ticket) errors.ticket = 'Favor de entrar tu número de ticket'
+    if (!values.phone) errors.phone = 'Por favor escribe tu teléfono'
+    if (!values.ticket) errors.ticket = 'Por favor escribe tu número de ticket'
     if (!values.image) errors.image = 'Favor de subir la foto de tu ticket'
     if (!values.terms) errors.terms = 'Favor de aceptar'
     return errors
@@ -225,7 +225,7 @@ export default function Registration({
             name="name"
             as={Input}
             autoComplete="name"
-            placeholder="Escribe tu nombre aquí"
+            placeholder="Nombre"
           />
           <ErrorMessage name="name" component={StyledErrorMessage} />
           <Field
@@ -233,7 +233,7 @@ export default function Registration({
             name="email"
             autoComplete="email"
             as={Input}
-            placeholder={'Escribe tu correo aquí'}
+            placeholder={'Correo electrónico'}
           />
           <ErrorMessage name="email" component={StyledErrorMessage} />
           <Field
@@ -241,13 +241,13 @@ export default function Registration({
             name="phone"
             autoComplete="tel"
             as={Input}
-            placeholder="Escribe tu teléfono aquí"
+            placeholder="Número de teléfono"
           />
           <ErrorMessage name="phone" component={StyledErrorMessage} />
           <Field
             name="ticket"
             as={Input}
-            placeholder="Escribe tu número de ticket aquí"
+            placeholder="Número de ticket"
           />
           <ErrorMessage name="ticket" component={StyledErrorMessage} />
           {values.image ? (
@@ -258,7 +258,7 @@ export default function Registration({
           ) : (
             <ImageLabel>
               <CameraIcon />
-              Adjunta una foto de tu ticket aquí
+              Adjunta foto de tu ticket
               <FileInput
                 type="file"
                 name="image"
