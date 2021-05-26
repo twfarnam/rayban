@@ -110,17 +110,12 @@ export default function Intro({
       <IntroBase>
         <Logo src="logo_and_icon_series.svg" />
         <LargeCopy>
-          ¡PARTICIPA EN THE ICON SERIES Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR
-          UN ______
-          <br />
-          ¡QUE RAY-BAN Y LIVERPOOL ESTÁN REGALANDO!
+          ¡JUEGA Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR UN PLAY STATION!
         </LargeCopy>
         <SmallCopy>
-          PARA PODER PARTICIPAR POR UN NINTENDO SWITCH ES NECESARIO REALIZAR LA
-          COMPRA DE UN
+          PARA PODER PARTICIPAR POR UN PLAY STATION ES NECESARIO REALIZAR LA COMPRA DE UN PRODUCTO RAY-BAN EN TIENDAS PARTICIPANTES LIVERPOOL.
           <br />
-          PRODUCTO RAY-BAN EN LAS TIENDAS PARTICIPANTES DE LIVERPOOL, CONSULTA
-          BASES Y CONDICIONES DEL PROGRAMA.
+          CONSULTA BASES Y CONDICIONES DEL PROGRAMA.
         </SmallCopy>
         {name ? (
           <>
