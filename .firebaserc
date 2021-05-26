@@ -2,13 +2,4 @@
   "projects": {
     "default": "rbsnake-ff049"
   },
-  "targets": {
-    "rbsnake-ff049": {
-      "hosting": {
-        "mexico-target": [
-          "rb-snake-mexico"
-        ]
-      }
-    }
-  }
 }

@@ -1,8 +1,4 @@
 import styled from 'styled-components'
-<<<<<<< HEAD
-=======
-import copy from '../copy'
->>>>>>> firebase registration
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'

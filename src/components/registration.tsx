@@ -10,7 +10,6 @@ import { useState } from 'react'
 import { HiOutlineCamera } from 'react-icons/hi'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import styled from 'styled-components'
-import copy from '../copy'
 import { userRequest } from '../firebase'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
@@ -137,7 +136,7 @@ export default function Registration({
   onClickShowTerms,
   onClickShowPrivacy,
 }: RegistrationProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   const [progress, setProgress] = useState<number>()
   const [performValidation, setPeformValidation] = useState<boolean>(false)
 
@@ -194,6 +193,7 @@ export default function Registration({
         email,
         phone,
         ticket,
+        createdAt: new Date().toISOString(),
       })
     } catch (error) {
       console.error(error)
@@ -285,11 +285,9 @@ export default function Registration({
             </ProgressBar>
           )}
           <Button type="submit" disabled={isSubmitting}>
-            {copy[language].introButton}
+            {getTranslation('introButton')}
           </Button>
-          <PlayAsGuest onClick={onNextStep}>
-            {copy[language].playAsGuest}
-          </PlayAsGuest>
+          <PlayAsGuest onClick={onNextStep}>Jugar como invitado</PlayAsGuest>
         </Form>
       )}
     </Formik>

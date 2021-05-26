@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import times from 'lodash/times'
+import { isDebug  } from '../config'
 import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import HammerReact from 'react-hammerjs'
 import { VscMute, VscUnmute } from 'react-icons/vsc'
@@ -434,7 +435,7 @@ export default function Game(props: GameProps): React.ReactElement {
           />
         </BoardContainer>
         <GameFooter points={points} lives={lives} level={level} />
-        {window.location.search == '?secret_debug_mode' && (
+        {isDebug && (
           <p style={{ textAlign: 'center' }}>
             <Button
               onClick={() => {

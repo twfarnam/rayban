@@ -2,6 +2,7 @@ import { getDatabase, ref, push } from 'firebase/database'
 import { useState, useEffect, useRef } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
+import { isMexico, isDebug } from '../config'
 import { userRequest } from '../firebase'
 import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
 import DebugLanguageSelector from './debug_language_selector'
@@ -11,6 +12,7 @@ import GameOver from './game_over'
 import GameWon from './game_won'
 import HowToPlay from './how_to_play'
 import Intro from './intro'
+import IntroMexico from './intro_mexico'
 import LevelIntro from './level_intro'
 import LevelOutro from './level_outro'
 
@@ -89,16 +91,18 @@ export default function App(): React.ReactElement | null {
     setPoints((points) => points + level * 300 + lives * 300 + time * 50)
     if (level >= 4) {
       setStep('game_won')
-      try {
-        const user = await userRequest
-        const db = getDatabase()
-        await push(ref(db, `users/${user.uid}/scores`), {
-          time: new Date().toISOString(),
-          points,
-        })
-      } catch (error) {
-        console.error(error)
-        alert(error.message)
+      if (isMexico) {
+        try {
+          const user = await userRequest
+          const db = getDatabase()
+          await push(ref(db, `users/${user.uid}/scores`), {
+            time: new Date().toISOString(),
+            points,
+          })
+        } catch (error) {
+          console.error(error)
+          alert(error.message)
+        }
       }
     } else {
       setStep('level_outro')
@@ -131,9 +135,7 @@ export default function App(): React.ReactElement | null {
 
   return (
     <>
-      {window.location.search == '?secret_debug_mode' && (
-        <DebugLanguageSelector />
-      )}
+      {isDebug && <DebugLanguageSelector />}
       <Background playsInline autoPlay loop muted src="background.mp4" />
       {!['intro', 'how_to_play'].includes(step) && isMobile && (
         <ForceLandscape />
@@ -143,7 +145,11 @@ export default function App(): React.ReactElement | null {
           {(() => {
             switch (step) {
               case 'intro':
-                return <Intro onNextStep={() => setStep('how_to_play')} />
+                return isMexico ? (
+                  <IntroMexico onNextStep={() => setStep('how_to_play')} />
+                ) : (
+                  <Intro onNextStep={() => setStep('how_to_play')} />
+                )
               case 'how_to_play':
                 return <HowToPlay onNextStep={() => setStep('level_intro')} />
               case 'level_intro':

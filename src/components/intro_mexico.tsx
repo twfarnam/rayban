@@ -65,7 +65,7 @@ interface IntroProps {
 export default function Intro({
   onNextStep,
 }: IntroProps): React.ReactElement | null {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   const [loading, setLoading] = useState<boolean>(true)
   const [name, setName] = useState<string>()
   const [page, setPage] = useState<'terms' | 'privacyPolicy' | 'form'>('form')
@@ -109,12 +109,25 @@ export default function Intro({
       )}
       <IntroBase>
         <Logo src="logo_and_icon_series.svg" />
-        <LargeCopy>{copy[language].introLarge}</LargeCopy>
-        <SmallCopy>{copy[language].introSmall}</SmallCopy>
+        <LargeCopy>
+          ¡PARTICIPA EN THE ICON SERIES Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR
+          UN ______
+          <br />
+          ¡QUE RAY-BAN Y LIVERPOOL ESTÁN REGALANDO!
+        </LargeCopy>
+        <SmallCopy>
+          PARA PODER PARTICIPAR POR UN NINTENDO SWITCH ES NECESARIO REALIZAR LA
+          COMPRA DE UN
+          <br />
+          PRODUCTO RAY-BAN EN LAS TIENDAS PARTICIPANTES DE LIVERPOOL, CONSULTA
+          BASES Y CONDICIONES DEL PROGRAMA.
+        </SmallCopy>
         {name ? (
           <>
             <LargeCopy>Bienvenidos {name}!</LargeCopy>
-            <Button onClick={onNextStep}>{copy[language].introButton}</Button>
+            <Button onClick={onNextStep}>
+              {getTranslation('introButton')}
+            </Button>
           </>
         ) : (
           <Registration
@@ -124,7 +137,7 @@ export default function Intro({
           />
         )}
         <Spacer />
-        <CookieNotice>{copy[language].cookieNotice}</CookieNotice>
+        <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>
       </IntroBase>
     </>
   )
