@@ -1,6 +1,5 @@
 import Lottie from 'lottie-react'
 import styled from 'styled-components'
-import copy from '../copy'
 import Button from './button'
 import CenterContainer from './center_container'
 import Heading from './heading'
@@ -19,14 +18,14 @@ export default function GameWon({
   onPlayAgain,
   lottieData,
 }: GameWonProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   return (
     <CenterContainer>
-      <Heading>{copy[language].won}</Heading>
+      <Heading>{getTranslation('won')}</Heading>
       {lottieData[`confetti.json`] && (
         <Fireworks animationData={lottieData[`confetti.json`]} />
       )}
-      <Button onClick={onPlayAgain}>{copy[language].playAgain}</Button>
+      <Button onClick={onPlayAgain}>{getTranslation('playAgain')}</Button>
     </CenterContainer>
   )
 }

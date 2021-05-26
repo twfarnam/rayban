@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 // @ts-ignore
 import phone from '../../static/phone.svg'
-import copy from '../copy'
 import CenterContainer from './center_container'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
@@ -66,11 +65,11 @@ const PhoneAnimation = styled.div`
 interface ForceLandscapeProps {}
 
 export default function ForceLandscape({}: ForceLandscapeProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
 
   return (
     <ForceLandscapeBase>
-      <Heading>{copy[language].rotateToLandscape}</Heading>
+      <Heading>{getTranslation('rotateToLandscape')}</Heading>
       <PhoneAnimation dangerouslySetInnerHTML={{ __html: phone as string }} />
     </ForceLandscapeBase>
   )

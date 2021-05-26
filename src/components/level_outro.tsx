@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -45,7 +44,7 @@ export default function LevelOutro({
   onNextStep,
   lottieData,
 }: LevelOutroProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
 
   return (
     <CenterContainer>
@@ -53,18 +52,21 @@ export default function LevelOutro({
       <LevelHeading>
         {
           // @ts-ignore
-          copy[language][`level${level}Header`]
+          getTranslation(`level${level}Header`)
         }
       </LevelHeading>
       <GlassesAnimation level={level} lottieData={lottieData} />
       <Copy>
         {
           // @ts-ignore
-          copy[language][`level${level}Copy`]
+          getTranslation(`level${level}Copy`)
         }
       </Copy>
       <Button onClick={onNextStep}>
-        {copy[language].goToLevel} {level + 1}
+        {
+          // @ts-ignore
+          getTranslation('nextLevel')
+        }
       </Button>
     </CenterContainer>
   )

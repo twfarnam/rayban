@@ -2,7 +2,6 @@ import times from 'lodash/times'
 import styled from 'styled-components'
 // @ts-ignore
 import raybanIcon from '../../static/rb_icon.svg'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import { useLanguage } from './language_provider'
 
@@ -117,19 +116,19 @@ export default function GameFooter({
   lives,
   level,
 }: GameFooterProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   return (
     <GameFooterBase>
       <Column>
         <Border>
           <Points>{points.toString().padStart(5, '0')}</Points>
         </Border>
-        {copy[language].points}
+        {getTranslation('points')}
       </Column>
       <Copy>
         {
           // @ts-ignore
-          copy[language][`level${level}Header`]
+          getTranslation(`level${level}Header`)
         }
       </Copy>
       <Column>
@@ -147,7 +146,7 @@ export default function GameFooter({
             )}
           </Lives>
         </Border>
-        {copy[language].lives}
+        {getTranslation('lives')}
       </Column>
     </GameFooterBase>
   )

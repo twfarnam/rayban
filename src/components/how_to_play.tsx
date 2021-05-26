@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -45,14 +44,14 @@ interface HowToPlayProps {
 export default function HowToPlay({
   onNextStep,
 }: HowToPlayProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
 
   return (
     <CenterContainer>
       <Logo src="logo_and_icon_series.svg" />
-      <Heading>{copy[language].howToPlayHeader}</Heading>
-      <Copy>{copy[language].howToPlay}</Copy>
-      <Button onClick={onNextStep}>{copy[language].goToLevel} 1</Button>
+      <Heading>{getTranslation('howToPlayHeader')}</Heading>
+      <Copy>{getTranslation('howToPlay')}</Copy>
+      <Button onClick={onNextStep}>{getTranslation('level1')}</Button>
     </CenterContainer>
   )
 }

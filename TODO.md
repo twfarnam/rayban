@@ -1,18 +1,5 @@
 
 
-game gets "The Icon Series"
-
-commit
-
-
-
-
-
-different languages based on user's location
-
-more translations
-
-commit
 
 
 
@@ -34,3 +21,16 @@ image starts uploading once you select the file, not when you hit the button
 
 change the text for the file name so the user knows it loaded it / is about to load? 
 
+
+
+
+Jorge:
+funny we never show the Clubmaster text...
+
+all kinds of typos in the translations:
+in portuguese Wayfrer without the A
+there's no play button in Italian
+
+basically just didn't fix anything because I don't know these languages
+
+not using real apostrophes

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
+import DebugLanguageSelector from './debug_language_selector'
 import ForceLandscape from './force_landscape'
 import Game from './game'
 import GameOver from './game_over'
@@ -117,6 +118,9 @@ export default function App(): React.ReactElement | null {
 
   return (
     <>
+      {window.location.search == '?secret_debug_mode' && (
+        <DebugLanguageSelector />
+      )}
       <Background playsInline autoPlay loop muted src="background.mp4" />
       {!['intro', 'how_to_play'].includes(step) && isMobile && (
         <ForceLandscape />

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import HammerReact from 'react-hammerjs'
 import { VscMute, VscUnmute } from 'react-icons/vsc'
 import styled from 'styled-components'
-import copy from '../copy'
 import outlines from '../outlines'
 import {
   delay,
@@ -172,7 +171,7 @@ const boardWidth = 45
 
 export default function Game(props: GameProps): React.ReactElement {
   const { level, points, lives, onPoints, lottieData, mute } = props
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   const [boardVisible, setBoardVisible] = useState<boolean>(true)
   const animationFrame = useRef<{ lastTime: number; requestID: number }>({
     lastTime: 0,
@@ -218,7 +217,7 @@ export default function Game(props: GameProps): React.ReactElement {
     await delay(1000)
     setOverlay('1')
     await delay(1000)
-    setOverlay(copy[language].youreOn)
+    setOverlay(getTranslation('youreOn'))
     await delay(1000)
     if (!mute.current) playAudio('sound/level_begins.mp3')
     setOverlay('')
@@ -234,9 +233,6 @@ export default function Game(props: GameProps): React.ReactElement {
     setGame((game) => {
       const { running, levelStartTime } = game
       if (timestamp - animationFrame.current.lastTime > speeds[level]) {
-        if (running) {
-          console.log('game loop', timestamp - animationFrame.current.lastTime)
-        }
         animationFrame.current.lastTime = timestamp
         if (running) game = gameLoop(game)
       }
@@ -350,7 +346,7 @@ export default function Game(props: GameProps): React.ReactElement {
 
   async function onLifeLost() {
     if (!mute.current) playAudio('sound/life_lost.mp3')
-    setTimeout(() => setOverlay(copy[language].lifeLost))
+    setTimeout(() => setOverlay(getTranslation('lifeLost')))
     await delay(3000)
     // setTimeout because logic must happen here before parent state change
     setTimeout(() => props.onLifeLost())
@@ -359,7 +355,7 @@ export default function Game(props: GameProps): React.ReactElement {
   async function onLevelCompleted() {
     await delay(0)
     setBoardVisible(false)
-    setOverlay(copy[language].levelCompleted)
+    setOverlay(getTranslation('levelCompleted'))
     await delay(3000)
     props.onLevelCompleted(game.time)
   }

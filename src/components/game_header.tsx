@@ -1,7 +1,6 @@
 import { useMediaQuery } from '@react-hook/media-query'
 import Lottie from 'lottie-react'
 import styled from 'styled-components'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import CenterContainer from './center_container'
 import { useLanguage } from './language_provider'
@@ -69,6 +68,14 @@ const LevelName = styled.div`
   @media ${mobileBreakpoint} {
     font-size: 3rem;
   }
+
+  body[data-lang='zh-cn'] & {
+    font-size: 3em;
+
+    @media ${mobileBreakpoint} {
+      font-size: 1rem;
+    }
+  }
 `
 
 const RedStripes = styled.div`
@@ -115,19 +122,12 @@ interface GameHeaderProps {
   lottieData: Record<string, any>
 }
 
-const levelNames = {
-  1: 'Round',
-  2: 'Aviator',
-  3: 'Wayfarer',
-  4: 'Clubmaster',
-} as Record<number, string>
-
 export default function GameHeader({
   level,
   time,
   lottieData,
 }: GameHeaderProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
   const isDesktopViewport = useMediaQuery('(min-width: 800px)')
   return (
     <>
@@ -144,9 +144,14 @@ export default function GameHeader({
         <Row>
           <RowBackground src="large_border.png" />
           <RowContent>
-            <LevelName>{levelNames[level]}</LevelName>
+            <LevelName>
+              {
+                // @ts-ignore
+                getTranslation(`level${level}Glasses`)
+              }
+            </LevelName>
             <RedStripes>
-              {Math.round(time)} <small>{copy[language].seconds}</small>
+              {Math.round(time)} <small>{getTranslation('seconds')}</small>
               <RedStripesIndicator />
               <RedStripesIndicator
                 className="top"
@@ -154,7 +159,10 @@ export default function GameHeader({
               />
             </RedStripes>
             <Level>
-              {copy[language].level} {level}
+              {
+                // @ts-ignore
+                getTranslation('level' + level)
+              }
             </Level>
           </RowContent>
         </Row>

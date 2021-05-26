@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -32,38 +31,19 @@ const CookieNotice = styled.div`
   margin: 1rem 0;
 `
 
-// const ChangeLanguage = styled.button`
-//   background: none;
-//   border: none;
-//   color: white;
-//   text-decoration: underline;
-//   margin: 1rem 0;
-//   cursor: pointer;
-// `
-
 interface IntroProps {
   onNextStep: () => void
 }
 
 export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
-  const { language, setLanguage } = useLanguage()
+  const { getTranslation } = useLanguage()
   return (
     <CenterContainer>
       <Logo src="logo_and_icon_series.svg" />
-      <Copy>{copy[language].intro}</Copy>
-      <Button onClick={onNextStep}>{copy[language].introButton}</Button>
+      <Copy>{getTranslation('intro')}</Copy>
+      <Button onClick={onNextStep}>{getTranslation('introButton')}</Button>
       <Spacer />
-      <CookieNotice>{copy[language].cookieNotice}</CookieNotice>
+      <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>
     </CenterContainer>
   )
-  // {language == 'es' && (
-  //   <ChangeLanguage onClick={() => setLanguage('en')}>
-  //     {copy['en'].changeLanguage}
-  //   </ChangeLanguage>
-  // )}
-  // {language == 'en' && (
-  //   <ChangeLanguage onClick={() => setLanguage('es')}>
-  //     {copy['es'].changeLanguage}
-  //   </ChangeLanguage>
-  // )}
 }

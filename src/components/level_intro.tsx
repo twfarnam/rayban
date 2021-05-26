@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import copy from '../copy'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -31,7 +30,7 @@ export default function LevelIntro({
   onNextStep,
   lottieData,
 }: LevelIntroProps): React.ReactElement {
-  const { language } = useLanguage()
+  const { getTranslation } = useLanguage()
 
   return (
     <CenterContainer>
@@ -40,11 +39,14 @@ export default function LevelIntro({
       <LevelHeading>
         {
           // @ts-ignore
-          copy[language][`level${level}Glasses`]
+          getTranslation(`level${level}Glasses`)
         }
       </LevelHeading>
       <Button onClick={onNextStep}>
-        {copy[language].playLevel} {level}
+        {
+          // @ts-ignore
+          getTranslation('level' + level)
+        }
       </Button>
     </CenterContainer>
   )
