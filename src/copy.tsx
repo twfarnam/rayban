@@ -118,7 +118,7 @@ export default {
 
   es: {
     cookieNotice:
-      'We use cookies to offer you this experience. By continuing to use this site you conset to our use  of cookies.',
+      'Usamos cookies para poder ofrecerte esta experiencia. Al seguir utilizando este sitio das tu consentimiento al uso de las mismas.',
     intro: (
       <>
         <p>Completa los 4 Ray-Ban Icons para ganar un premio.</p>
@@ -129,22 +129,24 @@ export default {
     howToPlayHeader: 'Como Jugar',
     howToPlay: (
       <ul>
-        <li>
-          Sigue el punto blanco intermitente para construir una línea en
-          movimiento para dibujar unos de nuestros más queridos modelos Icons de
-          Ray-Ban.
+         <li>
+           Toca la pantalla arriba, abajo, izquierda o derecha para cambiar de dirección.
         </li>
         <li>
-          Deberás tocar la pantalla arriba, abajo, a la derecha o izquierda para
-          hacer que la línea se mueva en esa dirección.
-        </li>
-        <li>Completa cada modelo para avanzar al siguiente nivel.</li>
-        <li>
-          Evita chocar con tu propia línea o con las paredes, si chocas, pierdes
-          el juego.
+          Sigue el punto blanco (pero recuerda, ¡cada punto blanco que atrapes hará crecer tu línea!).
         </li>
         <li>
-          Tienes 3 vidas par completar el juego y ganar un premio especial.
+          Completa las formas icónicas Ray-Ban para pasar al siguiente nivel.
+        </li>
+        <li>Avanza de nivel y acelera, ya que cada nivel irá más rápido.</li>
+        <li>
+          Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se acaba el juego.
+        </li>
+        <li>
+          Tienes 3 vidas en cada nivel para ganar
+        </li>
+        <li>
+          ¡Buena Suerte!
         </li>
       </ul>
     ),
@@ -154,32 +156,32 @@ export default {
     seconds: 'seg',
     rotateToLandscape: 'Favor de girar su teléfono',
     youreOn: 'You’re on!',
-    levelCompleted: 'Nivel Terminado!',
+    levelCompleted: 'Nivel Completado!',
     nextLevel: 'Siguiente Nivel',
     level1: 'Nivel 1',
     level1Glasses: 'Round',
-    level1Header: 'El Round hace que lo inimaginable suceda.',
+    level1Header: 'Prepárate para ver lo inimaginable con el Round.',
     level1Copy:
-      'Mirando más allá de lo convencional, el Round es el que tiene un sueño. Usado por los pensadores de la contracultura del pasado, el Round se convirtió en un símbolo de libertad y estilo de aquellos que se atrevieron a ser disruptivos.',
+      'Usado por los creadores de la contracultura del pasado, el Round se convirtió en un símbolo de libertad y estilo para aquellos que se atrevieron a ser disruptivos.',
     level2: 'Nivel 2',
     level2Glasses: 'Aviator',
-    level2Header: 'El Aviator te lleva más alto que los demás.',
+    level2Header: 'Deja que el Aviator te lleve más alto.',
     level2Copy:
-      '¿Conoces la forma pero no la historia? En 1937, el Aviator nació con un propósito: proteger a los pilotos aviadores de EEUU contra los más intensos rayos del sol. Por siempre conectado con los héroes del pasado, a lo largo de décadas, el Aviator ha volado junto aquellos que han puesto la vista en el cielo.',
+      'En 1937, el Aviator nació con un propósito: proteger los ojos de los pilotos de combate de los EEUU contra los intensos rayos del sol. El Aviator ha volado junto aquellos con la vista puesta en el cielo.',
     level3: 'Nivel 3',
     level3Glasses: 'Wayfarer',
-    level3Header: 'El Wayfarer te lleva más lejos de lo que jamás pensaste.',
+    level3Header: 'Sigue adelante con Wayfarer.',
     level3Copy:
-      'Nacidos para explorar, los Wayfarer nunca se han detenido. A inicios de los 50, cuando los plásticos moldeables entraron en escena, los Wayfarer cambiaron los lentes de sol de lo funcional al estilo y el resto es historia. Hoy, los Wayferer continúan desafiando lo inexplorado con alarde y estilo atemporal.',
+      'A inicios de los 50, cuando innovadores materiales entraron en escena, los Wayfarer cambiaron los lentes de sol de lo funcional al estilo y el resto es historia.',
     level4: 'Nivel 4',
     level4Glasses: 'Clubmaster',
-    level4Header: 'El Clubmaster domina el juego sin lugar a dudas.',
+    level4Header: 'Es momento de dominar el juego con Clubmaster.',
     level4Copy:
-      'Nacido en los años 80 y usado por intelectuales y visionarios inspiradores desde entonces. El Clubmaster se convirtió en un ícono en la escena de los clubes (de ahí el nombre), antes de regresar para establecer nuevos estándares con el surgimiento de la subcultura retro y hipster en 2010.',
+      'Nacidos en los 80, los Clubmaster se convirtieron en un ícono de la escena de los clubes (de ahí su nombre), antes de regresar para establecer nuevos estándares con el auge de la subcultura retro y hipster en 2010.',
     gameOver:
-      'Estuviste muy cerca de convertirte en un “Ray-Ban MASTER”. ¡No te rindas, inténtalo de nuevo!',
+      '¡Casi! Estuviste muy cerca de domunar los iconos. \n¡No te rindas e intenta de nuevo!',
     won:
-      '¡Felicidades! Eres un verdadero “Ray-Ban MASTER”.  Pregunta al equipo en tienda por un premio especial para ti.\nYou’re On!',
+      '¡Felicidades! Has dominado los 4 íconos al más puro estilio Ray-Ban. \nYou’re On!',
     playAgain: 'Jugar de nuevo',
   },
 
