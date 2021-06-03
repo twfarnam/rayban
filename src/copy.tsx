@@ -297,11 +297,11 @@ export default {
     ),
     points: 'PONTOS',
     lives: 'VIDAS',
-    lifeLost: undefined,
+    lifeLost: 'OOPS…PERDESTE-TE UMA VIDA. TENTA NOVAMENTE!',
     seconds: undefined,
     rotateToLandscape: undefined,
     youreOn: "YOU'RE ON!",
-    levelCompleted: undefined,
+    levelCompleted: 'NÍVEL COMPLETO!',
     nextLevel: 'PRÓXIMO NIVEL',
     level1: 'NÍVEL 1',
     level1Glasses: 'ROUND',
@@ -715,7 +715,7 @@ export default {
     nextLevel: '点击到下一步',
     level1: '第一关',
     level1Glasses: 'Round 圆形款',
-    level1Header: '准备好了吗！ 即将挑战Ray-Ban雷朋经典圆形款',
+    level1Header: '与圆形款一起 见证不可思议的自由精神',
     level1Copy:
       '雷朋圆形金属太阳镜，受60年代反主流文化的启发，完全展现复古气质自由精神，永不退缩',
     level2: '第二关',
@@ -735,7 +735,7 @@ export default {
       '风靡于80年代的雷朋经典派对达人系列深受开拓性艺术家和知识分子的追捧2010年，复古和亚潮流文化兴起之后，该系列太阳镜依然流行如初，且增添了与众不同的前卫气息！',
     gameOver:
       '就差一点点！你差一步就成为雷朋经典框型达人了！不要放弃，再试一次!',
-    won: '恭喜你! 成功掌握雷朋4大经典风格图标本色登场',
+    won: '恭喜你! 成功掌握雷朋4大经典风格图标#本色登场',
     playAgain: '再玩一次',
   },
 }
