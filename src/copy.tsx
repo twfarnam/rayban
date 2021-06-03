@@ -204,7 +204,7 @@ export default {
           direita para mudar de direção.
         </li>
         <li>
-          <b>Segue o ponto branco</b> (mas lembra-te que cada ponto vermelho que
+          <b>Segue o ponto Vermelho</b> (mas lembra-te que cada ponto vermelho que
           apanhas fará com que cresças mais!)
         </li>
         <li>
@@ -226,11 +226,11 @@ export default {
     ),
     points: 'PONTOS',
     lives: 'VIDAS',
-    lifeLost: undefined,
+    lifeLost: 'OOPS…PERDESTE-TE UMA VIDA. TENTA NOVAMENTE!',
     seconds: undefined,
     rotateToLandscape: undefined,
     youreOn: "YOU'RE ON!",
-    levelCompleted: undefined,
+    levelCompleted: '¡NÍVEL COMPLETO!',
     nextLevel: 'PRÓXIMO NÍVEL',
     level1: 'NÍVEL 1',
     level1Glasses: 'Round',
@@ -355,7 +355,7 @@ export default {
         </li>
         <li>
           <b>Suivez le point blanc</b> (mais n'oubliez pas que chaque point
-          blanc que vous attrapez vous fait grandir plus longtemps).
+          blanc que vous attrapez vous fait grandir).
         </li>
         <li>
           <b>Complétez la forme iconique de Ray-Ban</b> pour passer au niveau
@@ -495,7 +495,7 @@ export default {
         </p>
       </>
     ),
-    introButton: undefined,
+    introButton: 'Gioca',
     howToPlayHeader: 'COME SI GIOCA',
     howToPlay: (
       <ul>
@@ -505,7 +505,7 @@ export default {
         </li>
         <li>
           <b>Segui il puntino bianco</b> (ma ricorda che ogni puntino bianco che
-          catturi ti farà diventare più a lungo!)
+          catturi ti farà diventare più lungo!)
         </li>
         <li>
           <b>Completa l'iconica sagoma Ray-Ban</b> per passare al livello
@@ -527,11 +527,11 @@ export default {
     ),
     points: 'PUNTI',
     lives: 'VITE',
-    lifeLost: undefined,
+    lifeLost: 'OOPS... Hai perso una vita. Prova ancora!',
     seconds: undefined,
     rotateToLandscape: undefined,
     youreOn: "YOU'RE ON!",
-    levelCompleted: undefined,
+    levelCompleted: 'Livello Completati',
     nextLevel: 'LIVELLO SUCCESSIVO',
     level1: 'LIVELLO 1',
     level1Glasses: 'ROUND',
@@ -547,7 +547,7 @@ export default {
     level3Glasses: 'WAYFARER',
     level3Header: 'Vai oltre con il Wayfarer.',
     level3Copy:
-      "Nei primi anni '50, quando nuovi materiali innovativi entrarono in scena, il Wayfarer modifcò gli occhiali da sole da prodotto funzionale ad accassorio di stile e la storia ha fatto il resto.",
+      "Nei primi anni '50, quando nuovi materiali innovativi entrarono in scena, il Wayfarer modifcò gli occhiali da sole da prodotto funzionale ad accessorio di stile e la storia ha fatto il resto.",
     level4: 'LIVELLO 4',
     level4Glasses: 'CLUBMASTER',
     level4Header: 'è ora di essere padrone del gioco con il Clubmaster.',
@@ -571,23 +571,27 @@ export default {
       </>
     ),
     introButton: undefined,
-    howToPlayHeader: 'ゲームのプレイ方法',
+    howToPlayHeader: 'レイバン　スネークゲームのプレイ方法',
     howToPlay: (
       <ul>
-        <li>スクリーンをタップして上、下、左、右へと点を移動させる</li>
+        <li>⓵スクリーンをタップして、白い点を上、下、左、右へと移動させてください。<br>
+        （点をつなげていく度に線が長くなっていきます！）</li>
         <li>
-          白い点をタップ（タップして点と点をつなげる度にどんどん線が長くなっていきます！）
+          ②それぞれのレベルでゲームをコンプリートすると <br>
+          アイコニックなレイバンのフレームが完成し、より高いレベルに進めます
         </li>
         <li>
-          アイコニックなレイバンのフレームを完成させると、より高いレベルに挑戦できます
+         ③レベルが上がる毎に点のスピードが速くなっていくので、<br>
+          スピードを上げてレベルアップして行きましょう。
         </li>
         <li>
-          レベルが上がる毎に点のスピードが早くなっていくので、どんどんスピードを上げてレベルアップしていきましょう
+          ④しっぽが壁にぶつかる、もしくは完成せずに時間切れになると <br>
+          ゲームオーバーになる為気を付けて下さい。
         </li>
         <li>
-          しっぽが壁にぶつかったり、完成せずに時間切れになるとゲームオーバーになるので気を付けてください。
+          ⑤レベル毎に3回まで再チャレンジできます。<br>
+          頑張って下さいね！
         </li>
-        <li>レベル毎に再チャレンジは３回まで出来ます。頑張ってくださいね！</li>
       </ul>
     ),
     points: 'ポイント',
