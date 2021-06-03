@@ -1,7 +1,7 @@
 export default {
   en: {
     cookieNotice:
-      'We use cookies to offer you this experience. By continuing to use this site you conset to our use  of cookies.',
+      'We use cookies to offer you this experience. By continuing to use this site you consent to our use of cookies.',
     points: 'Points',
     lives: 'Lives',
     lifeLost: 'Oops… you lost one life.\nTry again!',
@@ -54,8 +54,7 @@ export default {
     ),
     level1Copy: (
       <>
-        Gazing past convention, <b>the Round is the one with a dream</b>. Worn
-        by the counter-cultural thinkers of the past, the Round became a{' '}
+        Worn by the counter-cultural thinkers of the past, the Round became a{' '}
         <b>symbol of freedom and the style</b> of those who dared to disrupt.
       </>
     ),
@@ -68,10 +67,9 @@ export default {
     ),
     level2Copy: (
       <>
-        You know the shape, but do you know the story? In 1937,{' '}
-        <b>the Aviator was born with a purpose</b>: to protect US fighter pilots
-        against the sun’s sharp rays. Forever connected to the heroes of the
-        past, over the decades the Aviator has{' '}
+        In 1937,{' '}
+        <b>the Aviator was born with a purpose</b>: to protect U.S. fighter pilots
+        against the sun’s sharp rays. The Aviator has{' '}
         <b>flown alongside those with their sights set on the sky.</b>
       </>
     ),
@@ -84,11 +82,8 @@ export default {
     ),
     level3Copy: (
       <>
-        Born to wander, <b>the Wayfarer has never stood still</b>. In the early
-        ‘50s, as moldable plastics entered the scene, the Wayfarer shifted
-        sunglasses from function to style and the rest is history. Today, the
-        Wayfarer{' '}
-        <b>continues to challenge the unexplored with timeless swagger</b>.
+        In the early ‘50s, as new and innovative materials entered the scene, the Wayfarer shifted
+        sunglasses from function to style and the rest is history.
       </>
     ),
     level4: 'Level 4',
@@ -100,9 +95,7 @@ export default {
     ),
     level4Copy: (
       <>
-        <b>Born in the ‘80s</b> and donned by inspirational thinkers and
-        visionaries ever since. The{' '}
-        <b>Clubmaster became an icon of the club scene</b> (hence the name)
+        <b>Born in the ‘80s the Clubmaster became an icon of the club scene</b> (hence the name)
         before returning to set new standards with the rise of retro and hipster
         subculture in 2010.
       </>
