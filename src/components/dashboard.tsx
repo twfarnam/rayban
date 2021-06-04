@@ -2,6 +2,7 @@ import { useState } from 'react'
 // @ts-ignore
 import { GoogleProvider } from 'react-analytics-widget'
 import styled from 'styled-components'
+import { isMexico } from '../config'
 import Chart from './chart'
 
 const DashboardBase = styled.div`
@@ -35,8 +36,8 @@ export default function Dashboard(): React.ReactElement {
           <option value="30daysAgo">30 Days</option>
           {afterJune6 && <option value="2021-06-05">Since June 5th</option>}
         </select>
-        <h1>General</h1>
-        <h2>Activity (Sessions)</h2>
+
+        <h1>Sessions</h1>
         <Chart
           config={{
             query: {
@@ -46,44 +47,48 @@ export default function Dashboard(): React.ReactElement {
             chart: { type: 'LINE' },
           }}
         />
-        <h2>Location (Sessions per country)</h2>
+
+        {!isMexico && (
+          <>
+            <h1>Location</h1>
+            <Chart
+              config={{
+                query: {
+                  ...queryDefaults,
+                  dimensions: 'ga:country',
+                },
+                chart: { type: 'GEO' },
+              }}
+            />
+          </>
+        )}
+
+        <h1>Traffic Sources</h1>
         <Chart
           config={{
             query: {
               ...queryDefaults,
-              dimensions: 'ga:country',
-            },
-            chart: { type: 'GEO' },
-          }}
-        />
-        <h2>Access (where do they get from)</h2>
-        <Chart
-          config={{
-            query: {
               dimensions: 'ga:source',
-              ...queryDefaults,
             },
             chart: { type: 'TABLE' },
           }}
         />
 
-        <h1>Game</h1>
-        <h2>Highest scores (all countries)</h2>
-        <h2>Highest scores per country (will give you the country list)</h2>
-        <h2>Times the game was completed</h2>
+        <h1>Game Events</h1>
         <Chart
           config={{
             query: {
               ...queryDefaults,
               dimensions: 'ga:eventLabel',
-              metrics: 'ga:eventValue, ga:totalEvents',
+              metrics: 'ga:totalEvents',
+              sort: '-ga:totalEvents',
+              filters: 'ga:eventLabel!=Lost',
             },
             chart: { type: 'TABLE' },
           }}
         />
 
-        <h1>Interaction</h1>
-        <h2>Time spent on site</h2>
+        <h1>Time spent on site</h1>
         <Chart
           config={{
             query: {
@@ -95,7 +100,8 @@ export default function Dashboard(): React.ReactElement {
             chart: { type: 'BAR' },
           }}
         />
-        <h2>Recurrence</h2>
+
+        <h1>Returning Users</h1>
         <Chart
           config={{
             query: {
@@ -106,7 +112,8 @@ export default function Dashboard(): React.ReactElement {
             chart: { type: 'COLUMN' },
           }}
         />
-        <h2>Devices</h2>
+
+        <h1>Device Profile</h1>
         <Chart
           config={{
             query: {
@@ -117,6 +124,8 @@ export default function Dashboard(): React.ReactElement {
             chart: { type: 'COLUMN' },
           }}
         />
+
+        <h1>Operating System</h1>
         <Chart
           config={{
             query: {

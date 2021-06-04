@@ -3,6 +3,7 @@ import {
   getAuth,
   User,
   onAuthStateChanged,
+  signOut,
   signInAnonymously,
 } from 'firebase/auth'
 import { isMexico } from './config'
@@ -21,11 +22,17 @@ initializeApp({
 export const userRequest = new Promise<User>((resolve, reject) => {
   if (!isMexico) return
   const auth = getAuth()
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      resolve(user)
-    } else {
-      signInAnonymously(auth).catch((error) => reject(error))
+  onAuthStateChanged(auth, async (user) => {
+    try {
+      if (user && !user.isAnonymous) {
+        signOut(auth)
+      } else if (user) {
+        resolve(user)
+      } else {
+        signInAnonymously(auth)
+      }
+    } catch (error) {
+      reject(error)
     }
   })
 })

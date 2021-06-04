@@ -180,7 +180,11 @@ export default function Registration(
     if (!values.phone) errors.phone = 'Por favor escribe tu teléfono'
     if (!values.ticket) errors.ticket = 'Por favor escribe tu número de ticket'
     if (!values.image) errors.image = 'Favor de subir la foto de tu ticket'
-    if (!values.terms) errors.terms = 'Favor de aceptar'
+    if (!values.terms) {
+      errors.terms = 'Favor de aceptar'
+    } else if (!hasClickedTerms || !hasClickedPrivacyPolicy) {
+      errors.terms = undefined
+    }
     return errors
   }
 
@@ -189,8 +193,7 @@ export default function Registration(
       setProgress(0)
       const user = await userRequest
       const storage = getStorage()
-      const filename = [user.uid, Date.now()].join('-')
-      const ref = storageRef(storage, filename)
+      const ref = storageRef(storage, user.uid)
       const metadata = {}
       const compressionOptions = {
         maxSizeMB: 1,
@@ -234,7 +237,6 @@ export default function Registration(
         handleSubmit,
         setFieldValue,
         values,
-        setFieldError,
       }: FormikProps<any>) => (
         <Form
           onSubmit={(event: React.SyntheticEvent) => {

@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     bundle: './src/index.tsx',
     analytics: './src/analytics.tsx',
+    scores: './src/scores.tsx',
   },
   output: {
     filename: '[name].[contenthash].js',
@@ -23,6 +24,11 @@ module.exports = {
       filename: 'analytics.html',
       template: 'src/analytics.ejs',
       chunks: ['analytics'],
+    }),
+    new HTMLWebpackPlugin({
+      filename: 'scores.html',
+      template: 'src/scores.ejs',
+      chunks: ['scores'],
     }),
     // new BundleAnalyzerPlugin(),
   ],

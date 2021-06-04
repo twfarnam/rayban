@@ -8,7 +8,7 @@ const Background = styled.video`
   z-index: -1;
 `
 
-const LoadingAnimation = styled.div`
+export const LoadingAnimation = styled.div`
   display: inline-block;
   position: absolute;
   width: 140px;

@@ -102,7 +102,7 @@ export default function App(): React.ReactElement | null {
       points = points + level * 300 + lives * 300 + time * 50
       if (level >= 4) {
         setStep('game_won')
-        if (isMexico) {
+        if (isMexico && name) {
           userRequest
             .then(async (user) => {
               const db = getDatabase()
@@ -125,7 +125,7 @@ export default function App(): React.ReactElement | null {
       } else {
         setStep('level_outro')
         // @ts-ignore
-        gtag('event', 'level_${level}_completed', {
+        gtag('event', `level_${level}_completed`, {
           event_category: 'Game',
           event_label: `Level ${level} Completed`,
           value: points,

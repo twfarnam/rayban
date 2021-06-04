@@ -45,16 +45,6 @@ const Spacer = styled.div`
   flex-grow: 1;
 `
 
-const CookieNotice = styled.div`
-  font-size: 0.8rem;
-  line-height: 1;
-  background: black;
-  color: white;
-  padding: 0.6rem 1.2rem 0.85rem;
-  border-radius: 0.7rem;
-  margin: 1rem 0;
-`
-
 interface IntroMexicoProps {
   name?: string
   onNextStep: () => void
@@ -66,18 +56,24 @@ export default function IntroMexico({
 }: IntroMexicoProps): React.ReactElement | null {
   const { getTranslation } = useLanguage()
   const [page, setPage] = useState<'terms' | 'privacyPolicy' | 'form'>('form')
+  const [pageChanged, setPageChanged] = useState<boolean>(false)
 
   function onClickShowPrivacy(event: React.MouseEvent) {
     event.preventDefault()
     setPage('privacyPolicy')
+    setPageChanged(true)
   }
 
   function onClickShowTerms(event: React.MouseEvent) {
     event.preventDefault()
     setPage('terms')
+    setPageChanged(true)
   }
 
-  useLayoutEffect(() => window.scrollTo(0, 100000), [page])
+  useLayoutEffect(() => {
+    if (!pageChanged) return
+    window.scrollTo(0, 100000)
+  }, [page, pageChanged])
 
   return (
     <>
@@ -126,8 +122,6 @@ export default function IntroMexico({
             onClickShowTerms={onClickShowTerms}
           />
         )}
-        <Spacer />
-        <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>
       </IntroMexicoBase>
     </>
   )
