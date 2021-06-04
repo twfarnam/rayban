@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { isMexico } from '../config'
 
 interface ChartProps {
   config: any
@@ -18,7 +19,9 @@ export default function Chart({ config }: ChartProps) {
         options: { width: '500' },
       },
     })
-    chart.set({ query: { ids: 'ga:243980451' } }).execute()
+    chart
+      .set({ query: { ids: isMexico ? 'ga:244255611' : 'ga:243980451' } })
+      .execute()
   }, [ref.current, JSON.stringify(config)])
 
   return <div ref={ref} />
