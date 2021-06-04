@@ -16,7 +16,7 @@ const Label = styled.label`
 const Select = styled.select`
   border: 2px solid ${(props) => props.theme.red};
   border-radius: 10px;
-  padding: 1em 1.5em;
+  padding: 1rem 1.3rem;
   color: white;
   font-family: inherit;
   text-align-last: center;
@@ -27,7 +27,7 @@ const Select = styled.select`
     )}'),
     linear-gradient(90deg, #8d3032 0%, #2f0102 100%);
   background-repeat: no-repeat;
-  background-position: right 0.7em top 50%, center;
+  background-position: right 0.4em top 50%, center;
   background-size: 1em auto, auto;
   margin: 0.3rem 0;
 `
@@ -65,7 +65,7 @@ const Option = styled.div`
 `
 
 export default function LanguageButton(): React.ReactElement {
-  const { language, setLanguage } = useLanguage()
+  const { language, getTranslation, setLanguage } = useLanguage()
   const [open, setOpen] = useState<boolean>(false)
 
   function onMouseDown(event: React.MouseEvent<HTMLSelectElement>) {
@@ -99,7 +99,7 @@ export default function LanguageButton(): React.ReactElement {
           </FullscreenOptionsContainer>
         </FullscreenOptions>
       )}
-      <Label>Change your language:</Label>
+      <Label>{getTranslation('chooseLanguage')}</Label>
       <Select
         value={language}
         onMouseDown={onMouseDown}

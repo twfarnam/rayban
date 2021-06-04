@@ -5,6 +5,10 @@ import CenterContainer from './center_container'
 import LanguageButton from './language_button'
 import { useLanguage } from './language_provider'
 
+const IntroBase = styled(CenterContainer)`
+  max-width: initial;
+`
+
 const Logo = styled.img`
   width: 500px;
 
@@ -16,6 +20,10 @@ const Logo = styled.img`
 const Copy = styled.div`
   font-size: 1.5em;
   text-align: center;
+`
+
+const BigButton = styled(Button)`
+  padding: 1.2rem 3rem;
 `
 
 const Spacer = styled.div`
@@ -39,13 +47,15 @@ interface IntroProps {
 export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
   const { getTranslation } = useLanguage()
   return (
-    <CenterContainer>
+    <IntroBase>
       <Logo src="logo_and_icon_series.svg" />
       <Copy>{getTranslation('intro')}</Copy>
       <LanguageButton />
-      <Button onClick={onNextStep}>{getTranslation('introButton')}</Button>
+      <BigButton onClick={onNextStep}>
+        {getTranslation('introButton')}
+      </BigButton>
       <Spacer />
       <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>
-    </CenterContainer>
+    </IntroBase>
   )
 }

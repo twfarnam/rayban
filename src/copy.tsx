@@ -2,10 +2,7 @@ export default {
   en: {
     cookieNotice:
       'We use cookies to offer you this experience. By continuing to use this site you consent to our use of cookies.',
-    points: 'Points',
-    lives: 'Lives',
-    lifeLost: 'Oops… you lost one life.\nTry again!',
-    seconds: 'sec',
+    chooseLanguage: 'Change your language:',
     intro: (
       <>
         <p>Complete all 4 shapes and become a Ray-Ban Icon Master.</p>
@@ -41,6 +38,10 @@ export default {
         </li>
       </ul>
     ),
+    points: 'Points',
+    lives: 'Lives',
+    lifeLost: 'Oops… you lost one life.\nTry again!',
+    seconds: 'sec',
     rotateToLandscape: 'Please rotate your phone',
     youreOn: 'You’re on!',
     levelCompleted: 'Level Completed!',
@@ -121,31 +122,39 @@ export default {
       'Usamos cookies para poder ofrecerte esta experiencia. Al seguir utilizando este sitio das tu consentimiento al uso de las mismas.',
     intro: (
       <>
-        <p>Completa los 4 Ray-Ban Icons para ganar un premio.</p>
-        <p>#YOUAREON</p>
+        <p>Completa las 4 formas y conviértete en un Ray-Ban Icon Master</p>
+        <p>
+          <b>#YOUAREON</b>
+        </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'Jugar!',
     howToPlayHeader: 'Como Jugar',
     howToPlay: (
       <ul>
         <li>
-          Toca la pantalla arriba, abajo, izquierda o derecha para cambiar de
-          dirección.
+          <b>Toca la pantalla</b> arriba, abajo, izquierda o derecha{' '}
+          <b>para cambiar de dirección.</b>
         </li>
         <li>
-          Sigue el punto blanco (pero recuerda, ¡cada punto blanco que atrapes
-          hará crecer tu línea!).
+          <b>Sigue el punto blanco,</b> pero recuerda, ¡cada punto blanco que
+          atrapes hará crecer tu línea!.
         </li>
         <li>
-          Completa las formas icónicas Ray-Ban para pasar al siguiente nivel.
+          <b>Completa las formas icónicas Ray-Ban</b> para pasar al siguiente
+          nivel.
         </li>
-        <li>Avanza de nivel y acelera, ya que cada nivel irá más rápido.</li>
+        <li>
+          <b>Avanza de nivel y acelera,</b> ya que cada nivel irá más rápido.
+        </li>
         <li>
           Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se acaba
           el juego.
         </li>
-        <li>Tienes 3 vidas en cada nivel para ganar</li>
+        <li>
+          Tienes <b>3 vidas en cada nivel</b> para ganar
+        </li>
         <li>¡Buena Suerte!</li>
       </ul>
     ),
@@ -194,6 +203,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'Jogar',
     howToPlayHeader: 'COMO JOGAR',
     howToPlay: (
@@ -268,6 +278,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'JOGAR',
     howToPlayHeader: 'COMO JOGAR',
     howToPlay: (
@@ -344,6 +355,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'JOUER',
     howToPlayHeader: 'COMMENT JOUER',
     howToPlay: (
@@ -418,6 +430,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'SPIELEN',
     howToPlayHeader: 'Spielanweisungen:',
     howToPlay: (
@@ -494,6 +507,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'Gioca',
     howToPlayHeader: 'COME SI GIOCA',
     howToPlay: (
@@ -569,6 +583,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: undefined,
     howToPlayHeader: 'レイバン　スネークゲームのプレイ方法',
     howToPlay: (
@@ -644,6 +659,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: 'เล่น',
     howToPlayHeader: 'วิธีการเล่น',
     howToPlay: (
@@ -703,6 +719,7 @@ export default {
         </p>
       </>
     ),
+    chooseLanguage: undefined,
     introButton: '点击开始',
     howToPlayHeader: '任务说明',
     howToPlay: (

@@ -132,33 +132,14 @@ interface RegistrationProps {
   onClickShowPrivacy: (event: React.MouseEvent) => void
 }
 
-export default function Registration(
-  props: RegistrationProps,
-): React.ReactElement {
+export default function Registration({
+  onNextStep,
+  onClickShowTerms,
+  onClickShowPrivacy,
+}: RegistrationProps): React.ReactElement {
   const { getTranslation } = useLanguage()
   const [progress, setProgress] = useState<number>()
   const [performValidation, setPerformValidation] = useState<boolean>(false)
-  const [hasClickedTerms, setHasClickedTerms] = useState<boolean>(false)
-  const [
-    hasClickedPrivacyPolicy,
-    setHasClickedPrivacyPolicy,
-  ] = useState<boolean>(false)
-
-  function onClickShowTerms(event: React.MouseEvent) {
-    setHasClickedTerms(true)
-    props.onClickShowTerms(event)
-  }
-
-  function onClickShowPrivacy(event: React.MouseEvent) {
-    setHasClickedPrivacyPolicy(true)
-    props.onClickShowPrivacy(event)
-  }
-
-  function onClickPlayAsGuest() {
-    setPerformValidation(true)
-    if (!hasClickedPrivacyPolicy || !hasClickedTerms) return
-    props.onNextStep()
-  }
 
   const initialValues = {
     name: '',
@@ -180,11 +161,7 @@ export default function Registration(
     if (!values.phone) errors.phone = 'Por favor escribe tu teléfono'
     if (!values.ticket) errors.ticket = 'Por favor escribe tu número de ticket'
     if (!values.image) errors.image = 'Favor de subir la foto de tu ticket'
-    if (!values.terms) {
-      errors.terms = 'Favor de aceptar'
-    } else if (!hasClickedTerms || !hasClickedPrivacyPolicy) {
-      errors.terms = undefined
-    }
+    if (!values.terms) errors.terms = 'Favor de aceptar'
     return errors
   }
 
@@ -222,7 +199,7 @@ export default function Registration(
       console.error(error)
       alert(error.message)
     }
-    props.onNextStep()
+    onNextStep()
   }
 
   return (
@@ -306,16 +283,7 @@ export default function Registration(
           <Button type="submit" disabled={isSubmitting}>
             {getTranslation('introButton')}
           </Button>
-          {(!hasClickedTerms || !hasClickedPrivacyPolicy) &&
-            performValidation && (
-              <StyledErrorMessage>
-                ANTES DE CONTINUAR, ES NECESARIO LEER LAS BASES DE LA PROMOCIÓN
-                Y AVISO DE PRIVACIDAD
-              </StyledErrorMessage>
-            )}
-          <PlayAsGuest onClick={onClickPlayAsGuest}>
-            Jugar como invitado
-          </PlayAsGuest>
+          <PlayAsGuest onClick={onNextStep}>Jugar como invitado</PlayAsGuest>
         </Form>
       )}
     </Formik>
