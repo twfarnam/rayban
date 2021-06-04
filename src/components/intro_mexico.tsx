@@ -1,8 +1,5 @@
-import { getDatabase, ref, onValue } from 'firebase/database'
-import { useState, useEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import styled from 'styled-components'
-import copy from '../copy'
-import { userRequest } from '../firebase'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
@@ -12,7 +9,7 @@ import PrivacyPolicy from './privacy_policy'
 import Registration from './registration'
 import Terms from './terms'
 
-const IntroBase = styled(CenterContainer)`
+const IntroMexicoBase = styled(CenterContainer)`
   max-width: 1000px;
 `
 
@@ -58,27 +55,17 @@ const CookieNotice = styled.div`
   margin: 1rem 0;
 `
 
-interface IntroProps {
+interface IntroMexicoProps {
+  name?: string
   onNextStep: () => void
 }
 
-export default function Intro({
+export default function IntroMexico({
+  name,
   onNextStep,
-}: IntroProps): React.ReactElement | null {
+}: IntroMexicoProps): React.ReactElement | null {
   const { getTranslation } = useLanguage()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [name, setName] = useState<string>()
   const [page, setPage] = useState<'terms' | 'privacyPolicy' | 'form'>('form')
-
-  useEffect(() => {
-    userRequest.then(async (user) => {
-      onValue(ref(getDatabase(), 'users/' + user.uid), (snapshot) => {
-        const data = snapshot.val()
-        if (data && data.name) setName(data.name)
-        setLoading(false)
-      })
-    })
-  }, [])
 
   function onClickShowPrivacy(event: React.MouseEvent) {
     event.preventDefault()
@@ -90,7 +77,8 @@ export default function Intro({
     setPage('terms')
   }
 
-  if (loading) return null
+  useLayoutEffect(() => window.scrollTo(0, 100000), [page])
+
   return (
     <>
       {page == 'terms' && (
@@ -107,16 +95,20 @@ export default function Intro({
           onClickDone={() => setPage('form')}
         />
       )}
-      <IntroBase>
+      <IntroMexicoBase>
         <Logo src="logo_and_icon_series.svg" />
-        <LargeCopy>COMPLETA LAS 4 FORMAS Y CONVIÉRTETE EN UN RAY-BAN ICON MASTER
+        <LargeCopy>
+          COMPLETA LAS 4 FORMAS Y CONVIÉRTETE EN UN RAY-BAN ICON MASTER
           <br />
-          ¡JUEGA Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR UN XXX QUE LIVERPOOL TIENE PARA TI!
+          ¡JUEGA Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR UN XXX QUE LIVERPOOL
+          TIENE PARA TI!
         </LargeCopy>
         <SmallCopy>
-          PARA PARTICIPAR POR XXX ES NECESARIO REALIZAR LA COMPRA DE TUS RAY-BAN EN LIVERPOOL,
+          PARA PARTICIPAR POR XXX ES NECESARIO REALIZAR LA COMPRA DE TUS RAY-BAN
+          EN LIVERPOOL,
           <br />
-          REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS ALTOS, ¡GANARÁS!
+          REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS
+          ALTOS, ¡GANARÁS!
           <br />
           CONSULTA BASES Y CONDICIONES DEL PROGRAMA.
         </SmallCopy>
@@ -136,7 +128,7 @@ export default function Intro({
         )}
         <Spacer />
         <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>
-      </IntroBase>
+      </IntroMexicoBase>
     </>
   )
 }

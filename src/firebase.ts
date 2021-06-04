@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   signInAnonymously,
 } from 'firebase/auth'
+import { isMexico } from './config'
 
 initializeApp({
   apiKey: 'AIzaSyDFWdpyMJBkmhsDKokKHiwSo8YLE2LGvsc',
@@ -18,6 +19,7 @@ initializeApp({
 })
 
 export const userRequest = new Promise<User>((resolve, reject) => {
+  if (!isMexico) return
   const auth = getAuth()
   onAuthStateChanged(auth, (user) => {
     if (user) {

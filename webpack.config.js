@@ -9,13 +9,21 @@ module.exports = {
   mode: 'development',
   entry: {
     bundle: './src/index.tsx',
+    analytics: './src/analytics.tsx',
   },
   output: {
     filename: '[name].[contenthash].js',
   },
   plugins: [
     new CleanTerminalPlugin(),
-    new HTMLWebpackPlugin(),
+    new HTMLWebpackPlugin({
+      chunks: ['bundle'],
+    }),
+    new HTMLWebpackPlugin({
+      filename: 'analytics.html',
+      template: 'src/analytics.ejs',
+      chunks: ['analytics'],
+    }),
     // new BundleAnalyzerPlugin(),
   ],
   resolve: {

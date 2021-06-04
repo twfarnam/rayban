@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { mobileBreakpoint } from '../utility'
 import Button from './button'
 import CenterContainer from './center_container'
+import LanguageButton from './language_button'
 import { useLanguage } from './language_provider'
 
 const Logo = styled.img`
@@ -41,6 +42,7 @@ export default function Intro({ onNextStep }: IntroProps): React.ReactElement {
     <CenterContainer>
       <Logo src="logo_and_icon_series.svg" />
       <Copy>{getTranslation('intro')}</Copy>
+      <LanguageButton />
       <Button onClick={onNextStep}>{getTranslation('introButton')}</Button>
       <Spacer />
       <CookieNotice>{getTranslation('cookieNotice')}</CookieNotice>

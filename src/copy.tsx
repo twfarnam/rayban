@@ -67,9 +67,8 @@ export default {
     ),
     level2Copy: (
       <>
-        In 1937,{' '}
-        <b>the Aviator was born with a purpose</b>: to protect U.S. fighter pilots
-        against the sun’s sharp rays. The Aviator has{' '}
+        In 1937, <b>the Aviator was born with a purpose</b>: to protect U.S.
+        fighter pilots against the sun’s sharp rays. The Aviator has{' '}
         <b>flown alongside those with their sights set on the sky.</b>
       </>
     ),
@@ -82,8 +81,9 @@ export default {
     ),
     level3Copy: (
       <>
-        In the early ‘50s, as new and innovative materials entered the scene, the Wayfarer shifted
-        sunglasses from function to style and the rest is history.
+        In the early ‘50s, as new and innovative materials entered the scene,
+        the Wayfarer shifted sunglasses from function to style and the rest is
+        history.
       </>
     ),
     level4: 'Level 4',
@@ -95,9 +95,9 @@ export default {
     ),
     level4Copy: (
       <>
-        <b>Born in the ‘80s the Clubmaster became an icon of the club scene</b> (hence the name)
-        before returning to set new standards with the rise of retro and hipster
-        subculture in 2010.
+        <b>Born in the ‘80s the Clubmaster became an icon of the club scene</b>{' '}
+        (hence the name) before returning to set new standards with the rise of
+        retro and hipster subculture in 2010.
       </>
     ),
     gameOver: (
@@ -129,25 +129,24 @@ export default {
     howToPlayHeader: 'Como Jugar',
     howToPlay: (
       <ul>
-         <li>
-           Toca la pantalla arriba, abajo, izquierda o derecha para cambiar de dirección.
+        <li>
+          Toca la pantalla arriba, abajo, izquierda o derecha para cambiar de
+          dirección.
         </li>
         <li>
-          Sigue el punto blanco (pero recuerda, ¡cada punto blanco que atrapes hará crecer tu línea!).
+          Sigue el punto blanco (pero recuerda, ¡cada punto blanco que atrapes
+          hará crecer tu línea!).
         </li>
         <li>
           Completa las formas icónicas Ray-Ban para pasar al siguiente nivel.
         </li>
         <li>Avanza de nivel y acelera, ya que cada nivel irá más rápido.</li>
         <li>
-          Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se acaba el juego.
+          Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se acaba
+          el juego.
         </li>
-        <li>
-          Tienes 3 vidas en cada nivel para ganar
-        </li>
-        <li>
-          ¡Buena Suerte!
-        </li>
+        <li>Tienes 3 vidas en cada nivel para ganar</li>
+        <li>¡Buena Suerte!</li>
       </ul>
     ),
     points: 'Puntos',
@@ -204,8 +203,8 @@ export default {
           direita para mudar de direção.
         </li>
         <li>
-          <b>Segue o ponto Vermelho</b> (mas lembra-te que cada ponto vermelho que
-          apanhas fará com que cresças mais!)
+          <b>Segue o ponto Vermelho</b> (mas lembra-te que cada ponto vermelho
+          que apanhas fará com que cresças mais!)
         </li>
         <li>
           <b>Completa o icónico modelo Ray-Ban</b> para passares ao nível
@@ -574,22 +573,27 @@ export default {
     howToPlayHeader: 'レイバン　スネークゲームのプレイ方法',
     howToPlay: (
       <ul>
-        <li>⓵スクリーンをタップして、白い点を上、下、左、右へと移動させてください。<br>
-        （点をつなげていく度に線が長くなっていきます！）</li>
         <li>
-          ②それぞれのレベルでゲームをコンプリートすると <br>
+          ⓵スクリーンをタップして、白い点を上、下、左、右へと移動させてください。
+          <br />
+          （点をつなげていく度に線が長くなっていきます！）
+        </li>
+        <li>
+          ②それぞれのレベルでゲームをコンプリートすると <br />
           アイコニックなレイバンのフレームが完成し、より高いレベルに進めます
         </li>
         <li>
-         ③レベルが上がる毎に点のスピードが速くなっていくので、<br>
+          ③レベルが上がる毎に点のスピードが速くなっていくので、
+          <br />
           スピードを上げてレベルアップして行きましょう。
         </li>
         <li>
-          ④しっぽが壁にぶつかる、もしくは完成せずに時間切れになると <br>
+          ④しっぽが壁にぶつかる、もしくは完成せずに時間切れになると <br />
           ゲームオーバーになる為気を付けて下さい。
         </li>
         <li>
-          ⑤レベル毎に3回まで再チャレンジできます。<br>
+          ⑤レベル毎に3回まで再チャレンジできます。
+          <br />
           頑張って下さいね！
         </li>
       </ul>

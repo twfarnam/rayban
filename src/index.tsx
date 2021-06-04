@@ -1,5 +1,15 @@
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import Root from './components/root'
+import LoadingScreen from './components/loading_screen'
 import './index.css'
 
-ReactDOM.render(<Root />, document.querySelector('#app'))
+const Root = React.lazy(
+  () => import(/* webpackChunkNam: "root" */ './components/root'),
+)
+
+ReactDOM.render(
+  <Suspense fallback={<LoadingScreen />}>
+    <Root />
+  </Suspense>,
+  document.querySelector('#app'),
+)

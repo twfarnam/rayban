@@ -18,7 +18,7 @@ Build the app into the `dist/` folder
 npm run build
 ```
 
-Deploys to Firebase with
+Deploys to Firebase (theiconseries.com) with
 ```
 npm run deploy
 ```

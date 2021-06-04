@@ -24,6 +24,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   width: 100%;
+  max-width: 400px;
   display: block;
   font-family: inherit;
   border: 2px solid #c31e2c;
@@ -131,14 +132,33 @@ interface RegistrationProps {
   onClickShowPrivacy: (event: React.MouseEvent) => void
 }
 
-export default function Registration({
-  onNextStep,
-  onClickShowTerms,
-  onClickShowPrivacy,
-}: RegistrationProps): React.ReactElement {
+export default function Registration(
+  props: RegistrationProps,
+): React.ReactElement {
   const { getTranslation } = useLanguage()
   const [progress, setProgress] = useState<number>()
-  const [performValidation, setPeformValidation] = useState<boolean>(false)
+  const [performValidation, setPerformValidation] = useState<boolean>(false)
+  const [hasClickedTerms, setHasClickedTerms] = useState<boolean>(false)
+  const [
+    hasClickedPrivacyPolicy,
+    setHasClickedPrivacyPolicy,
+  ] = useState<boolean>(false)
+
+  function onClickShowTerms(event: React.MouseEvent) {
+    setHasClickedTerms(true)
+    props.onClickShowTerms(event)
+  }
+
+  function onClickShowPrivacy(event: React.MouseEvent) {
+    setHasClickedPrivacyPolicy(true)
+    props.onClickShowPrivacy(event)
+  }
+
+  function onClickPlayAsGuest() {
+    setPerformValidation(true)
+    if (!hasClickedPrivacyPolicy || !hasClickedTerms) return
+    props.onNextStep()
+  }
 
   const initialValues = {
     name: '',
@@ -199,7 +219,7 @@ export default function Registration({
       console.error(error)
       alert(error.message)
     }
-    onNextStep()
+    props.onNextStep()
   }
 
   return (
@@ -214,10 +234,11 @@ export default function Registration({
         handleSubmit,
         setFieldValue,
         values,
+        setFieldError,
       }: FormikProps<any>) => (
         <Form
           onSubmit={(event: React.SyntheticEvent) => {
-            setPeformValidation(true)
+            setPerformValidation(true)
             event.preventDefault()
             handleSubmit()
           }}>
@@ -244,11 +265,7 @@ export default function Registration({
             placeholder="Número de teléfono"
           />
           <ErrorMessage name="phone" component={StyledErrorMessage} />
-          <Field
-            name="ticket"
-            as={Input}
-            placeholder="Número de ticket"
-          />
+          <Field name="ticket" as={Input} placeholder="Número de ticket" />
           <ErrorMessage name="ticket" component={StyledErrorMessage} />
           {values.image ? (
             <ImageLabel onClick={() => setFieldValue('image', undefined)}>
@@ -287,7 +304,16 @@ export default function Registration({
           <Button type="submit" disabled={isSubmitting}>
             {getTranslation('introButton')}
           </Button>
-          <PlayAsGuest onClick={onNextStep}>Jugar como invitado</PlayAsGuest>
+          {(!hasClickedTerms || !hasClickedPrivacyPolicy) &&
+            performValidation && (
+              <StyledErrorMessage>
+                ANTES DE CONTINUAR, ES NECESARIO LEER LAS BASES DE LA PROMOCIÓN
+                Y AVISO DE PRIVACIDAD
+              </StyledErrorMessage>
+            )}
+          <PlayAsGuest onClick={onClickPlayAsGuest}>
+            Jugar como invitado
+          </PlayAsGuest>
         </Form>
       )}
     </Formik>

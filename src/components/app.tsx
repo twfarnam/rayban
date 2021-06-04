@@ -1,8 +1,8 @@
-import { getDatabase, ref, push } from 'firebase/database'
+import { getDatabase, ref, push, onValue } from 'firebase/database'
 import { useState, useEffect, useRef } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
-import { isMexico, isDebug } from '../config'
+import { isMexico, isDebug, isMobile } from '../config'
 import { userRequest } from '../firebase'
 import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
 import DebugLanguageSelector from './debug_language_selector'
@@ -15,10 +15,7 @@ import Intro from './intro'
 import IntroMexico from './intro_mexico'
 import LevelIntro from './level_intro'
 import LevelOutro from './level_outro'
-
-// User-Agent parsing is not the best way to control features but this is only
-// used to control whether they are forced to use landscape on their device
-const isMobile = /android|iphone|ipad|ipod/i.test(window.navigator.userAgent)
+import LoadingScreen from './loading_screen'
 
 export type AppStep =
   | 'intro'
@@ -44,6 +41,19 @@ export default function App(): React.ReactElement | null {
   const [level, setLevel] = useState<number>(1)
   const mute = useRef<boolean>(window.localStorage.rayBanSnakeMute == 'true')
   const [lottieData, setLottieData] = useState<Record<string, any>>({})
+  const [name, setName] = useState<string>()
+  const [loading, setLoading] = useState<boolean>(isMexico)
+
+  useEffect(() => {
+    if (!isMexico) return
+    userRequest.then(async (user) => {
+      onValue(ref(getDatabase(), 'users/' + user.uid), (snapshot) => {
+        const data = snapshot.val()
+        if (data && data.name) setName(data.name)
+        setLoading(false)
+      })
+    })
+  }, [])
 
   useEffect(() => {
     if (step == 'game') return
@@ -88,25 +98,41 @@ export default function App(): React.ReactElement | null {
   async function onLevelCompleted(time: number) {
     stopAudio('sound/music.mp3')
     setLives(3)
-    setPoints((points) => points + level * 300 + lives * 300 + time * 50)
-    if (level >= 4) {
-      setStep('game_won')
-      if (isMexico) {
-        try {
-          const user = await userRequest
-          const db = getDatabase()
-          await push(ref(db, `users/${user.uid}/scores`), {
-            time: new Date().toISOString(),
-            points,
-          })
-        } catch (error) {
-          console.error(error)
-          alert(error.message)
+    setPoints((points) => {
+      points = points + level * 300 + lives * 300 + time * 50
+      if (level >= 4) {
+        setStep('game_won')
+        if (isMexico) {
+          userRequest
+            .then(async (user) => {
+              const db = getDatabase()
+              await push(ref(db, `users/${user.uid}/scores`), {
+                time: new Date().toISOString(),
+                points,
+              })
+            })
+            .catch((error) => {
+              console.error(error)
+              alert(error.message)
+            })
         }
+        // @ts-ignore
+        gtag('event', 'game_won', {
+          event_category: 'Game',
+          event_label: 'Game Won',
+          value: points,
+        })
+      } else {
+        setStep('level_outro')
+        // @ts-ignore
+        gtag('event', 'level_${level}_completed', {
+          event_category: 'Game',
+          event_label: `Level ${level} Completed`,
+          value: points,
+        })
       }
-    } else {
-      setStep('level_outro')
-    }
+      return points
+    })
   }
 
   function onPoints(increase: number) {
@@ -120,6 +146,12 @@ export default function App(): React.ReactElement | null {
       } else {
         if (!mute.current) playAudio('sound/game_lost.mp3')
         setStep('game_over')
+        // @ts-ignore
+        gtag('event', 'game_lost', {
+          event_category: 'Game',
+          event_label: 'Game Lost',
+          value: points,
+        })
         return 0
       }
     })
@@ -133,6 +165,7 @@ export default function App(): React.ReactElement | null {
     setStep('level_intro')
   }
 
+  if (loading) return <LoadingScreen />
   return (
     <>
       {isDebug && <DebugLanguageSelector />}
@@ -146,7 +179,10 @@ export default function App(): React.ReactElement | null {
             switch (step) {
               case 'intro':
                 return isMexico ? (
-                  <IntroMexico onNextStep={() => setStep('how_to_play')} />
+                  <IntroMexico
+                    name={name}
+                    onNextStep={() => setStep('how_to_play')}
+                  />
                 ) : (
                   <Intro onNextStep={() => setStep('how_to_play')} />
                 )
@@ -193,6 +229,8 @@ export default function App(): React.ReactElement | null {
                 return (
                   <GameWon
                     onPlayAgain={() => onPlayAgain(true)}
+                    showPrizeInfo={isMexico && !!name}
+                    points={points}
                     lottieData={lottieData}
                   />
                 )
