@@ -9,6 +9,7 @@ window.dataLayer = window.dataLayer || []
 function gtag() {
   dataLayer.push(arguments)
 }
+window.gtag = gtag
 gtag('js', new Date())
 gtag('config', isMexico ? 'UA-195304155-2' : 'UA-195304155-1')
 
