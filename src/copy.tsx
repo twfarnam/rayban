@@ -109,7 +109,9 @@ export default {
     ),
     won: (
       <>
-        <b>Congratulations!</b> You mastered all 4 icons in true Ray-Ban style.
+        <b>Congratulations!</b>
+        <br />
+        You mastered all 4 icons in true Ray-Ban style.
         <br />
         <b>You're On!</b>
       </>
@@ -188,8 +190,16 @@ export default {
       'Nacidos en los 80, los Clubmaster se convirtieron en un ícono de la escena de los clubes (de ahí su nombre), antes de regresar para establecer nuevos estándares con el auge de la subcultura retro y hipster en 2010.',
     gameOver:
       '¡Casi! Estuviste muy cerca de domunar los iconos. \n¡No te rindas e intenta de nuevo!',
-    won:
-      '¡Felicidades! Has dominado los 4 íconos al más puro estilio Ray-Ban. \nYou’re On!',
+    won: (
+      <>
+        <b>¡Felicidades!</b>
+        <br />
+        Has dominado los 4 íconos al más puro estilio Ray-Ban.
+        <br />
+        <b>You’re On!</b>
+      </>
+    ),
+
     playAgain: 'Jugar de nuevo',
   },
 

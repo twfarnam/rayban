@@ -9,8 +9,7 @@ module.exports = {
   mode: 'development',
   entry: {
     bundle: './src/index.tsx',
-    analytics: './src/analytics.tsx',
-    scores: './src/scores.tsx',
+    admin: './src/admin.tsx',
   },
   output: {
     filename: '[name].[contenthash].js',
@@ -21,14 +20,9 @@ module.exports = {
       chunks: ['bundle'],
     }),
     new HTMLWebpackPlugin({
-      filename: 'analytics.html',
-      template: 'src/analytics.ejs',
-      chunks: ['analytics'],
-    }),
-    new HTMLWebpackPlugin({
-      filename: 'scores.html',
-      template: 'src/scores.ejs',
-      chunks: ['scores'],
+      filename: 'admin/index.html',
+      template: 'src/admin.ejs',
+      chunks: ['admin'],
     }),
     // new BundleAnalyzerPlugin(),
   ],

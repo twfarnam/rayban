@@ -63,7 +63,9 @@ const FileInput = styled.input`
 `
 
 const StyledErrorMessage = styled.label`
+  display: block;
   color: red;
+  text-align: center;
 `
 
 const Label = styled.label`
@@ -214,6 +216,8 @@ export default function Registration({
         handleSubmit,
         setFieldValue,
         values,
+        setFieldError,
+        setFieldTouched,
       }: FormikProps<any>) => (
         <Form
           onSubmit={(event: React.SyntheticEvent) => {
@@ -271,8 +275,8 @@ export default function Registration({
             Acepto las{' '}
             <Link onClick={onClickShowTerms}>bases de la promoción</Link> y{' '}
             <Link onClick={onClickShowPrivacy}>aviso de privacidad</Link>
+            <ErrorMessage name="terms" component={StyledErrorMessage} />
           </Label>
-          <ErrorMessage name="terms" component={StyledErrorMessage} />
           {typeof progress != 'undefined' && (
             <ProgressBar>
               <ProgressBarInside
@@ -283,7 +287,18 @@ export default function Registration({
           <Button type="submit" disabled={isSubmitting}>
             {getTranslation('introButton')}
           </Button>
-          <PlayAsGuest onClick={onNextStep}>Jugar como invitado</PlayAsGuest>
+          <PlayAsGuest
+            onClick={() => {
+              if (values.terms) {
+                onNextStep()
+              } else {
+                console.log('setFieldError')
+                setFieldError('terms', 'Favor de aceptar')
+                setFieldTouched('terms')
+              }
+            }}>
+            Jugar como invitado
+          </PlayAsGuest>
         </Form>
       )}
     </Formik>

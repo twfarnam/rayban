@@ -5,6 +5,10 @@ import CenterContainer from './center_container'
 import Heading from './heading'
 import { useLanguage } from './language_provider'
 
+const GameWonBase = styled(CenterContainer)`
+  max-width: 900px;
+`
+
 const Fireworks = styled(Lottie)`
   position: absolute;
 `
@@ -29,7 +33,7 @@ export default function GameWon({
 }: GameWonProps): React.ReactElement {
   const { getTranslation } = useLanguage()
   return (
-    <CenterContainer>
+    <GameWonBase>
       <Heading>{getTranslation('won')}</Heading>
       {showPrizeInfo && (
         <Copy>
@@ -43,6 +47,6 @@ export default function GameWon({
         <Fireworks animationData={lottieData[`confetti.json`]} />
       )}
       <Button onClick={onPlayAgain}>{getTranslation('playAgain')}</Button>
-    </CenterContainer>
+    </GameWonBase>
   )
 }
