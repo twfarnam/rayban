@@ -1,7 +1,9 @@
 export default {
   en: {
     cookieNotice:
-      'We use cookies to offer you this experience. By continuing to use this site you consent to our use of cookies.',
+      "We use necessary cookies and similar technologies to ensure our site works efficiently. We'd also like to set optional cookies and similar technologies for analytics. By clicking OK, or on other elements of the page that allow you to continue browsing our website, you consent to the use of these technologies. Check our Privacy Policy by clicking here.",
+    cookieNoticeAccept: 'OK',
+    cookieNoticeReject: 'Reject all',
     chooseLanguage: 'Change your language:',
     intro: (
       <>
@@ -122,6 +124,8 @@ export default {
   es: {
     cookieNotice:
       'Usamos cookies para poder ofrecerte esta experiencia. Al seguir utilizando este sitio das tu consentimiento al uso de las mismas.',
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>Completa las 4 formas y conviértete en un Ray-Ban Icon Master</p>
@@ -205,6 +209,8 @@ export default {
 
   pt: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>Completa os 4 modelos icónicos Ray-Ban.</p>
@@ -280,6 +286,8 @@ export default {
 
   'pt-br': {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>Complete os 4 Ray-Ban Icons.</p>
@@ -354,6 +362,8 @@ export default {
 
   fr: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>
@@ -432,6 +442,8 @@ export default {
 
   de: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>Vervollständige alle 4 ikonischen Ray-Ban-Formen.</p>
@@ -509,6 +521,8 @@ export default {
 
   it: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>Completa tutte le sagome delle 4 icone Ray-Ban.</p>
@@ -585,6 +599,8 @@ export default {
 
   ja: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>4つのフレームを完成させてレイバン アイコンマスターになろう！</p>
@@ -661,6 +677,8 @@ export default {
 
   th: {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>เล่นให้ผ่านทั้ง 4 ด่าน เพื่อเป็น Ray-Ban Icons Master</p>
@@ -721,6 +739,8 @@ export default {
 
   'zh-cn': {
     cookieNotice: undefined,
+    cookieNoticeAccept: undefined,
+    cookieNoticeReject: undefined,
     intro: (
       <>
         <p>完成4种框型挑战, 你将成为雷朋经典达人</p>
@@ -779,6 +799,8 @@ export default {
 
 // 'your next locale': {
 //   cookieNotice: undefined,
+//   cookieNoticeAccept: undefined,
+//   cookieNoticeReject: undefined,
 //   intro: (
 //     <>
 //       <p>

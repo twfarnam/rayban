@@ -81,7 +81,7 @@ export default function LanguageButton(): React.ReactElement {
     }
   }
   return (
-    <LanguageButtonBase>
+    <LanguageButtonBase className="dont-clear-cookie-notice">
       {open && (
         <FullscreenOptions>
           <FullscreenOptionsContainer>

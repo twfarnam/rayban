@@ -1,10 +1,13 @@
 import { getDatabase, ref, push, onValue } from 'firebase/database'
+// @ts-ignore
+import gtag, { install } from 'ga-gtag'
 import { useState, useEffect, useRef } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import { isMexico, isDebug, isMobile } from '../config'
 import { userRequest } from '../firebase'
 import { preloadImage, preloadAudio, playAudio, stopAudio } from '../utility'
+import CookieNotice from './cookie_notice'
 import DebugLanguageSelector from './debug_language_selector'
 import ForceLandscape from './force_landscape'
 import Game from './game'
@@ -35,6 +38,7 @@ const Background = styled.video`
 `
 
 export default function App(): React.ReactElement | null {
+  const [showCookieNotice, setShowCookieNotice] = useState<boolean>(true)
   const [step, setStep] = useState<AppStep>('intro')
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
@@ -93,6 +97,11 @@ export default function App(): React.ReactElement | null {
     const request = await fetch(path)
     const data = await request.json()
     setLottieData((lottieData) => ({ ...lottieData, [path]: data }))
+  }
+
+  function onClickAcceptCookies() {
+    setShowCookieNotice(false)
+    install(isMexico ? 'UA-195304155-2' : 'UA-195304155-1')
   }
 
   async function onLevelCompleted(time: number) {
@@ -165,6 +174,11 @@ export default function App(): React.ReactElement | null {
     setStep('level_intro')
   }
 
+  function onClickIntroNextStep() {
+    if (showCookieNotice) onClickAcceptCookies()
+    setStep('how_to_play')
+  }
+
   if (loading) return <LoadingScreen />
   return (
     <>
@@ -173,18 +187,21 @@ export default function App(): React.ReactElement | null {
       {!['intro', 'how_to_play'].includes(step) && isMobile && (
         <ForceLandscape />
       )}
+      {showCookieNotice && (
+        <CookieNotice
+          onClickReject={() => setShowCookieNotice(false)}
+          onClickAccept={onClickAcceptCookies}
+        />
+      )}
       <TransitionGroup component={null}>
         <CSSTransition key={step} timeout={500}>
           {(() => {
             switch (step) {
               case 'intro':
                 return isMexico ? (
-                  <IntroMexico
-                    name={name}
-                    onNextStep={() => setStep('how_to_play')}
-                  />
+                  <IntroMexico name={name} onNextStep={onClickIntroNextStep} />
                 ) : (
-                  <Intro onNextStep={() => setStep('how_to_play')} />
+                  <Intro onNextStep={onClickIntroNextStep} />
                 )
               case 'how_to_play':
                 return <HowToPlay onNextStep={() => setStep('level_intro')} />

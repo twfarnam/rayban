@@ -123,11 +123,14 @@ export default function Admin(): React.ReactElement {
   }, [])
 
   useEffect(() => {
-    if (!user) return
+    if (!user || user.isAnonymous) return
+    // @ts-ignore
+    gapi.analytics.auth.on('error', (error) => console.error(error))
     // @ts-ignore
     gapi.analytics.ready((a) => {
       // @ts-ignore
       const authResponse = gapi.analytics.auth.getAuthResponse()
+      console.log('---> authResponse', authResponse)
       if (!authResponse) {
         // @ts-ignore
         gapi.analytics.auth.on('success', (response) => setLoading(false))

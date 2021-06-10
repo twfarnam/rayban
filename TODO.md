@@ -1,8 +1,9 @@
 
 
 
+demographics in analytics
 
-deploy
+https://support.google.com/analytics/answer/2799357?hl=en#zippy=%2Cin-this-article
 
-check that /admin/scores loads
+shows age etc in analytics screens
 
