@@ -80,9 +80,28 @@ export default function AdminEvents({
           query: {
             ...queryDefaults,
             dimensions: 'ga:userType',
-            metrics: 'ga:sessions',
           },
           chart: { type: 'COLUMN' },
+        }}
+      />
+      <Chart
+        title="Age"
+        config={{
+          query: {
+            ...queryDefaults,
+            dimensions: 'ga:userAgeBracket',
+          },
+          chart: { type: 'BAR' },
+        }}
+      />
+      <Chart
+        title="Gender"
+        config={{
+          query: {
+            ...queryDefaults,
+            dimensions: 'ga:userGender',
+          },
+          chart: { type: 'BAR' },
         }}
       />
       <Chart
@@ -91,7 +110,6 @@ export default function AdminEvents({
           query: {
             ...queryDefaults,
             dimensions: 'ga:deviceCategory',
-            metrics: 'ga:sessions',
           },
           chart: { type: 'COLUMN' },
         }}
@@ -102,7 +120,6 @@ export default function AdminEvents({
           query: {
             ...queryDefaults,
             dimensions: 'ga:operatingSystem',
-            metrics: 'ga:sessions',
           },
           chart: { type: 'COLUMN' },
         }}
