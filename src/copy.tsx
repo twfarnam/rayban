@@ -123,9 +123,9 @@ export default {
 
   es: {
     cookieNotice:
-      'Usamos cookies para poder ofrecerte esta experiencia. Al seguir utilizando este sitio das tu consentimiento al uso de las mismas.',
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+      'Utilizamos cookies necesarias y tecnologías similares para garantizar que nuestro sitio funcione de manera eficiente. También establecemos cookies opcionales y tecnologías similares para análisis. Al hacer clic en Aceptar, o en otros elementos de la página que le permiten continuar navegando en nuestro sitio web, usted da su consentimiento para el uso de estas tecnologías. Consulte nuestra Política de Privacidad haciendo clic aquí.',
+    cookieNoticeAccept: 'Aceptar',
+    cookieNoticeReject: 'Rechazar todo',
     intro: (
       <>
         <p>Completa las 4 formas y conviértete en un Ray-Ban Icon Master</p>
@@ -134,7 +134,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'Cambiar idioma',
     introButton: 'Jugar!',
     howToPlayHeader: 'Como Jugar',
     howToPlay: (
@@ -208,9 +208,9 @@ export default {
   },
 
   pt: {
-    cookieNotice: undefined,
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+    cookieNotice: 'Usamos cookies e as tecnologias necessárias por forma a garantir que o nosso site funcione de forma eficiente. Também gostaríamos de definir cookies e tecnologias semelhantes opcionais para análises. Ao clicar em CONCORDO, ou em outros elementos da página que permitem que continue a navegar no nosso site, está a concordar com o uso dessas tecnologias. Verifique a nossa Política de Privacidade clicando aqui.',
+    cookieNoticeAccept: 'Concordo',
+    cookieNoticeReject: 'Rejeitar todos',
     intro: (
       <>
         <p>Completa os 4 modelos icónicos Ray-Ban.</p>
@@ -219,7 +219,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'Altere o seu idioma',
     introButton: 'Jogar',
     howToPlayHeader: 'COMO JOGAR',
     howToPlay: (
@@ -285,9 +285,9 @@ export default {
   },
 
   'pt-br': {
-    cookieNotice: undefined,
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+    cookieNotice: 'Usamos os cookies necessários e tecnologias semelhantes para garantir que nosso site funcione de forma eficiente. Também gostaríamos de definir cookies opcionais e tecnologias semelhantes para análises. Ao clicar em OK, ou em outros elementos da página que permitem que você continue navegando em nosso site, você concorda com o uso dessas tecnologias. Verifique nossa Política de Privacidade clicando aqui.',
+    cookieNoticeAccept: 'Ok',
+    cookieNoticeReject: 'Rejeitar todos',
     intro: (
       <>
         <p>Complete os 4 Ray-Ban Icons.</p>
@@ -296,7 +296,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'Mude seu idioma',
     introButton: 'JOGAR',
     howToPlayHeader: 'COMO JOGAR',
     howToPlay: (
@@ -361,9 +361,9 @@ export default {
   },
 
   fr: {
-    cookieNotice: undefined,
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+    cookieNotice: "Nous utilisons des cookies nécessaires et des technologies similaires pour garantir le bon fonctionnement de notre site. Nous souhaitons également mettre en place des cookies facultatifs et des technologies semblables à des fins d'analyse. En cliquant sur OK, ou sur d'autres éléments de la page qui vous permettent de continuer à naviguer sur notre site, vous consentez à l'utilisation de ces technologies. Consultez notre politique de confidentialité en cliquant ici.",
+    cookieNoticeAccept: "Ok",
+    cookieNoticeReject: 'Rejeter tout',
     intro: (
       <>
         <p>
@@ -375,7 +375,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'Changer de langue',
     introButton: 'JOUER',
     howToPlayHeader: 'COMMENT JOUER',
     howToPlay: (
@@ -441,9 +441,9 @@ export default {
   },
 
   de: {
-    cookieNotice: undefined,
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+    cookieNotice: "Wir verwenden notwendige Cookies und ähnliche Technologien, um sicherzustellen, dass unsere Website effizient funktioniert. Wir möchten auch optionale Cookies und ähnliche Technologien für Analysen setzen. Durch Klicken auf OK oder auf andere Elemente der Seite, die es Ihnen ermöglichen, unsere Website weiter zu durchsuchen, stimmen Sie der Verwendung dieser Technologien zu. Überprüfen Sie unsere Datenschutzrichtlinie, indem Sie hier klicken.",
+    cookieNoticeAccept: "Ok",
+    cookieNoticeReject: "Ablehnen",
     intro: (
       <>
         <p>Vervollständige alle 4 ikonischen Ray-Ban-Formen.</p>
@@ -452,7 +452,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'IHRE SPRACHE ÄNDERN',
     introButton: 'SPIELEN',
     howToPlayHeader: 'Spielanweisungen:',
     howToPlay: (
@@ -520,9 +520,9 @@ export default {
   },
 
   it: {
-    cookieNotice: undefined,
-    cookieNoticeAccept: undefined,
-    cookieNoticeReject: undefined,
+    cookieNotice: "Utilizziamo i cookie necessari e tecnologie simili per garantire che il nostro sito funzioni in modo efficiente. Vorremmo anche impostare cookie opzionali e tecnologie simili per l'analisi. Cliccando su OK, o su altri elementi della pagina che consentono di continuare a navigare sul nostro sito web, acconsenti all'uso di queste tecnologie. Controlla la nostra Informativa sulla privacy cliccando qui.",
+    cookieNoticeAccept: "Ok",
+    cookieNoticeReject: "Riuta tutto",
     intro: (
       <>
         <p>Completa tutte le sagome delle 4 icone Ray-Ban.</p>
@@ -531,7 +531,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'CAMBIA LINGUA',
     introButton: 'Gioca',
     howToPlayHeader: 'COME SI GIOCA',
     howToPlay: (
