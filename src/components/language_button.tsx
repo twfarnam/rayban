@@ -41,7 +41,7 @@ const FullscreenOptions = styled.div`
   background: rgba(0, 0, 0, 0.9);
   overflow: scroll;
   overscroll-behavior: contain;
-  z-index: 1;
+  z-index: 1001;
   display: flex;
   flex-flow: column nowrap;
 `
