@@ -151,7 +151,9 @@ export default function Admin(): React.ReactElement {
     try {
       setLoading(true)
       const auth = getAuth()
-      const result = await signInWithPopup(auth, new GoogleAuthProvider())
+      const provider = new GoogleAuthProvider()
+      provider.addScope('https://www.googleapis.com/auth/analytics.readonly')
+      const result = await signInWithPopup(auth, provider)
       setUser(result.user)
     } catch (error) {
       console.error(error.email)
