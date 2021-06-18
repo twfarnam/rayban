@@ -609,7 +609,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: '言語を選択する',
     introButton: undefined,
     howToPlayHeader: 'レイバン　スネークゲームのプレイ方法',
     howToPlay: (
@@ -687,7 +687,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'เปลี่ยนภาษา',
     introButton: 'เล่น',
     howToPlayHeader: 'วิธีการเล่น',
     howToPlay: (
@@ -749,7 +749,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: undefined,
+    chooseLanguage: 'เปลี่ยนภาษา',
     introButton: '点击开始',
     howToPlayHeader: '任务说明',
     howToPlay: (
