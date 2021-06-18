@@ -32,7 +32,7 @@ const LargeCopy = styled.div`
 `
 
 const SmallCopy = styled.div`
-  font-size: 1.2em;
+  font-size: 1em;
   text-align: center;
   margin-bottom: 1rem;
 
@@ -94,13 +94,12 @@ export default function IntroMexico({
       <IntroMexicoBase>
         <Logo src="logo_and_icon_series.svg" />
         <LargeCopy>
-          COMPLETA LAS 4 FORMAS Y CONVIÉRTETE EN UN RAY-BAN ICON MASTER
+          ¡COMPLETA LAS 4 FORMAS Y CONVIÉRTETE EN UN RAY-BAN ICON MASTER!
           <br />
-          ¡JUEGA Y SÉ DE LOS MEJORES PUNTAJES PARA GANAR UN XXX QUE LIVERPOOL
-          TIENE PARA TI!
+          ADEMÁS, ¡LIVERPOOL TE PREMIARÁ SI ERES UNO DE LOS 2 MEJORES PUNTAJES CON UN GUITAR HERO LIVE!
         </LargeCopy>
         <SmallCopy>
-          PARA PARTICIPAR POR XXX ES NECESARIO REALIZAR LA COMPRA DE TUS RAY-BAN
+          PARA PARTICIPAR POR GUITAR HERO LIVE ES NECESARIO REALIZAR LA COMPRA DE TUS RAY-BAN
           EN LIVERPOOL,
           <br />
           REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS
