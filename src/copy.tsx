@@ -749,7 +749,7 @@ export default {
         </p>
       </>
     ),
-    chooseLanguage: 'เปลี่ยนภาษา',
+    chooseLanguage: '更改你的语言',
     introButton: '点击开始',
     howToPlayHeader: '任务说明',
     howToPlay: (
