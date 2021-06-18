@@ -522,7 +522,7 @@ export default {
   it: {
     cookieNotice: "Utilizziamo i cookie necessari e tecnologie simili per garantire che il nostro sito funzioni in modo efficiente. Vorremmo anche impostare cookie opzionali e tecnologie simili per l'analisi. Cliccando su OK, o su altri elementi della pagina che consentono di continuare a navigare sul nostro sito web, acconsenti all'uso di queste tecnologie. Controlla la nostra Informativa sulla privacy cliccando qui.",
     cookieNoticeAccept: "Ok",
-    cookieNoticeReject: "Riuta tutto",
+    cookieNoticeReject: "Rifiuta tutto",
     intro: (
       <>
         <p>Completa tutte le sagome delle 4 icone Ray-Ban.</p>
