@@ -16,6 +16,10 @@ const CookieNoticeBase = styled.div`
   background: black;
   color: white;
   padding: 2rem;
+
+  & + div {
+    padding-bottom: 300px;
+  }
 `
 
 const Notice = styled.div`
