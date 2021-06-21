@@ -145,7 +145,7 @@ export default {
         </li>
         <li>
           <b>Sigue el punto blanco,</b> pero recuerda, ¡cada punto blanco que
-          atrapes hará crecer tu línea!.
+          atrapes hará crecer tu línea!
         </li>
         <li>
           <b>Completa las formas icónicas Ray-Ban</b> para pasar al siguiente
@@ -161,7 +161,7 @@ export default {
         <li>
           Tienes <b>3 vidas en cada nivel</b> para ganar
         </li>
-        <li>¡Buena Suerte!</li>
+          ¡Buena Suerte!
       </ul>
     ),
     points: 'Puntos',
@@ -193,7 +193,7 @@ export default {
     level4Copy:
       'Nacidos en los 80, los Clubmaster se convirtieron en un ícono de la escena de los clubes (de ahí su nombre), antes de regresar para establecer nuevos estándares con el auge de la subcultura retro y hipster en 2010.',
     gameOver:
-      '¡Casi! Estuviste muy cerca de domunar los iconos. \n¡No te rindas e intenta de nuevo!',
+      '¡Casi! Estuviste muy cerca de dominar los íconos. \n¡No te rindas e intenta de nuevo!',
     won: (
       <>
         <b>¡Felicidades!</b>
