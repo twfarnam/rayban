@@ -105,6 +105,8 @@ export default function IntroMexico({
           REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS
           ALTOS, ¡GANARÁS!
           <br />
+          VÁLIDO DEL 21 DE JUNIO AL 31 DE JULIO 2021.
+          <br />
           CONSULTA BASES Y CONDICIONES DEL PROGRAMA.
         </SmallCopy>
         {name ? (
