@@ -38,8 +38,8 @@ const Background = styled.video`
 `
 
 export default function App(): React.ReactElement | null {
-  const [showCookieNotice, setShowCookieNotice] = useState<boolean>(true)
   const [step, setStep] = useState<AppStep>('intro')
+  const [showCookieNotice, setShowCookieNotice] = useState<boolean>(true)
   const [points, setPoints] = useState<number>(0)
   const [lives, setLives] = useState<number>(3)
   const [level, setLevel] = useState<number>(1)

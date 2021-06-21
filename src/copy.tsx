@@ -161,7 +161,7 @@ export default {
         <li>
           Tienes <b>3 vidas en cada nivel</b> para ganar
         </li>
-          ¡Buena Suerte!
+        ¡Buena Suerte!
       </ul>
     ),
     points: 'Puntos',
@@ -192,8 +192,15 @@ export default {
     level4Header: 'Es momento de dominar el juego con Clubmaster.',
     level4Copy:
       'Nacidos en los 80, los Clubmaster se convirtieron en un ícono de la escena de los clubes (de ahí su nombre), antes de regresar para establecer nuevos estándares con el auge de la subcultura retro y hipster en 2010.',
-    gameOver:
-      '¡Casi! Estuviste muy cerca de dominar los íconos. \n¡No te rindas e intenta de nuevo!',
+    gameOver: (
+      <>
+        ¡Casi!
+        <br />
+        Estuviste muy cerca de dominar los íconos.
+        <br />
+        ¡No te rindas e intenta de nuevo!
+      </>
+    ),
     won: (
       <>
         <b>¡Felicidades!</b>
@@ -208,7 +215,8 @@ export default {
   },
 
   pt: {
-    cookieNotice: 'Usamos cookies e as tecnologias necessárias por forma a garantir que o nosso site funcione de forma eficiente. Também gostaríamos de definir cookies e tecnologias semelhantes opcionais para análises. Ao clicar em CONCORDO, ou em outros elementos da página que permitem que continue a navegar no nosso site, está a concordar com o uso dessas tecnologias. Verifique a nossa Política de Privacidade clicando aqui.',
+    cookieNotice:
+      'Usamos cookies e as tecnologias necessárias por forma a garantir que o nosso site funcione de forma eficiente. Também gostaríamos de definir cookies e tecnologias semelhantes opcionais para análises. Ao clicar em CONCORDO, ou em outros elementos da página que permitem que continue a navegar no nosso site, está a concordar com o uso dessas tecnologias. Verifique a nossa Política de Privacidade clicando aqui.',
     cookieNoticeAccept: 'Concordo',
     cookieNoticeReject: 'Rejeitar todos',
     intro: (
@@ -285,7 +293,8 @@ export default {
   },
 
   'pt-br': {
-    cookieNotice: 'Usamos os cookies necessários e tecnologias semelhantes para garantir que nosso site funcione de forma eficiente. Também gostaríamos de definir cookies opcionais e tecnologias semelhantes para análises. Ao clicar em OK, ou em outros elementos da página que permitem que você continue navegando em nosso site, você concorda com o uso dessas tecnologias. Verifique nossa Política de Privacidade clicando aqui.',
+    cookieNotice:
+      'Usamos os cookies necessários e tecnologias semelhantes para garantir que nosso site funcione de forma eficiente. Também gostaríamos de definir cookies opcionais e tecnologias semelhantes para análises. Ao clicar em OK, ou em outros elementos da página que permitem que você continue navegando em nosso site, você concorda com o uso dessas tecnologias. Verifique nossa Política de Privacidade clicando aqui.',
     cookieNoticeAccept: 'Ok',
     cookieNoticeReject: 'Rejeitar todos',
     intro: (
@@ -361,8 +370,9 @@ export default {
   },
 
   fr: {
-    cookieNotice: "Nous utilisons des cookies nécessaires et des technologies similaires pour garantir le bon fonctionnement de notre site. Nous souhaitons également mettre en place des cookies facultatifs et des technologies semblables à des fins d'analyse. En cliquant sur OK, ou sur d'autres éléments de la page qui vous permettent de continuer à naviguer sur notre site, vous consentez à l'utilisation de ces technologies. Consultez notre politique de confidentialité en cliquant ici.",
-    cookieNoticeAccept: "Ok",
+    cookieNotice:
+      "Nous utilisons des cookies nécessaires et des technologies similaires pour garantir le bon fonctionnement de notre site. Nous souhaitons également mettre en place des cookies facultatifs et des technologies semblables à des fins d'analyse. En cliquant sur OK, ou sur d'autres éléments de la page qui vous permettent de continuer à naviguer sur notre site, vous consentez à l'utilisation de ces technologies. Consultez notre politique de confidentialité en cliquant ici.",
+    cookieNoticeAccept: 'Ok',
     cookieNoticeReject: 'Rejeter tout',
     intro: (
       <>
@@ -441,9 +451,10 @@ export default {
   },
 
   de: {
-    cookieNotice: "Wir verwenden notwendige Cookies und ähnliche Technologien, um sicherzustellen, dass unsere Website effizient funktioniert. Wir möchten auch optionale Cookies und ähnliche Technologien für Analysen setzen. Durch Klicken auf OK oder auf andere Elemente der Seite, die es Ihnen ermöglichen, unsere Website weiter zu durchsuchen, stimmen Sie der Verwendung dieser Technologien zu. Überprüfen Sie unsere Datenschutzrichtlinie, indem Sie hier klicken.",
-    cookieNoticeAccept: "Ok",
-    cookieNoticeReject: "Ablehnen",
+    cookieNotice:
+      'Wir verwenden notwendige Cookies und ähnliche Technologien, um sicherzustellen, dass unsere Website effizient funktioniert. Wir möchten auch optionale Cookies und ähnliche Technologien für Analysen setzen. Durch Klicken auf OK oder auf andere Elemente der Seite, die es Ihnen ermöglichen, unsere Website weiter zu durchsuchen, stimmen Sie der Verwendung dieser Technologien zu. Überprüfen Sie unsere Datenschutzrichtlinie, indem Sie hier klicken.',
+    cookieNoticeAccept: 'Ok',
+    cookieNoticeReject: 'Ablehnen',
     intro: (
       <>
         <p>Vervollständige alle 4 ikonischen Ray-Ban-Formen.</p>
@@ -520,9 +531,10 @@ export default {
   },
 
   it: {
-    cookieNotice: "Utilizziamo i cookie necessari e tecnologie simili per garantire che il nostro sito funzioni in modo efficiente. Vorremmo anche impostare cookie opzionali e tecnologie simili per l'analisi. Cliccando su OK, o su altri elementi della pagina che consentono di continuare a navigare sul nostro sito web, acconsenti all'uso di queste tecnologie. Controlla la nostra Informativa sulla privacy cliccando qui.",
-    cookieNoticeAccept: "Ok",
-    cookieNoticeReject: "Rifiuta tutto",
+    cookieNotice:
+      "Utilizziamo i cookie necessari e tecnologie simili per garantire che il nostro sito funzioni in modo efficiente. Vorremmo anche impostare cookie opzionali e tecnologie simili per l'analisi. Cliccando su OK, o su altri elementi della pagina che consentono di continuare a navigare sul nostro sito web, acconsenti all'uso di queste tecnologie. Controlla la nostra Informativa sulla privacy cliccando qui.",
+    cookieNoticeAccept: 'Ok',
+    cookieNoticeReject: 'Rifiuta tutto',
     intro: (
       <>
         <p>Completa tutte le sagome delle 4 icone Ray-Ban.</p>

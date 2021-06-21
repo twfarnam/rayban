@@ -37,10 +37,10 @@ export default function GameWon({
       <Heading>{getTranslation('won')}</Heading>
       {showPrizeInfo && (
         <Copy>
-          Ya estás participando por un XXX, tu puntaje es:{' '}
+          Ya estás participando por un Guitar Hero, tu puntaje es:{' '}
           {points?.toLocaleString()}
           <br />
-          Los ganadores se anunciarán el XXX
+          Los ganadores se anunciarán el 2 de Agosto 2021
         </Copy>
       )}
       {lottieData[`confetti.json`] && (
