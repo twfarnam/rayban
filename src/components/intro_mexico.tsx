@@ -111,7 +111,7 @@ export default function IntroMexico({
         </SmallCopy>
         {name ? (
           <>
-            <LargeCopy>Bienvenidos {name}!</LargeCopy>
+            <LargeCopy>Bienvenid@ {name}!</LargeCopy>
             <Button onClick={onNextStep}>
               {getTranslation('introButton')}
             </Button>
