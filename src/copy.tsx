@@ -136,7 +136,7 @@ export default {
     ),
     chooseLanguage: 'Cambiar idioma',
     introButton: 'Jugar!',
-    howToPlayHeader: 'Como Jugar',
+    howToPlayHeader: 'Cómo Jugar',
     howToPlay: (
       <>
         <ul>
