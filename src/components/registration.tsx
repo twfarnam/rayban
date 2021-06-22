@@ -76,6 +76,7 @@ const ImageLabel = styled.label`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: center;
   text-decoration: underline;
   font-size: 1.2em;
 
@@ -258,7 +259,7 @@ export default function Registration({
           ) : (
             <ImageLabel>
               <CameraIcon />
-              Adjunta foto de tu ticket
+              <span>Adjunta foto de tu ticket</span>
               <FileInput
                 type="file"
                 name="image"

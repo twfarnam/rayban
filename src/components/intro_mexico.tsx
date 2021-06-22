@@ -41,10 +41,6 @@ const SmallCopy = styled.div`
   }
 `
 
-const Spacer = styled.div`
-  flex-grow: 1;
-`
-
 interface IntroMexicoProps {
   name?: string
   onNextStep: () => void
@@ -96,11 +92,12 @@ export default function IntroMexico({
         <LargeCopy>
           ¡COMPLETA LAS 4 FORMAS Y CONVIÉRTETE EN UN RAY-BAN ICON MASTER!
           <br />
-          ADEMÁS, ¡LIVERPOOL TE PREMIARÁ SI ERES UNO DE LOS 2 MEJORES PUNTAJES CON UN GUITAR HERO LIVE!
+          ADEMÁS, ¡LIVERPOOL TE PREMIARÁ SI ERES UNO DE LOS 2 MEJORES PUNTAJES
+          CON UN GUITAR HERO LIVE!
         </LargeCopy>
         <SmallCopy>
-          PARA PARTICIPAR POR UN GUITAR HERO LIVE ES NECESARIO REALIZAR LA COMPRA DE TUS RAY-BAN
-          EN LIVERPOOL,
+          PARA PARTICIPAR POR UN GUITAR HERO LIVE ES NECESARIO REALIZAR LA
+          COMPRA DE TUS RAY-BAN EN LIVERPOOL,
           <br />
           REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS
           ALTOS, ¡GANARÁS!
