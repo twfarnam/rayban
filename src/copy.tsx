@@ -138,31 +138,35 @@ export default {
     introButton: 'Jugar!',
     howToPlayHeader: 'Como Jugar',
     howToPlay: (
-      <ul>
-        <li>
-          <b>Toca la pantalla</b> arriba, abajo, izquierda o derecha{' '}
-          <b>para cambiar de dirección.</b>
-        </li>
-        <li>
-          <b>Sigue el punto blanco,</b> pero recuerda, ¡cada punto blanco que
-          atrapes hará crecer tu línea!
-        </li>
-        <li>
-          <b>Completa las formas icónicas Ray-Ban</b> para pasar al siguiente
-          nivel.
-        </li>
-        <li>
-          <b>Avanza de nivel y acelera,</b> ya que cada nivel irá más rápido.
-        </li>
-        <li>
-          Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se acaba
-          el juego.
-        </li>
-        <li>
-          Tienes <b>3 vidas en cada nivel</b> para ganar
-        </li>
-        ¡Buena Suerte!
-      </ul>
+      <>
+        <ul>
+          <li>
+            <b>Toca la pantalla</b> arriba, abajo, izquierda o derecha{' '}
+            <b>para cambiar de dirección.</b>
+          </li>
+          <li>
+            <b>Sigue el punto blanco,</b> pero recuerda, ¡cada punto blanco que
+            atrapes hará crecer tu línea!
+          </li>
+          <li>
+            <b>Completa las formas icónicas Ray-Ban</b> para pasar al siguiente
+            nivel.
+          </li>
+          <li>
+            <b>Avanza de nivel y acelera,</b> ya que cada nivel irá más rápido.
+          </li>
+          <li>
+            Si tocas tu línea, golpeas en la pared o se acaba el tiempo, se
+            acaba el juego.
+          </li>
+          <li>
+            Tienes <b>3 vidas en cada nivel</b> para ganar
+            <br />
+            <br />
+            <b>¡Buena Suerte!</b>
+          </li>
+        </ul>
+      </>
     ),
     points: 'Puntos',
     lives: 'Vidas',
