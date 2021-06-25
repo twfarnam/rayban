@@ -241,7 +241,7 @@ export default {
           direita para mudar de direção.
         </li>
         <li>
-          <b>Segue o ponto Vermelho</b> (mas lembra-te que cada ponto vermelho
+          <b>Segue o ponto Branco</b> (mas lembra-te que cada ponto branco
           que apanhas fará com que cresças mais!)
         </li>
         <li>
@@ -267,7 +267,7 @@ export default {
     seconds: undefined,
     rotateToLandscape: undefined,
     youreOn: "YOU'RE ON!",
-    levelCompleted: '¡NÍVEL COMPLETO!',
+    levelCompleted: 'NÍVEL COMPLETO!',
     nextLevel: 'PRÓXIMO NÍVEL',
     level1: 'NÍVEL 1',
     level1Glasses: 'Round',
@@ -340,7 +340,7 @@ export default {
     ),
     points: 'PONTOS',
     lives: 'VIDAS',
-    lifeLost: 'OOPS…PERDESTE-TE UMA VIDA. TENTA NOVAMENTE!',
+    lifeLost: 'OOPS… VOCÊ PERDEU UMA VIDA. TENTE NOVAMENTE!',
     seconds: undefined,
     rotateToLandscape: undefined,
     youreOn: "YOU'RE ON!",
