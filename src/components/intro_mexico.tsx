@@ -96,14 +96,14 @@ export default function IntroMexico({
         </LargeCopy>
         <SmallCopy>
           PARA PARTICIPAR POR UN GUITAR HERO LIVE ES NECESARIO REALIZAR LA
-          COMPRA DE TUS RAY-BAN EN LIVERPOOL,
+          COMPRA DE TUS RAY-BAN EN TIENDAS FÍSICAS LIVERPOOL,
           <br />
           REGISTRAR TU TICKET DE COMPRA Y SI ERES UNO DE LOS 2 PUNTAJES MÁS
           ALTOS, ¡GANARÁS!
           <br />
-          VÁLIDO DEL 21 DE JUNIO AL 31 DE JULIO 2021.
+          VÁLIDO DEL 1RO AL 31 DE AGOSTO 2021.
           <br />
-          CONSULTA BASES Y CONDICIONES DEL PROGRAMA.
+          CONSULTA LAS BASES Y CONDICIONES DEL PROGRAMA.
         </SmallCopy>
         {name ? (
           <>
