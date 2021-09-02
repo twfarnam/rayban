@@ -15,7 +15,7 @@ import GameOver from './game_over'
 import GameWon from './game_won'
 import HowToPlay from './how_to_play'
 import Intro from './intro'
-import IntroMexico from './intro_mexico'
+import IntroMexicoDone from './intro_mexico_done'
 import LevelIntro from './level_intro'
 import LevelOutro from './level_outro'
 import LoadingScreen from './loading_screen'
@@ -199,7 +199,8 @@ export default function App(): React.ReactElement | null {
             switch (step) {
               case 'intro':
                 return isMexico ? (
-                  <IntroMexico name={name} onNextStep={onClickIntroNextStep} />
+                  // <IntroMexico name={name} onNextStep={onClickIntroNextStep} />
+                  <IntroMexicoDone />
                 ) : (
                   <Intro onNextStep={onClickIntroNextStep} />
                 )

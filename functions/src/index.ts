@@ -5,7 +5,7 @@ import * as functions from 'firebase-functions'
 export const instagramRedirect = functions.https.onRequest(
   (request, response) => {
     try {
-      const isSocial = /Instagram|Facebook/i.test(
+      const isSocial = /Instagram|FBAN/i.test(
         request.headers['user-agent'] ?? '',
       )
       const isAndroid = /Android/i.test(request.headers['user-agent'] ?? '')

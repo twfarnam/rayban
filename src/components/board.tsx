@@ -44,7 +44,7 @@ const Square = styled.div`
   }
 `
 
-const Food = styled.div`
+export const Food = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -53,7 +53,8 @@ const Food = styled.div`
   width: 100%;
   height: 100%;
   margin: auto;
-  background: white;
+  color: white;
+  background: currentColor;
   border-radius: 50%;
   z-index: 10;
 
@@ -66,7 +67,7 @@ const Food = styled.div`
     left: 50%;
     width: 30px;
     height: 30px;
-    border: 4px solid white;
+    border: 4px solid currentColor;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
@@ -88,7 +89,7 @@ const Food = styled.div`
     }
   }
 `
-const SnakeSquare = styled.div`
+export const SnakeSquare = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -159,7 +160,9 @@ export default function Board(props: BoardProps): React.ReactElement {
                     <SnakeSquare
                       key={x}
                       className={cn({ head: snakeIndex == 0 })}
-                      style={{ background: snakeColor(snake, snakeIndex) }}
+                      style={{
+                        background: snakeColor(snake.length, snakeIndex),
+                      }}
                     />
                   )}
                 </Square>
@@ -172,7 +175,7 @@ export default function Board(props: BoardProps): React.ReactElement {
   )
 }
 
-function snakeColor(snake: (Location | null)[], index: number) {
-  const color = 155 * ((snake.length - index) / snake.length) + 100
+export function snakeColor(length: number, index: number) {
+  const color = 155 * ((length - index) / length) + 100
   return `rgb(${color}, ${color}, ${color})`
 }
